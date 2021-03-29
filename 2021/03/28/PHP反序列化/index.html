@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="qrl-0">
+    
+    
+    
+    
+    
+    
+    <title>PHP反序列化 | 七里燃</title>
+    <!-- inject:style -->
+    <link href="/myblog/css/style.css" rel="stylesheet" type="text/css">
+    <!-- endinject -->
+    <style>
+        .cube-loading {
+            top: 0;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: url('/myblog/images/lg/loading.gif') no-repeat center center;
+            background-color: rgba(0,0,0,.7);
+        }
+
+        .cube-loading.out {
+            display: none;
+        }
+
+        .cube-loading:before {
+            display: block;
+            content: '加载中';
+            position: relative;
+            width: 100%;
+            top: 50%;
+            right: -50%;
+            color: #fff;
+        }
+
+        @media(max-width: 768px) {
+            .cube-loading:before {
+                font-size: 1.2em;
+                transform: translate(-24px,20px);
+                -webkit-transform: translate(-24px,20px);
+                -o-transform: translate(-24px,20px);
+                -ms-transform: translate(-24px,20px);
+            }
+        }
+
+        @media(min-width: 768px) {
+            .cube-loading:before {
+
+            }
+        }
+    </style>
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+<div class="cube-body">
+    <nav id="cube-top-memu" class="cube-menu">
+    <ul class="cube-menu-collapse">
+        
+        <li>
+            <i class="cube-icon cube-icon-home" aria-hidden="true"></i>
+            <a href="/myblog/">首页</a>
+        </li>
+        
+        <li>
+            <i class="cube-icon cube-icon-archive" aria-hidden="true"></i>
+            <a href="/myblog/archives">归档</a>
+        </li>
+        
+    </ul>
+</nav>
+<nav class="cube-side-menu" id="cube-side-menu">
+    <ul class="cube-menu-list">
+        
+        <li>
+            <a class="lrc-control">开启歌词</a>
+        </li>
+        
+        <li>
+            <a class="scroll-to-top">回到顶部</a>
+        </li>
+    </ul>
+</nav>
+    <header class="cube-header" id="cube-header">
+    <img src=" https://qlr-0.gitee.io/hhhh/background.jpg " alt="头部背景图片">
+    
+    <div class="cube-type">
+        <span class="cube-typed-title">七里燃の部落格</span>
+        <span class="cube-typed-cursor">|</span>
+    </div>
+    
+</header>
+
+    <style>
+        nav.cube-menu:before {
+            content: '';
+            visibility: hidden;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 44px;
+        
+            filter: blur(5px);
+            -webkit-filter: blur(5px);
+        
+            z-index: -1;
+            background-image: url('https://qlr-0.gitee.io/hhhh/background.jpg');
+            background-repeat: no-repeat;
+            background-position: center -356px;
+            background-size: cover;
+            background-color: transparent;
+        }
+
+        header.cube-background.cube-header-background {
+            visibility: hidden;
+            background-image: url('https://qlr-0.gitee.io/hhhh/background.jpg');
+            background-position: center -400px;
+        }
+    </style>
+    <header class="cube-background cube-header-background">
+        
+        <div class="cube-type">
+            <span class="cube-typed-title">七里燃の部落格</span>
+            <span class="cube-typed-cursor">|</span>
+        </div>
+        
+    </header>
+    <div class="load-header-background"></div>
+    <script>
+        (function (window) {
+
+            window.headerModule = {}
+            window.headerModule.image = {
+                width: '2000',
+                height: '1414'
+            }
+
+        })(window)
+    </script>
+    
+    <div class="cube-content">
+        <div class="cube-left">
+            <div class="cube-article">
+    <h1 class="title">PHP反序列化</h1>
+    
+    <div class="cube-article-header">
+        <div class="cube-article-date">
+            <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+            <!-- moment.js对象 -->
+            2021-03-28
+        </div>
+        <div class="cube-article-tags">
+    <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+    
+    <a href="/myblog/tags/%E7%9F%A5%E8%AF%86%E7%82%B9/">#知识点</a>
+    
+</div>
+    </div>
+    
+    <div class="cube-article-content cube-markdown">
+        
+        <h1 id="PHP反序列化"><a href="#PHP反序列化" class="headerlink" title="PHP反序列化"></a>PHP反序列化</h1><ul>
+<li>PHP反序列化漏洞也叫PHP对象注入，是一个非常常见的漏洞,基本都是围绕着serialize()，unserialize()这两个函数。在运行到这两个函数时会有相应的magic方法的调用。</li>
+</ul>
+<blockquote>
+<p>unserialize(): 恢复原先被序列化的变量<br>serialize(): 把复杂的数据类型压缩到一个字符串中 数据类型可以是数组，字符串，对象等 </p>
+</blockquote>
+<h3 id="序列化public-private-protect参数"><a href="#序列化public-private-protect参数" class="headerlink" title="序列化public private protect参数"></a>序列化public private protect参数</h3><p>Pubic 公有</p>
+<p>Private 私有</p>
+<p>Protect 保护</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php </span><br><span class="line">class test&#123;</span><br><span class="line">    public $name &#x3D; &#39;xiaoming&#39;;  </span><br><span class="line">    private $sex &#x3D; &#39;man&#39;;  </span><br><span class="line">    protected $age &#x3D; &#39;20&#39;;</span><br><span class="line">&#125;</span><br><span class="line">$test1 &#x3D; new test();</span><br><span class="line">$object &#x3D; serialize($test1);</span><br><span class="line">print_r($object);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>序列化之后打印出:<br><code>O:4:&quot;test&quot;:3:&#123;s:4:&quot;name&quot;;s:8:&quot;xiaoming&quot;;s:9:&quot;testsex&quot;;s:3:&quot;man&quot;;s:6:&quot;*age&quot;;s:2:&quot;20&quot;;&#125;</code></p>
+<h4 id="外"><a href="#外" class="headerlink" title="{}外"></a>{}外</h4><ul>
+<li>O代表object，还有一种情况是A，代表数组</li>
+<li>4代表对象名字占4个字符</li>
+<li>3代表对象里有三个变量</li>
+</ul>
+<h4 id="内"><a href="#内" class="headerlink" title="{}内"></a>{}内</h4><ul>
+<li>s的位置代表数据类型，s代表string，i代表int</li>
+<li>数据类型之后的数字代表变量的字符长度</li>
+</ul>
+<h4 id="Public属性序列化后格式-成员名"><a href="#Public属性序列化后格式-成员名" class="headerlink" title="Public属性序列化后格式: 成员名"></a>Public属性序列化后格式: <code>成员名</code></h4><h4 id="Private属性序列化后格式-00类名-00成员名"><a href="#Private属性序列化后格式-00类名-00成员名" class="headerlink" title="Private属性序列化后格式: %00类名%00成员名"></a>Private属性序列化后格式: <code>%00类名%00成员名</code></h4><h4 id="Protected属性序列化后的格式-00-00成员名"><a href="#Protected属性序列化后的格式-00-00成员名" class="headerlink" title="Protected属性序列化后的格式: %00*%00成员名"></a>Protected属性序列化后的格式: <code>%00*%00成员名</code></h4><blockquote>
+<p>一些magic方法</p>
+</blockquote>
+<ul>
+<li><p><code>__construct()</code> 当一个对象创建时被调用</p>
+</li>
+<li><p><code>__destruct()</code> 当一个对象销毁时被调用</p>
+</li>
+<li><p><code>__toString()</code> 当一个对象被当作一个字符串使用</p>
+</li>
+<li><p><code>__wakeup</code> 将在序列化之后立即被调用</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="http://php.net/manual/zh/language.oop5.magic.php">魔术方法：官方文档中介绍</a></p>
+</li>
+<li><p>举一个别人的例子</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">class test&#123;</span><br><span class="line">    public $varr1&#x3D;&quot;abc&quot;;</span><br><span class="line">    public $varr2&#x3D;&quot;123&quot;;</span><br><span class="line">    public function echoP()&#123;</span><br><span class="line">     echo $this-&gt;varr1.&quot;&lt;br&gt;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    public function __construct()&#123;</span><br><span class="line">     echo &quot;__construct&lt;br&gt;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    public function __destruct()&#123;</span><br><span class="line">     echo &quot;__destruct&lt;br&gt;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    public function __toString()&#123;</span><br><span class="line">     return &quot;__toString&lt;br&gt;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    public function __sleep()&#123;</span><br><span class="line">     echo &quot;__sleep&lt;br&gt;&quot;;</span><br><span class="line">     return array(&#39;varr1&#39;,&#39;varr2&#39;);</span><br><span class="line">    &#125;</span><br><span class="line">    public function __wakeup()&#123;</span><br><span class="line">     echo &quot;__wakeup&lt;br&gt;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">$obj &#x3D; new test();  &#x2F;&#x2F;实例化对象，调用__construct()方法，输出__construct</span><br><span class="line">$obj-&gt;echoP();   &#x2F;&#x2F;调用echoP()方法，输出&quot;abc&quot;</span><br><span class="line">echo $obj;    &#x2F;&#x2F;obj对象被当做字符串输出，调用__toString()方法，输出__toString</span><br><span class="line">$s &#x3D;serialize($obj);  &#x2F;&#x2F;obj对象被序列化，调用__sleep()方法，输出__sleep</span><br><span class="line">echo unserialize($s);  &#x2F;&#x2F;$s首先会被反序列化，会调用__wake()方法，被反序列化出来的对象又被当做字符串，就会调用_toString()方法。</span><br><span class="line">&#x2F;&#x2F; 脚本结束又会调用__destruct()方法，输出__destruct</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure></li>
+<li><p>打印出:<br><code>__construct abc __toString __sleep __wakeup __toString __destruct __destruct</code></p>
+</li>
+<li><p>通过这个例子就可以清晰的看到魔法函数在符合相应的条件时便会被调用</p>
+</li>
+</ul>
+<h3 id="wakeup绕过"><a href="#wakeup绕过" class="headerlink" title="wakeup绕过"></a>wakeup绕过</h3><ul>
+<li>若存在__wakeup方法，调用 unserilize() 方法前则先调用__wakeup方法，但是如果序列化字符串中表示对象属性个数的值大于真实的属性个数时会跳过__wakeup的执行</li>
+<li>例如：<code>O:4:&quot;test&quot;:3:&#123;s:4:&quot;name&quot;;s:8:&quot;xiaoming&quot;;s:9:&quot;testsex&quot;;s:3:&quot;man&quot;;s:6:&quot;*age&quot;;s:2:&quot;20&quot;;&#125;</code>更改{}外的3就可实现绕过</li>
+</ul>
+<h3 id="OC-绕过"><a href="#OC-绕过" class="headerlink" title="OC 绕过"></a>OC 绕过</h3><p>正则匹配的规则是: 在不区分大小写的情况下，若字符串出现<code>&quot;o:数字&quot;</code>或者<code>&quot;c:数字&quot;</code>这样的格式就会被过滤，而<code>serialize()</code>的参数为<code>object</code>的时候，参数类型肯定为对象 <code>O</code>，序列化字符串的格式为<code>参数格式:参数名长度</code>,因此<code>O:数字</code>这样的字符串肯定无法通过正则匹配。这时我们可以在数字前加上一个<code>+</code>，即<code>O:+数字</code>，就可以绕过正则的过滤。</p>
+<h3 id="私有属性绕过"><a href="#私有属性绕过" class="headerlink" title="私有属性绕过"></a>私有属性绕过</h3><p>前面有说过Private属性序列化后格式，所以可以通过构造<code>%00类名%00成员名</code>，来提取private的内容。protected则通过构造<code>%00*%00成员名</code>来提取。</p>
+<h3 id="字符逃逸"><a href="#字符逃逸" class="headerlink" title="字符逃逸"></a>字符逃逸</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class test&#123; public $name &#x3D; &#39;xiaoming&#39;; public $sex &#x3D; &#39;man&#39;; public $age &#x3D; &#39;20&#39;; &#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>O:4:&quot;test&quot;:3:&#123;s:4:&quot;name&quot;;s:8:&quot;xiaoming&quot;;s:3:&quot;sex&quot;;s:3:&quot;man&quot;;s:3:&quot;age&quot;;s:2:&quot;20&quot;;&#125;</code><br>尝试将<code>sex</code>传入成<code>sex&quot;;s:3:&quot;woman&quot;;s:3:&quot;age&quot;;s:2:&quot;20&quot;;&#125;</code>,这样将会打印<code>O:4:&quot;test&quot;:3:&#123;s:4:&quot;name&quot;;s:8:&quot;xiaoming&quot;;s:3:&quot;sex&quot;;s:3:&quot;woman&quot;;s:3:&quot;age&quot;;s:2:&quot;20&quot;;&#125;sex&quot;;s:3:&quot;man&quot;;s:3:&quot;age&quot;;s:2:&quot;20&quot;;&#125;</code><br>在一些情况下，就可以尝试注入一些代码来获取自己想要的信息</p>
+<h3 id="Phar反序列化"><a href="#Phar反序列化" class="headerlink" title="Phar反序列化"></a>Phar反序列化</h3><ul>
+<li>phar介绍<br>简单来说phar就是php压缩文档。它可以把多个文件归档到同一个文件中，而且不经过解压就能被 php 访问并执行。之前，安全研究员Sam Thomas分享了议题It’s a PHP unserialization vulnerability Jim, but not as we know it，利用phar文件会以序列化的形式存储用户自定义的meta-data这一特性，拓展了php反序列化漏洞的攻击面。该方法在文件系统函数（file_exists()、is_dir()等）参数可控的情况下，配合phar://伪协议，可以不依赖unserialize()直接进行反序列化操作。</li>
+</ul>
+<blockquote>
+<p>phar结构由 4 部分组成</p>
+</blockquote>
+<ul>
+<li><p>stub phar 文件标识，格式为 <code>xxx&lt;?php xxx; __HALT_COMPILER();?&gt;</code>；</p>
+</li>
+<li><p>manifest 压缩文件的属性等信息，以序列化存储；</p>
+</li>
+<li><p>contents 压缩文件的内容；</p>
+</li>
+<li><p>signature 签名，放在文件末尾，格式如下：<br><a target="_blank" rel="noopener" href="http://tc-test.nos-eastchina1.126.net/2020-10/08/21-25-01-606.jpg"><img src="http://tc-test.nos-eastchina1.126.net/2020-10/08/21-25-01-606.jpg" alt="image"></a></p>
+</li>
+<li><p>phar存储的meta-data信息以序列化方式存储，,当<a target="_blank" rel="noopener" href="http://php.net/manual/en/ref.filesystem.php">文件系统函数</a>通过phar://伪协议解析phar文件时就会将数据反序列化</p>
+</li>
+<li><p>将phar伪造成其他格式的文件<br>php识别phar文件是通过其文件头的stub，即<code>__HALT_COMPILER();?&gt;</code>，对前面的内容或者后缀名没什么特殊要求。所以，我们就可以通过添加任意的文件头+修改后缀名的方式将phar文件伪装成其他格式的文件。</p>
+</li>
+<li><p>漏洞利用方面<br><a target="_blank" rel="noopener" href="https://kylingit.com/blog/%E7%94%B1phpggc%E7%90%86%E8%A7%A3php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/">网址</a></p>
+</li>
+</ul>
+
+    </div>
+</div>
+
+<div class="cube-article-nav">
+    <ul>
+        
+        <li class="prev">
+            <a href="/myblog/2021/03/28/gitee+Hexo%20%E6%90%AD%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">
+                <i class="cube-icon cube-prev" aria-hidden="true"></i>
+                gitee+Hexo 搭建简单的个人博客
+            </a>
+        </li>
+        
+        
+        <li class="next">
+            <a href="/myblog/2021/03/28/ctf-Crypto%E5%B8%B8%E8%A7%81%E5%8A%A0%E8%A7%A3%E5%AF%86/">
+                ctf-Crypto常见加解密
+                <i class="cube-icon cube-next" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+<!-- TODO 根据theme.comment的内容进行入口选择 -->
+
+
+
+        </div>
+        <div class="cube-right">
+            
+
+<div class="cube-search cube-sidebar" id="cube-search">
+    <div class="search-container">
+        <input type="text" placeholder="搜索" class="cube-search-input" id="cube-search-input">
+        <i class="cube-icon cube-icon-search cube-search-submit" aria-hidden="true"></i>
+    </div>
+    <!-- TODO 通过给window赋一个全局变量，通过脚本赋值 -->
+</div>
+<script>
+    (function (window) {
+        'use strict';
+        window.searchModule = {}
+        window.searchModule.JSONUrl = '/myblog/content.json'
+        window.searchModule.rootUrl = '/myblog/'
+    })(window)
+</script>
+<div class="cube-search-form">
+    <div class="cube-search-control">
+        <input type="text" placeholder="搜索" class="search-input">
+        <a class="close-button">
+            <i class="cube-icon cube-close" aria-hidden="true"></i>
+        </a>
+    </div>
+    <div class="cube-search-result"></div>
+</div>
+
+
+<div class="cube-author cube-sidebar" id="cube-author">
+    
+    
+    <span>qrl-0</span>
+    
+    
+    <div class="count">
+        <a class="count articles"><span>11</span>文章</a>
+        <a class="count tags"><span>1</span>标签</a>
+        <a class="count categories"><span>2</span>分类</a>
+    </div>
+</div>
+
+
+
+<div class="cube-music cube-sidebar" id="cube-music">
+    <div class="cube-player aplayer" id="cube-player"></div>
+</div>
+<script>
+    (function (window) {
+        window.musicModule = {}
+        window.musicModule.musicConfig = '{"narrow":false,"autoplay":false,"showlrc":3,"theme":"#b7daff","mutex":true,"mode":"circulation","preload":"auto","listmaxheight":"513px","music":[{"title":"Dear friends","author":"TRIPLANE","url":"http://cube-1252774894.cosgz.myqcloud.com/music/source/TRIPLANE - Dear friends.mp3","lrc":"http://cube-1252774894.cosgz.myqcloud.com/music/lrc/Dear friends - TRIPLANE.lrc","pic":"http://cube-1252774894.cosgz.myqcloud.com/music/image/TRIPLANE - Dear friends.jpg"},{"title":"Butter-Fly","author":"和田光司","url":"http://cube-1252774894.cosgz.myqcloud.com/music/source/和田光司 - Butter-Fly (ピアノヴァージョン).mp3","lrc":"http://cube-1252774894.cosgz.myqcloud.com/music/lrc/Butter-Fly (ピアノヴァージョン) - 和田光司.lrc","pic":"http://cube-1252774894.cosgz.myqcloud.com/music/image/和田光司 - Butter-Fly (ピアノヴァージョン).jpg"},{"title":"宵闇花火","author":"葉月ゆら","url":"http://cube-1252774894.cosgz.myqcloud.com/music/source/葉月ゆら - 宵闇花火.mp3","lrc":"http://cube-1252774894.cosgz.myqcloud.com/music/lrc/宵闇花火 - 葉月ゆら.lrc","pic":"http://cube-1252774894.cosgz.myqcloud.com/music/image/葉月ゆら - 宵闇花火.jpg"}]}'
+        window.musicModule.lrcConfig = {
+            open: '开启歌词',
+            close: '关闭歌词'
+        }
+    })(window)
+</script>
+
+
+
+<div class="cube-recent-posts cube-sidebar" id="cube-recent-posts">
+    <div class="title">
+        <a>近期文章</a>
+    </div>
+    <ul class="list">
+        
+        
+        <li>
+            <!-- TODO 如果文章要显示图片，那么在front-matter上添加preview属性(url or path) -->
+            
+            <div class="normal">
+                <p class="index first">
+                    <span>1</span>
+                </p>
+                <p class="title">
+                    <a href="/myblog/2021/03/28/gitee+Hexo%20%E6%90%AD%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" title="gitee+Hexo 搭建简单的个人博客">gitee+Hexo 搭建简单的个人博客</a>
+                </p>
+            </div>
+            
+        </li>
+        
+        
+        
+        <li>
+            <div class="normal">
+                <p class="index">
+                    <span>2</span>
+                </p>
+                <p class="title">
+                    <a href="/myblog/2021/03/28/PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" title="PHP反序列化">PHP反序列化</a>
+                </p>
+            </div>
+        </li>
+        
+        
+        
+        <li>
+            <div class="normal">
+                <p class="index">
+                    <span>3</span>
+                </p>
+                <p class="title">
+                    <a href="/myblog/2021/03/28/ctf-Crypto%E5%B8%B8%E8%A7%81%E5%8A%A0%E8%A7%A3%E5%AF%86/" title="ctf-Crypto常见加解密">ctf-Crypto常见加解密</a>
+                </p>
+            </div>
+        </li>
+        
+        
+        
+        <li>
+            <div class="normal">
+                <p class="index">
+                    <span>4</span>
+                </p>
+                <p class="title">
+                    <a href="/myblog/2021/03/28/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E7%BB%83%E4%B9%A0/" title="php反序列化练习">php反序列化练习</a>
+                </p>
+            </div>
+        </li>
+        
+        
+        
+        <li>
+            <div class="normal">
+                <p class="index">
+                    <span>5</span>
+                </p>
+                <p class="title">
+                    <a href="/myblog/2021/03/28/%E5%A4%8D%E7%8E%B0-%E6%88%91TMD%E7%83%A6%E6%AD%BB%E4%BA%86/" title="复现-我TMD烦死了">复现-我TMD烦死了</a>
+                </p>
+            </div>
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+
+<div class="cube-categories cube-sidebar" id="cube-categories">
+    <div class="title">
+        <a href="/myblog/categories">分类</a>
+    </div>
+    <div class="cube-boxs">
+        
+        
+        <div class="cube-box ">
+            <a href="/myblog/categories/%E7%BB%83%E4%B9%A0/">#练习</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/myblog/categories/blog/">#blog</a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="cube-tagcloud cube-sidebar" id="cube-tagcloud">
+    <div class="title">
+        <a href="/myblog/tags">标签云</a>
+    </div>
+    <div class="cube-boxs">
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/myblog/tags/%E7%9F%A5%E8%AF%86%E7%82%B9/">#知识点</a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="cube-links cube-sidebar" id="cube-links">
+    <div class="title">
+        <a>个人链接</a>
+    </div>
+    <ul class="list">
+        
+        <li>
+            
+            <a href="CHYbeta/Web-Security-Learning" target="_blank">学习</a>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+<div class="cube-friend-links cube-sidebar" id="cube-friend-links">
+    <div class="title">
+        <a>友情链接</a>
+    </div>
+    <ul class="list">
+        
+        <li>
+            <!-- TODO change avatar.png to friend.png-->
+            <img src="/myblog/images/friend_links.jpg ">
+            <a href="" target="_blank"></a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+    </div>
+</div>
+<footer class="cube-footer">
+    
+© 2017 qrl-0
+
+<br>
+Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>.&nbsp;Theme by <a href="https://github.com/ZEROKISEKI" target="_blank">AONOSORA</a>
+</footer>
+<!-- inject:script -->
+<script src="/myblog/js/script.js"></script>
+<!-- endinject -->
+<div class="cube-loading out"></div>
+</body>
+</html>

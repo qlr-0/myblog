@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="qrl-0">
+    
+    
+    
+    
+    
+    
+    <title>gitee+Hexo 搭建简单的个人博客 | 七里燃</title>
+    <!-- inject:style -->
+    <link href="/myblog/css/style.css" rel="stylesheet" type="text/css">
+    <!-- endinject -->
+    <style>
+        .cube-loading {
+            top: 0;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: url('/myblog/images/lg/loading.gif') no-repeat center center;
+            background-color: rgba(0,0,0,.7);
+        }
+
+        .cube-loading.out {
+            display: none;
+        }
+
+        .cube-loading:before {
+            display: block;
+            content: '加载中';
+            position: relative;
+            width: 100%;
+            top: 50%;
+            right: -50%;
+            color: #fff;
+        }
+
+        @media(max-width: 768px) {
+            .cube-loading:before {
+                font-size: 1.2em;
+                transform: translate(-24px,20px);
+                -webkit-transform: translate(-24px,20px);
+                -o-transform: translate(-24px,20px);
+                -ms-transform: translate(-24px,20px);
+            }
+        }
+
+        @media(min-width: 768px) {
+            .cube-loading:before {
+
+            }
+        }
+    </style>
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+<div class="cube-body">
+    <nav id="cube-top-memu" class="cube-menu">
+    <ul class="cube-menu-collapse">
+        
+        <li>
+            <i class="cube-icon cube-icon-home" aria-hidden="true"></i>
+            <a href="/myblog/">首页</a>
+        </li>
+        
+        <li>
+            <i class="cube-icon cube-icon-archive" aria-hidden="true"></i>
+            <a href="/myblog/archives">归档</a>
+        </li>
+        
+    </ul>
+</nav>
+<nav class="cube-side-menu" id="cube-side-menu">
+    <ul class="cube-menu-list">
+        
+        <li>
+            <a class="lrc-control">开启歌词</a>
+        </li>
+        
+        <li>
+            <a class="scroll-to-top">回到顶部</a>
+        </li>
+    </ul>
+</nav>
+    <header class="cube-header" id="cube-header">
+    <img src=" https://qlr-0.gitee.io/hhhh/background.jpg " alt="头部背景图片">
+    
+    <div class="cube-type">
+        <span class="cube-typed-title">七里燃の部落格</span>
+        <span class="cube-typed-cursor">|</span>
+    </div>
+    
+</header>
+
+    <style>
+        nav.cube-menu:before {
+            content: '';
+            visibility: hidden;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 44px;
+        
+            filter: blur(5px);
+            -webkit-filter: blur(5px);
+        
+            z-index: -1;
+            background-image: url('https://qlr-0.gitee.io/hhhh/background.jpg');
+            background-repeat: no-repeat;
+            background-position: center -356px;
+            background-size: cover;
+            background-color: transparent;
+        }
+
+        header.cube-background.cube-header-background {
+            visibility: hidden;
+            background-image: url('https://qlr-0.gitee.io/hhhh/background.jpg');
+            background-position: center -400px;
+        }
+    </style>
+    <header class="cube-background cube-header-background">
+        
+        <div class="cube-type">
+            <span class="cube-typed-title">七里燃の部落格</span>
+            <span class="cube-typed-cursor">|</span>
+        </div>
+        
+    </header>
+    <div class="load-header-background"></div>
+    <script>
+        (function (window) {
+
+            window.headerModule = {}
+            window.headerModule.image = {
+                width: '2000',
+                height: '1414'
+            }
+
+        })(window)
+    </script>
+    
+    <div class="cube-content">
+        <div class="cube-left">
+            <div class="cube-article">
+    <h1 class="title">gitee+Hexo 搭建简单的个人博客</h1>
+    
+    <div class="cube-article-header">
+        <div class="cube-article-date">
+            <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+            <!-- moment.js对象 -->
+            2021-03-28
+        </div>
+        <div class="cube-article-tags">
+    <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+    
+    <a href="/myblog/tags/%E7%9F%A5%E8%AF%86%E7%82%B9/">#知识点</a>
+    
+</div>
+    </div>
+    
+    <div class="cube-article-content cube-markdown">
+        
+        <h1 id="gitee-Hexo-搭建简单的个人博客"><a href="#gitee-Hexo-搭建简单的个人博客" class="headerlink" title="gitee+Hexo 搭建简单的个人博客"></a>gitee+Hexo 搭建简单的个人博客</h1><h2 id="1、-gitee-https-qlr-0-gitee-io-myblog-2020-10-26-gitee-Hexo-搭建简单的个人博客-gitee-com"><a href="#1、-gitee-https-qlr-0-gitee-io-myblog-2020-10-26-gitee-Hexo-搭建简单的个人博客-gitee-com" class="headerlink" title="1、[gitee](https://qlr-0.gitee.io/myblog/2020/10/26/gitee+Hexo 搭建简单的个人博客/gitee.com)"></a>1、[gitee](<a target="_blank" rel="noopener" href="https://qlr-0.gitee.io/myblog/2020/10/26/gitee+Hexo">https://qlr-0.gitee.io/myblog/2020/10/26/gitee+Hexo</a> 搭建简单的个人博客/gitee.com)</h2><p><em>Gitee</em>.com 是 OSCHINA.NET 推出的代码托管平台,支持 Git 和 SVN,提供免费的私有仓库托管。目前已有超过 500 万的开发者选择 <em>Gitee</em>。</p>
+<hr>
+<h2 id="2、hexo"><a href="#2、hexo" class="headerlink" title="2、hexo"></a>2、hexo</h2><p>Hexo 是一个快速、简洁且高效的博客框架。Hexo 使用 <a target="_blank" rel="noopener" href="http://daringfireball.net/projects/markdown/">Markdown</a>（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。</p>
+<hr>
+<h2 id="3、部署博客构建环境"><a href="#3、部署博客构建环境" class="headerlink" title="3、部署博客构建环境"></a>3、部署博客构建环境</h2><ul>
+<li><p><a target="_blank" rel="noopener" href="https://git-scm.com/">安装git</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://nodejs.org/zh-cn/">安装 node.js</a></p>
+</li>
+<li><p>部署Hexo</p>
+<p>Win+R-&gt; ‘cmd’ 打开命令行</p>
+<p><a target="_blank" rel="noopener" href="https://qlr-0.gitee.io/hhhh/1603699309(1).png"><img src="https://qlr-0.gitee.io/hhhh/1603699309(1).png" alt="img"></a></p>
+<p>先配置npm的安装源</p>
+<p><code>npm config set registry https://registry.npm.taobao.org</code></p>
+<p>然后再是安装hexo</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-cli -g  # 通过npm安装hexo</span><br><span class="line"># -g 指定全局安装，可以使用hexo命令</span><br></pre></td></tr></table></figure></li>
+</ul>
+<hr>
+<h2 id="4、构建个人博客"><a href="#4、构建个人博客" class="headerlink" title="4、构建个人博客"></a>4、构建个人博客</h2><ul>
+<li>在码云上创建仓库</li>
+<li>先注册一个账号，新建一个仓库</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://qlr-0.gitee.io/hhhh/gitee.com_projects_new_%E7%88%B1%E5%A5%87%E8%89%BA.jpg"><img src="https://qlr-0.gitee.io/hhhh/gitee.com_projects_new_%E7%88%B1%E5%A5%87%E8%89%BA.jpg" alt="img"></a></p>
+<ul>
+<li><p>在你的电脑上创建<code>Hexo</code>文件夹创建一个文件夹，然后到这个文件夹里右键<code>Git Bash Here</code>运行<code>hexo init</code>（这里需要等待一段时间)</p>
+</li>
+<li><p>添加SSH公钥</p>
+<p>打开刚才创建的文件夹，右键<code>Git GUI Here</code></p>
+<p><a target="_blank" rel="noopener" href="https://qlr-0.gitee.io/hhhh/1603705437(1).png"><img src="https://qlr-0.gitee.io/hhhh/1603705437(1).png" alt="img"></a></p>
+<p>Help-&gt;Show SSH key-&gt;Generate SSH KEY 创建密钥</p>
+<p><a target="_blank" rel="noopener" href="https://qlr-0.gitee.io/hhhh/1603802394(1).jpg"><img src="https://qlr-0.gitee.io/hhhh/1603802394(1).jpg" alt="img"></a></p>
+<p>复制公钥到</p>
+<p><a target="_blank" rel="noopener" href="https://qlr-0.gitee.io/hhhh/1603705397(1).png"><img src="https://qlr-0.gitee.io/hhhh/1603705397(1).png" alt="img"></a></p>
+<p>设置-&gt;(左边列表)SSH公钥(粘贴公钥)</p>
+<p><a target="_blank" rel="noopener" href="https://qlr-0.gitee.io/hhhh/1603846434(1).jpg"><img src="https://qlr-0.gitee.io/hhhh/1603846434(1).jpg" alt="img"></a></p>
+</li>
+<li><p>本地预览博客</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo g     #生成静态文件。</span><br><span class="line">hexo s     #启动服务器。默认情况下，访问网址为： http:&#x2F;&#x2F;localhost:4000&#x2F;。</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://upload-images.jianshu.io/upload_images/19009124-6d05cf58aacb3313.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1200/format/webp"><img src="https://upload-images.jianshu.io/upload_images/19009124-6d05cf58aacb3313.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1200/format/webp" alt="img"></a></p>
+</li>
+<li><p>更改博客主题</p>
+<p>默认使用的主题是landscape，在目录themes/landscape下，更改一个个人喜欢的主题，如hexo-theme-yilia。</p>
+<p><code>git clone https://github.com/litten/hexo-theme-yilia.git themes/yilia</code></p>
+<p>主题库：<a target="_blank" rel="noopener" href="https://hexo.io/themes/">https://hexo.io/themes/</a></p>
+</li>
+<li><p>在_config.yml中配置Git</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">title: title</span><br><span class="line">subtitle: subtitle</span><br><span class="line">description: a blog demo</span><br><span class="line">keywords: key</span><br><span class="line">author: lixx</span><br><span class="line">language: zh-CN  # default en, select from &#96;themes&#x2F;landscape&#x2F;languages&#x2F;&#96;</span><br><span class="line">timezone: Asia&#x2F;Shanghai</span><br><span class="line"></span><br><span class="line">url: http:&#x2F;&#x2F;yoursite.com&#x2F;blog         #博客地址</span><br><span class="line">root: &#x2F;blog                           #博客路径</span><br><span class="line">permalink: :year&#x2F;:month&#x2F;:day&#x2F;:title&#x2F;</span><br><span class="line">permalink_defaults:</span><br><span class="line"></span><br><span class="line">source_dir: source</span><br><span class="line">public_dir: public</span><br><span class="line">tag_dir: tags</span><br><span class="line">archive_dir: archives</span><br><span class="line">category_dir: categories</span><br><span class="line">code_dir: downloads&#x2F;code</span><br><span class="line">i18n_dir: :lang</span><br><span class="line">skip_render:</span><br><span class="line"></span><br><span class="line">new_post_name: :title.md # File name of new posts</span><br><span class="line">default_layout: post</span><br><span class="line">titlecase: false # Transform title into titlecase</span><br><span class="line">external_link: true # Open external links in new tab</span><br><span class="line">filename_case: 0</span><br><span class="line">render_drafts: false</span><br><span class="line">post_asset_folder: false</span><br><span class="line">relative_link: false</span><br><span class="line">future: true</span><br><span class="line">highlight:</span><br><span class="line">  enable: true</span><br><span class="line">  line_number: true</span><br><span class="line">  auto_detect: false</span><br><span class="line">  tab_replace:</span><br><span class="line">  </span><br><span class="line">index_generator:</span><br><span class="line">  path: &#39;&#39;</span><br><span class="line">  per_page: 10</span><br><span class="line">  order_by: -date</span><br><span class="line">  </span><br><span class="line">default_category: uncategorized</span><br><span class="line">category_map:</span><br><span class="line">tag_map:</span><br><span class="line"></span><br><span class="line">date_format: YYYY-MM-DD</span><br><span class="line">time_format: HH:mm:ss</span><br><span class="line"></span><br><span class="line">per_page: 10</span><br><span class="line">pagination_dir: page</span><br><span class="line"></span><br><span class="line">theme: yilia</span><br><span class="line"></span><br><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repository: https:&#x2F;&#x2F;gitee.com&#x2F;用户名&#x2F;blog.git  #就是在码云上创建的项目地址。</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong>冒号后面一定要有空格，否则不能正确识别。</p>
+</li>
+<li><p>发布到Gitee</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git --save    #配置使用hexo-deployer-git插件，用于将代码推送到码云</span><br><span class="line">git config --global user.email *********@qq.com	# 设置gitee的注册邮箱</span><br><span class="line">git config --global user.name &#39;****&#39;			# 设置git的注册昵称</span><br><span class="line">hexo deploy	# 上传到gitee,在上传时，需要输入账号和密码</span><br></pre></td></tr></table></figure></li>
+<li><p>配置Gitee Pages</p>
+<p><a target="_blank" rel="noopener" href="https://qlr-0.gitee.io/hhhh/1603705869(1).png"><img src="https://qlr-0.gitee.io/hhhh/1603705869(1).png" alt="img"></a></p>
+<p><a target="_blank" rel="noopener" href="https://qlr-0.gitee.io/hhhh/1603709424(1).jpg"><img src="https://qlr-0.gitee.io/hhhh/1603709424(1).jpg" alt="img"></a></p>
+<p><a target="_blank" rel="noopener" href="https://qlr-0.gitee.io/hhhh/1603705989(1).png"><img src="https://qlr-0.gitee.io/hhhh/1603705989(1).png" alt="img"></a><br>在<code>/source/_posts</code>目录下就可以写我们的博客</p>
+<p>每一次修改本地库都要打一遍<code>hexo clean &amp;&amp; hexo g &amp;&amp; hexo d</code>来将本地库同步到Gitee，并且在Gitee Pages更新一下。</p>
+<p>个人博客效果参考：<a target="_blank" rel="noopener" href="https://qlr-0.gitee.io/myblog">https://qlr-0.gitee.io/myblog</a></p>
+<p>参考网址：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/7cc1320bae6b">https://www.jianshu.com/p/7cc1320bae6b</a> <a target="_blank" rel="noopener" href="https://blog.csdn.net/meifannao789456/article/details/81532924">https://blog.csdn.net/meifannao789456/article/details/81532924</a></p>
+</li>
+</ul>
+
+    </div>
+</div>
+
+<div class="cube-article-nav">
+    <ul>
+        
+        
+        <li class="next">
+            <a href="/myblog/2021/03/28/PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">
+                PHP反序列化
+                <i class="cube-icon cube-next" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+<!-- TODO 根据theme.comment的内容进行入口选择 -->
+
+
+
+        </div>
+        <div class="cube-right">
+            
+
+<div class="cube-search cube-sidebar" id="cube-search">
+    <div class="search-container">
+        <input type="text" placeholder="搜索" class="cube-search-input" id="cube-search-input">
+        <i class="cube-icon cube-icon-search cube-search-submit" aria-hidden="true"></i>
+    </div>
+    <!-- TODO 通过给window赋一个全局变量，通过脚本赋值 -->
+</div>
+<script>
+    (function (window) {
+        'use strict';
+        window.searchModule = {}
+        window.searchModule.JSONUrl = '/myblog/content.json'
+        window.searchModule.rootUrl = '/myblog/'
+    })(window)
+</script>
+<div class="cube-search-form">
+    <div class="cube-search-control">
+        <input type="text" placeholder="搜索" class="search-input">
+        <a class="close-button">
+            <i class="cube-icon cube-close" aria-hidden="true"></i>
+        </a>
+    </div>
+    <div class="cube-search-result"></div>
+</div>
+
+
+<div class="cube-author cube-sidebar" id="cube-author">
+    
+    
+    <span>qrl-0</span>
+    
+    
+    <div class="count">
+        <a class="count articles"><span>11</span>文章</a>
+        <a class="count tags"><span>1</span>标签</a>
+        <a class="count categories"><span>2</span>分类</a>
+    </div>
+</div>
+
+
+
+<div class="cube-music cube-sidebar" id="cube-music">
+    <div class="cube-player aplayer" id="cube-player"></div>
+</div>
+<script>
+    (function (window) {
+        window.musicModule = {}
+        window.musicModule.musicConfig = '{"narrow":false,"autoplay":false,"showlrc":3,"theme":"#b7daff","mutex":true,"mode":"circulation","preload":"auto","listmaxheight":"513px","music":[{"title":"Dear friends","author":"TRIPLANE","url":"http://cube-1252774894.cosgz.myqcloud.com/music/source/TRIPLANE - Dear friends.mp3","lrc":"http://cube-1252774894.cosgz.myqcloud.com/music/lrc/Dear friends - TRIPLANE.lrc","pic":"http://cube-1252774894.cosgz.myqcloud.com/music/image/TRIPLANE - Dear friends.jpg"},{"title":"Butter-Fly","author":"和田光司","url":"http://cube-1252774894.cosgz.myqcloud.com/music/source/和田光司 - Butter-Fly (ピアノヴァージョン).mp3","lrc":"http://cube-1252774894.cosgz.myqcloud.com/music/lrc/Butter-Fly (ピアノヴァージョン) - 和田光司.lrc","pic":"http://cube-1252774894.cosgz.myqcloud.com/music/image/和田光司 - Butter-Fly (ピアノヴァージョン).jpg"},{"title":"宵闇花火","author":"葉月ゆら","url":"http://cube-1252774894.cosgz.myqcloud.com/music/source/葉月ゆら - 宵闇花火.mp3","lrc":"http://cube-1252774894.cosgz.myqcloud.com/music/lrc/宵闇花火 - 葉月ゆら.lrc","pic":"http://cube-1252774894.cosgz.myqcloud.com/music/image/葉月ゆら - 宵闇花火.jpg"}]}'
+        window.musicModule.lrcConfig = {
+            open: '开启歌词',
+            close: '关闭歌词'
+        }
+    })(window)
+</script>
+
+
+
+<div class="cube-recent-posts cube-sidebar" id="cube-recent-posts">
+    <div class="title">
+        <a>近期文章</a>
+    </div>
+    <ul class="list">
+        
+        
+        <li>
+            <!-- TODO 如果文章要显示图片，那么在front-matter上添加preview属性(url or path) -->
+            
+            <div class="normal">
+                <p class="index first">
+                    <span>1</span>
+                </p>
+                <p class="title">
+                    <a href="/myblog/2021/03/28/gitee+Hexo%20%E6%90%AD%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" title="gitee+Hexo 搭建简单的个人博客">gitee+Hexo 搭建简单的个人博客</a>
+                </p>
+            </div>
+            
+        </li>
+        
+        
+        
+        <li>
+            <div class="normal">
+                <p class="index">
+                    <span>2</span>
+                </p>
+                <p class="title">
+                    <a href="/myblog/2021/03/28/PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" title="PHP反序列化">PHP反序列化</a>
+                </p>
+            </div>
+        </li>
+        
+        
+        
+        <li>
+            <div class="normal">
+                <p class="index">
+                    <span>3</span>
+                </p>
+                <p class="title">
+                    <a href="/myblog/2021/03/28/ctf-Crypto%E5%B8%B8%E8%A7%81%E5%8A%A0%E8%A7%A3%E5%AF%86/" title="ctf-Crypto常见加解密">ctf-Crypto常见加解密</a>
+                </p>
+            </div>
+        </li>
+        
+        
+        
+        <li>
+            <div class="normal">
+                <p class="index">
+                    <span>4</span>
+                </p>
+                <p class="title">
+                    <a href="/myblog/2021/03/28/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E7%BB%83%E4%B9%A0/" title="php反序列化练习">php反序列化练习</a>
+                </p>
+            </div>
+        </li>
+        
+        
+        
+        <li>
+            <div class="normal">
+                <p class="index">
+                    <span>5</span>
+                </p>
+                <p class="title">
+                    <a href="/myblog/2021/03/28/%E5%A4%8D%E7%8E%B0-%E6%88%91TMD%E7%83%A6%E6%AD%BB%E4%BA%86/" title="复现-我TMD烦死了">复现-我TMD烦死了</a>
+                </p>
+            </div>
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+
+<div class="cube-categories cube-sidebar" id="cube-categories">
+    <div class="title">
+        <a href="/myblog/categories">分类</a>
+    </div>
+    <div class="cube-boxs">
+        
+        
+        <div class="cube-box ">
+            <a href="/myblog/categories/%E7%BB%83%E4%B9%A0/">#练习</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/myblog/categories/blog/">#blog</a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="cube-tagcloud cube-sidebar" id="cube-tagcloud">
+    <div class="title">
+        <a href="/myblog/tags">标签云</a>
+    </div>
+    <div class="cube-boxs">
+        
+        
+        <div class="cube-box-bg ">
+            <a href="/myblog/tags/%E7%9F%A5%E8%AF%86%E7%82%B9/">#知识点</a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="cube-links cube-sidebar" id="cube-links">
+    <div class="title">
+        <a>个人链接</a>
+    </div>
+    <ul class="list">
+        
+        <li>
+            
+            <a href="CHYbeta/Web-Security-Learning" target="_blank">学习</a>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+<div class="cube-friend-links cube-sidebar" id="cube-friend-links">
+    <div class="title">
+        <a>友情链接</a>
+    </div>
+    <ul class="list">
+        
+        <li>
+            <!-- TODO change avatar.png to friend.png-->
+            <img src="/myblog/images/friend_links.jpg ">
+            <a href="" target="_blank"></a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+    </div>
+</div>
+<footer class="cube-footer">
+    
+© 2017 qrl-0
+
+<br>
+Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>.&nbsp;Theme by <a href="https://github.com/ZEROKISEKI" target="_blank">AONOSORA</a>
+</footer>
+<!-- inject:script -->
+<script src="/myblog/js/script.js"></script>
+<!-- endinject -->
+<div class="cube-loading out"></div>
+</body>
+</html>

