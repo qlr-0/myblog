@@ -1,0 +1,100 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>misc-隔空传话 | 七里燃</title><script src="https://cdn.bootcss.com/valine/1.4.4/Valine.min.js"></script><link rel="stylesheet" href="/css/arknights.css"><link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/highlight.js/10.1.2/styles/atom-one-dark-reasonable.min.css"><style>@font-face {
+ font-family: BenderLight;
+ src: local('Bender'), url("/font/BenderLight.ttf");
+}
+@font-face {
+ font-family: 'JetBrains Mono';
+ src: local('JetBrains Mono'), url('/font/JetBrainsMono-Regular.woff2') format('woff2');
+}</style><meta name="generator" content="Hexo 5.4.0"></head><body><header><nav><a href="/">Home</a><a href="/archives/">Archives</a></nav></header><main><article><div id="post-bg"><div id="post-title"><h1>misc-隔空传话</h1><hr></div><div id="post-content"><h3 id="PDU"><a href="#PDU" class="headerlink" title="PDU"></a>PDU</h3><p>PDU（<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%8D%8F%E8%AE%AE%E6%95%B0%E6%8D%AE%E5%8D%95%E5%85%83">协议数据单元</a>）是<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/AT%E6%8C%87%E4%BB%A4">AT指令</a>收发短信的一种模式。</p>
+<blockquote>
+<p>短信息编码分为三种：**7-bit、8-bit、UCS2编码(16-bit)**。</p>
+<p>7-bit编码用于发送普通的ASCII字符，它将一串7-bit的字符(最高位为0)编码成8-bit的数据，通过去掉每个字符的最高位，每8个字符可“压缩”成7个</p>
+<p>8-bit编码通常用于发送数据消息</p>
+<p>UCS2编码用于发送Unicode字符</p>
+</blockquote>
+<p>PDU 串的用户信息 (TP-UD) 段最大容量是 140 字节，所以在这三种编码方式下，可以发送的短消息的最大字符数分别是 160 、 140 和 70 。这里，将一个英文字母、一个汉字和一个数据字节都视为一个字符。</p>
+<p>PDU作为一种数据单元，它必须包含<strong>源/目的地址</strong>、<strong>保护（有效）时间</strong>、<strong>数据格式</strong>、<strong>协议类型和正文</strong>，它们都以十六进制表示。</p>
+<blockquote>
+<p>一般的PDU编码由A B C D E F G H I J K L M十三项组成。</p>
+<p>A：短信息中心地址长度，2位十六进制数(1字节)。</p>
+<p>B：短信息中心号码类型，2位十六进制数。</p>
+<p>C：短信息中心号码，B+C的长度将由A中的数据决定。</p>
+<p>D：文件头字节，2位十六进制数。</p>
+<p>E：信息类型，2位十六进制数。</p>
+<p>F：被叫号码长度，2位十六进制数。</p>
+<p>G：被叫号码类型，2位十六进制数，取值同B。</p>
+<p>H：被叫号码，长度由F中的数据决定。</p>
+<p>I：协议标识，2位十六进制数。</p>
+<p>J：数据编码方案，2位十六进制数。</p>
+<p>K：有效期，2位十六进制数。</p>
+<p>L：用户数据长度，2位十六进制数。</p>
+<p>M：用户数据，其长度由L中的数据决定。J中设定采用UCS2编码，这里是中英文的Unicode字符。</p>
+</blockquote>
+<h4 id="编码示例"><a href="#编码示例" class="headerlink" title="编码示例"></a>编码示例</h4><p>用手机写一条短信息，发送消息的手机号码为13693092030，信息内容为“ haha ”，接收信息的手机号码13601019694，用UCS2编码(16-bit)。</p>
+<ul>
+<li>0891683196032930F031000D91683106019196F40008AA080068006100680061</li>
+</ul>
+<blockquote>
+<p>08：短信息中心地址长度。（短信息中心号码类型 + 短信息中心号码长度 /2 的十六进制表示）</p>
+<p>91：短信息中心号码类型， 91 是 TON/NPI 。 TON/NPI 遵守 International/E.164 标准，指在号码前需加‘＋’号 ; 此外还可有其他数值，但 91 最常用。</p>
+<p>683196032930F0：短信息中心号码，是所使用的服务中心地址。由于位置上略有处理，实际号码应为： +8613693092030( 字母 F 意指长度减 1) ( 号码处理方法为 , 如果为 +86 开始 , 将 + 号去掉 , 然后判断位数是否为偶数 ,不是在末尾补 F, 然后将奇数位和偶数位互换 )</p>
+<p>31：文件头字节 (header byte, 是一种 bitmask) </p>
+<p>00：信息参考号。（ TP-MR ）</p>
+<p>0D：被叫号码长度。被叫号码长度的十六进制表示</p>
+<p>91：被叫号码类型</p>
+<p>683106019196F4：被叫号码，也经过了移位处理，实际号码为 +8613601019694 。</p>
+<p>00：协议标识 (TP-PID),是普通 GSM 类型，点到点方式</p>
+<p>08：用户信息编码方式 (TP-DCS)， 这里是UCS2 编码</p>
+<p>AA：有效期 (TP-VP)，短信的有效时间</p>
+<p>08：短信息长度</p>
+<p>0068006100680061：短信息内容“ haha ”</p>
+<p>0068    0061    0068    0061</p>
+<p>​    h          a           h         a</p>
+</blockquote>
+<p>在线编码网站：</p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="http://www.sendsms.cn/pdu/">http://www.sendsms.cn/pdu/</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://smspdu.benjaminerhart.com/">https://smspdu.benjaminerhart.com/</a></p>
+</li>
+</ul>
+<h2 id="复现misc-隔空传话"><a href="#复现misc-隔空传话" class="headerlink" title="复现misc-隔空传话"></a>复现misc-隔空传话</h2><p>——第十四届全国大学生信息安全竞赛-线上赛-场景实操二阶卷-misc</p>
+<p>题目描述：Alice和Bob进行隔空传话的时候被我“偷听”了，你能帮我分析分析他们在交流什么吗？</p>
+<img src="https://qlr-0.gitee.io/hhhh/2021年5月31日/image-20210526225505496.png" alt="image-20210526225505496" style="zoom: 67%;" />
+
+<p>比赛的时候，一直在尝试hex解码，没有半点头绪。赛后查看了末初大佬的wp，才知道PDU编码。</p>
+<p>先用在线编码网站，看看前面的那几条0011开头的十六进制数据</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">SMSC#</span><br><span class="line">Receipient:+8615030442000    //Alice电话号码</span><br><span class="line">Validity:Rel 4d </span><br><span class="line">TP_PID:00</span><br><span class="line">TP_DCS:00</span><br><span class="line">TP_DCS-popis:Uncompressed Text</span><br><span class="line">No class</span><br><span class="line">Alphabet:Default</span><br><span class="line"></span><br><span class="line">hello,bob!what is the flag?    //短信内容</span><br><span class="line">Length:27</span><br><span class="line"></span><br><span class="line">SMSC#</span><br><span class="line">Receipient:+10086       //Bob电话号码</span><br><span class="line">Validity:Not Present</span><br><span class="line">TP_PID:00</span><br><span class="line">TP_DCS:00</span><br><span class="line">TP_DCS-popis:Uncompressed Text</span><br><span class="line">No class</span><br><span class="line">Alphabet:Default</span><br><span class="line"></span><br><span class="line">the first part of the flag is the first 8 digits of your phone number     //短信内容</span><br><span class="line">Length:69</span><br><span class="line"></span><br><span class="line">SMSC#</span><br><span class="line">Receipient:+8615030442000</span><br><span class="line">Validity:Rel 5d </span><br><span class="line">TP_PID:00</span><br><span class="line">TP_DCS:08</span><br><span class="line">TP_DCS-popis:Uncompressed Text</span><br><span class="line">No class</span><br><span class="line">Alphabet:UCS2(16)bit</span><br><span class="line"></span><br><span class="line">那其他部分呢     //短信内容</span><br><span class="line">Length:6</span><br><span class="line"></span><br><span class="line">SMSC#</span><br><span class="line">Receipient:+8615030442000</span><br><span class="line">Validity:Rel 1h </span><br><span class="line">TP_PID:00</span><br><span class="line">TP_DCS:08</span><br><span class="line">TP_DCS-popis:Uncompressed Text</span><br><span class="line">No class</span><br><span class="line">Alphabet:UCS2(16)bit</span><br><span class="line"></span><br><span class="line">看看你能从这些数据里发现什么？w465      //短信内容</span><br><span class="line">Length:16.5</span><br></pre></td></tr></table></figure>
+
+<p>这里我们可以得到一部分flag为Alice电话的前八位：<code>15030442</code></p>
+<img src="https://qlr-0.gitee.io/hhhh/2021年5月31日/image-20210526235037721.png" alt="image-20210526235037721" style="zoom:67%;" />
+
+<img src="https://qlr-0.gitee.io/hhhh/2021年5月31日/image-20210526235327874.png" alt="image-20210526235327874" style="zoom:67%;" />
+
+<p>解码了前几个0491的十六进制数据，发现都是长度都为160。</p>
+<p>而且发送的时间也不一样，写个脚本看看最早接收的消息的编码结果。</p>
+<p><img src="https://qlr-0.gitee.io/hhhh/2021%E5%B9%B45%E6%9C%8831%E6%97%A5/image-20210527141411581.png" alt="image-20210527141411581"></p>
+<p>这是最晚接收的消息的编码结果：</p>
+<p><img src="https://qlr-0.gitee.io/hhhh/2021%E5%B9%B45%E6%9C%8831%E6%97%A5/image-20210527141859408.png" alt="image-20210527141859408"></p>
+<p><code>89504e47</code>这个是png文件头的十六进制，<code>ae426082</code>这个是png文件尾的十六进制，那我们就可以将编码的内容hex解码后写入flag.png中</p>
+<p>末初大佬的脚本：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="comment">#Author: mochu7</span></span><br><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> strptime,mktime</span><br><span class="line"><span class="keyword">from</span> smspdu.codecs <span class="keyword">import</span> GSM</span><br><span class="line"><span class="keyword">from</span> binascii <span class="keyword">import</span> unhexlify</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;data2.txt&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    lines = f.readlines()</span><br><span class="line">    mydic = &#123;&#125;</span><br><span class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> lines:</span><br><span class="line">        Year = <span class="string">&#x27;20&#x27;</span> + line[<span class="number">34</span>:<span class="number">36</span>][::-<span class="number">1</span>]</span><br><span class="line">        Month = line[<span class="number">36</span>:<span class="number">38</span>][::-<span class="number">1</span>]</span><br><span class="line">        Day = line[<span class="number">38</span>:<span class="number">40</span>][::-<span class="number">1</span>]</span><br><span class="line">        Hour = line[<span class="number">40</span>:<span class="number">42</span>][::-<span class="number">1</span>]</span><br><span class="line">        Minute = line[<span class="number">42</span>:<span class="number">44</span>][::-<span class="number">1</span>]</span><br><span class="line">        Second = line[<span class="number">44</span>:<span class="number">46</span>][::-<span class="number">1</span>]</span><br><span class="line">        time = <span class="string">&#x27;&#123;&#125;-&#123;&#125;-&#123;&#125; &#123;&#125;:&#123;&#125;:&#123;&#125;&#x27;</span>.<span class="built_in">format</span>(Year, Month, Day, Hour, Minute, Second)</span><br><span class="line">        timestamp = <span class="built_in">int</span>(mktime(strptime(time, <span class="string">r&quot;%Y-%m-%d %H:%M:%S&quot;</span>)))</span><br><span class="line">        mydic[lines.index(line)] = timestamp</span><br><span class="line">    mydic = <span class="built_in">sorted</span>(mydic.items(), key=<span class="keyword">lambda</span> item: item[<span class="number">1</span>], reverse=<span class="literal">False</span>)</span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;flag.png&#x27;</span>,<span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        <span class="keyword">for</span> line_num <span class="keyword">in</span> mydic:</span><br><span class="line">            line_num = line_num[<span class="number">0</span>]</span><br><span class="line">            pducode = lines[line_num][<span class="number">50</span>:<span class="number">330</span>]</span><br><span class="line">            data = GSM.decode(pducode)</span><br><span class="line">            <span class="keyword">if</span> <span class="built_in">len</span>(data) == <span class="number">160</span>:</span><br><span class="line">                f.write(unhexlify(data))</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">pass</span></span><br><span class="line"><span class="comment">#python需要安装以下两个模块</span></span><br><span class="line"><span class="comment">#pip install smspdu</span></span><br><span class="line"><span class="comment">#pip install smspdudecoder</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://qlr-0.gitee.io/hhhh/2021%E5%B9%B45%E6%9C%8831%E6%97%A5/image-20210527143047242.png" alt="image-20210527143047242"></p>
+<p>用010打开</p>
+<p><img src="https://qlr-0.gitee.io/hhhh/2021%E5%B9%B45%E6%9C%8831%E6%97%A5/image-20210527143235425.png" alt="image-20210527143235425"></p>
+<p>想起前面的<code>w465</code>，应该是图片的width，在chunk[0]中找到width并修改为465，保存图片。</p>
+<p><img src="https://qlr-0.gitee.io/hhhh/2021%E5%B9%B45%E6%9C%8831%E6%97%A5/image-20210527143443827.png" alt="image-20210527143443827"></p>
+<p><img src="https://qlr-0.gitee.io/hhhh/2021%E5%B9%B45%E6%9C%8831%E6%97%A5/image-20210527143615768.png" alt="image-20210527143615768"></p>
+<p>参考链接：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/7af3c034929e">https://www.jianshu.com/p/7af3c034929e</a></p>
+<p>​                   <a target="_blank" rel="noopener" href="https://blog.csdn.net/sir_zeng/article/details/7629571">https://blog.csdn.net/sir_zeng/article/details/7629571</a></p>
+<p>​                   <a target="_blank" rel="noopener" href="https://blog.csdn.net/jiucongtian/article/details/7860531">https://blog.csdn.net/jiucongtian/article/details/7860531</a></p>
+<p>​                   <a target="_blank" rel="noopener" href="http://www.voidcn.com/article/p-hhhdubxr-bds.html">http://www.voidcn.com/article/p-hhhdubxr-bds.html</a></p>
+<p>​                   <a target="_blank" rel="noopener" href="https://blog.csdn.net/mochu7777777/article/details/116855242">https://blog.csdn.net/mochu7777777/article/details/116855242</a></p>
+<p>​                  <a target="_blank" rel="noopener" href="https://mochu.blog.csdn.net/article/details/116855242">https://mochu.blog.csdn.net/article/details/116855242</a></p>
+<div id="paginator"></div></div><div id="post-footer"><hr><a href="/2021/04/11/%E7%AC%AC%E5%9B%9B%E5%B1%8A%E6%B5%B7%E5%95%B8%E6%9D%AF%E9%83%A8%E5%88%86%E9%A2%98%E7%9B%AEwp/">第四届海啸杯部分题目wp Next →</a><hr></div><div id="bottom-btn"><a id="to-index" href="#post-index" title="index">≡</a><a id="to-top" href="#post-title" title="to top">∧</a></div><div id="Valine"></div><script>new Valine({
+ el: '#Valine'
+ , appId: ''
+ , appKey: ''
+ , placeholder: '此条评论委托企鹅物流发送'
+})</script></div></article><aside><div id="about"><a href="/" id="logo"><img src="https://ak.hypergryph.com/assets/index/images/ak/pc/faction/1.png" alt="Logo"></a><h1 id="Dr"><a href="/"> Dr.qrl-0</a></h1><section id="total"><a id="total-archives" href="/archives"><span class="total-title">Archives Total:</span><span class="total-number">14</span></a><div id="total-tags"><span class="total-title">Tags:</span><span class="total-number">3</span></div><div id="total-categories"><span class="total-title">Categories:</span><span class="total-number">3</span></div></section></div><div id="aside-block"></div><footer><nobr><span class="text-title">©</span><span class="text-content">1970 to 2021</span></nobr><wbr><nobr><span class="text-title">ICP</span><span class="text-content">——备案号——</span></nobr><wbr><wbr><nobr>published with&nbsp;<a target="_blank" rel="noopener" href="http://hexo.io">Hexo&nbsp;</a></nobr><wbr><nobr>Theme&nbsp;<a target="_blank" rel="noopener" href="https://github.com/Yue-plus/hexo-theme-arknights">Arknight&nbsp;</a></nobr><wbr><nobr>by&nbsp;<a target="_blank" rel="noopener" href="https://github.com/Yue-plus">Yue_plus</a></nobr></footer></aside></main><canvas id="canvas-dust"></canvas><script src="/js/arknights.js"></script><script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/10.1.2/highlight.min.js"></script></body></html>
